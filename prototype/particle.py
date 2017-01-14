@@ -36,3 +36,31 @@ class Particle:
         return 0.0
 
 
+    def __str__(self):
+        """
+        Represent as a string.
+        """
+        return str(self.x)
+
+
+def distance(particle1, particle2):
+    """
+    Distance between two particles.
+    """
+    return np.abs(particle1.x - particle2.x)
+
+
+
+
+if __name__ == "__main__":
+    """
+    A few tiny little tests.
+    """
+
+    particle = Particle()
+    particle.generate()
+
+    for i in range(0, 1000):
+        particle.perturb()
+        print(particle)
+
