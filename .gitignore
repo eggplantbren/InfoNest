@@ -1,3 +1,8 @@
+# C++ stuff
+*.o
+*.a
+main
+
 output.txt
 num_particles.txt
 
