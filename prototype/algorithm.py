@@ -2,7 +2,9 @@
 __all__ = ["Run"]
 
 # Imports
+from copy import deepcopy
 import numpy as np
+import numpy.random as rng
 from particle import Particle, distance
 
 
@@ -28,7 +30,7 @@ class Run:
         """
 
         self.reference_particle = Particle.factory()
-        self.comparison_particles = [ Particle.factory()
+        self.particles = [ Particle.factory()
                                         for i in range(0, self.num_particles) ]
         self.compute_distances()
         self.iteration = 1
@@ -40,7 +42,7 @@ class Run:
         comparison particle.
         """
         self.distances = [ distance(self.reference_particle, p)
-                                for p in self.comparison_particles ]
+                                for p in self.particles ]
         self.distances = np.array(self.distances)
 
     def iterate(self):
@@ -54,12 +56,41 @@ class Run:
         # Print iteration, and worst particle's distance
         print( str(self.iteration) + " " + str(self.distances[worst]) )
 
+        # Replace worst particle.
+        self.replace(worst)
+
         # Update iteration counter.
         self.iteration += 1
 
 
+    def replace(self, worst):
+        """
+        Replace the worst particle.
+        """
+        # Threshold
+        threshold = self.distances[worst]
 
+        # Copy a survivor
+        if self.num_particles > 1:
+            while True:
+                copy = rng.randint(self.num_particles)
+                if copy != worst:
+                    break
+            self.particles[worst] = deepcopy(self.particles[copy])
 
+        # Do mcmc
+        for i in range(0, self.mcmc_steps):
+            # Generate proposal
+            proposal = deepcopy(self.particles[worst])
+            logA = proposal.perturb()
+            proposal_distance = distance(self.reference_particle, proposal)
+            if logA > 0.0:
+                logA = 0.0
+
+            # Acceptance
+            if proposal_distance < threshold and rng.rand() <= np.exp(logA):
+                self.particles[worst] = proposal
+                self.distances[worst] = proposal_distance
 
 if __name__ == "__main__":
     """
@@ -69,7 +100,8 @@ if __name__ == "__main__":
     run = Run(10)
     run.initialise()
 
-    run.iterate()
+    for i in range(0, 100):
+        run.iterate()
 
 
 
