@@ -8,7 +8,7 @@
 int main()
 {
     // Run parameters
-    size_t num_particles = 10;
+    size_t num_particles = 1;
     size_t mcmc_steps = 1000;
     double depth = 25.0;
 

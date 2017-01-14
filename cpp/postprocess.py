@@ -1,4 +1,4 @@
-__all__ = ["postprocess"]
+__all__ = ["postprocess", "my_loadtxt"]
 
 # Imports
 import numpy as np
@@ -10,7 +10,7 @@ def postprocess(num_particles=1, tol=1E-3):
     """
 
     # Load output file
-    output = np.loadtxt("output.txt")
+    output = my_loadtxt("output.txt")
     num_particles = np.loadtxt("run_data.txt")
 
     # Find the starts of the runs
@@ -39,6 +39,48 @@ def postprocess(num_particles=1, tol=1E-3):
 
 #    plt.hist(mean_depth, 100, color=[0.2, 0.2, 0.2])
 #    plt.show()
+
+
+def my_loadtxt(filename, single_precision=False):
+    """
+    Load rectangular arrays from a file, faster than numpy.loadtxt does it.
+    """
+    # Open the file
+    f = open(filename, "r")
+
+    # Storage
+    results = []
+
+    # Rows and columns
+    nrow = 0
+    ncol = None
+
+    while(True):
+        # Read the line and split by whitespace
+        line = f.readline()
+        cells = line.split()
+
+        # Quit when you see a different number of columns
+        if ncol is not None and len(cells) != ncol:
+            break
+
+        # Non-comment lines
+        if cells[0][0] != "#":
+            # If it's the first one, get the number of columns
+            if ncol is None:
+                ncol = len(cells)
+
+            # Otherwise, include in results
+            if single_precision:
+                results.append(np.array([float(cell) for cell in cells],\
+                                                          dtype="float32"))
+            else:
+                results.append(np.array([float(cell) for cell in cells]))
+            nrow += 1
+
+    results = np.vstack(results)
+    return results
+
 
 if __name__ == "__main__":
     postprocess()
