@@ -31,7 +31,7 @@ class Particle:
         Metropolis proposal that would explore the probability distribution.
         Return ln(a) such that acceptance probability alpha = min(1, a).
         """
-        self.x += randh()
+        self.x += 20.0 * randh()
         self.x = wrap(self.x, -10.0, 10.0)
         return 0.0
 
