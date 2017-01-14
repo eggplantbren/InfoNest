@@ -13,7 +13,7 @@ namespace InfoNest
 
 /*
 * An object of this class represents a single `rep`
-* of the algorithm. The template parameter `particle`
+* of the algorithm. The template parameter `Particle`
 * determines what problem you're working on.
 */
 template<class Particle>
@@ -24,6 +24,9 @@ class Rep
         const size_t num_particles;
         const size_t mcmc_steps;
         const double depth;
+
+        // A reference to the RNG being used
+        RNG& rng;
 
         // The reference particle
         Particle reference_particle;
@@ -44,17 +47,25 @@ class Rep
         void compute_distances();
 
         // Do a single NS iteration
-        void iterate();
+        void iterate(bool generate_replacement);
+
+        // Replace the specified particle.
+        void replace(int which);
+
+        // Forbid copying and copy-construction.
+        Rep(const Rep& other);
+        Rep& operator = (const Rep& other);
 
     public:        
         // Constructor. You need to pass in the NS parameters
-        Rep(size_t num_particles, size_t mcmc_steps, double depth);
+        // and an RNG.
+        Rep(size_t num_particles, size_t mcmc_steps, double depth, RNG& rng);
 
         // Destructor. Closes output file.
         ~Rep();
 
         // Initialise all the particles
-        void initialise(RNG& rng);
+        void initialise();
 
         // Execute the Rep.
         void execute();
@@ -66,17 +77,21 @@ class Rep
 /******************************/
 
 template<class Particle>
-Rep<Particle>::Rep(size_t num_particles, size_t mcmc_steps, double depth)
+Rep<Particle>::Rep(size_t num_particles, size_t mcmc_steps, double depth,
+                   RNG& rng)
 :num_particles(num_particles)
 ,mcmc_steps(mcmc_steps)
 ,depth(depth)
+,rng(rng)
 ,particles(num_particles)
 ,distances(num_particles)
 ,iteration(0)
 {
+    // Check that the input was at least partially sane
     if(num_particles < 1 || mcmc_steps < 1 || depth < 1.0)
         throw std::domain_error("Bad input to Rep constructor.");
 
+    // Open the output file in append mode.
     fout.open("output.txt", std::ios::out | std::ios::app);
 }
 
@@ -90,14 +105,14 @@ Rep<Particle>::~Rep()
 
 
 template<class Particle>
-void Rep<Particle>::initialise(RNG& rng)
+void Rep<Particle>::initialise()
 {
     // Generate the reference particle from the distribution
-    reference_particle.generate(rng);
+    reference_particle.generate();
 
     // Generate the other particles
     for(auto& p: particles)
-        p.generate(rng);
+        p.generate();
 
     // Compute all the distances
     compute_distances();
@@ -110,6 +125,7 @@ void Rep<Particle>::initialise(RNG& rng)
 template<class Particle>
 void Rep<Particle>::compute_distances()
 {
+    // Evaluate the distance of each particle from the reference particle.
     for(size_t i=0; i<num_particles; ++i)
         distances[i] = Particle::distance(reference_particle, particles[i]);
 }
@@ -117,13 +133,15 @@ void Rep<Particle>::compute_distances()
 template<class Particle>
 void Rep<Particle>::execute()
 {
+    // Just do the required number of NS iterations
+    // to reach `depth`.
     int steps = static_cast<int>(num_particles * depth);
     for(int i=0; i<steps; ++i)
-        iterate();
+        iterate(i != steps-1);
 }
 
 template<class Particle>
-void Rep<Particle>::iterate()
+void Rep<Particle>::iterate(bool generate_replacement)
 {
     // Find the worst particle.
     int worst = 0;
@@ -133,7 +151,33 @@ void Rep<Particle>::iterate()
 
     // Write its information to the output file.
     fout << iteration << ' ' << distances[worst] << std::endl;
+
+    // Generate replacement (unless told not to!)
+    if(generate_replacement)
+        replace(worst);
+
+    // Increment the iteration counter.
+    ++iteration;
 }
+
+template<class Particle>
+void Rep<Particle>::replace(int which)
+{
+    // If num_particles > 1, clone a survivor.
+    if(num_particles > 1)
+    {
+        int copy;
+        do
+        {
+            copy = rng.rand_int(num_particles);
+        }while(copy == which);
+
+        particles[which] = particles[copy];
+        distances[which] = distances[copy];
+    }
+
+}
+
 
 } // namespace InfoNest
 

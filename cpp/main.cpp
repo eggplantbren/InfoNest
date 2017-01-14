@@ -11,7 +11,7 @@ int main()
     InfoNest::RNG rng(time(0));
 
     // Create a Rep.
-    InfoNest::Rep<InfoNest::Normal> rep(10, 1000, 25.0);
+    InfoNest::Rep<InfoNest::Normal> rep(10, 1000, 25.0, rng);
 
     return 0;
 }
