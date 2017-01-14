@@ -17,7 +17,11 @@ def postprocess(tol=1E-3):
     # Mean count above `tol`
     mean_count = np.sum(output[:,1] > tol) / reps
 
-    print(mean_count)
+    # Estimate of the differential entropy
+    # log(probability) ~= log(2 * tol * density)
+    H = mean_count + np.log(2 * tol)
+
+    print("H = " + str(H) + " nats.")
 
 if __name__ == "__main__":
     postprocess()
