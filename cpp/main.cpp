@@ -1,7 +1,7 @@
 // Includes
 #include <iostream>
 #include <ctime>
-#include "Rep.h"
+#include "Rep.hpp"
 #include "RNG.h"
 #include "Examples/Normal.h"
 
