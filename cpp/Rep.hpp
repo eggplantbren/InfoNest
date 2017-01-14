@@ -108,11 +108,11 @@ template<class Particle>
 void Rep<Particle>::initialise()
 {
     // Generate the reference particle from the distribution
-    reference_particle.generate();
+    reference_particle.generate(rng);
 
     // Generate the other particles
     for(auto& p: particles)
-        p.generate();
+        p.generate(rng);
 
     // Compute all the distances
     compute_distances();
@@ -163,6 +163,9 @@ void Rep<Particle>::iterate(bool generate_replacement)
 template<class Particle>
 void Rep<Particle>::replace(int which)
 {
+    // Distance threshold
+    double threshold = distances[which];
+
     // If num_particles > 1, clone a survivor.
     if(num_particles > 1)
     {
@@ -176,6 +179,29 @@ void Rep<Particle>::replace(int which)
         distances[which] = distances[copy];
     }
 
+    // Stuff needed for MCMC
+    Particle proposal;
+    double proposal_distance;
+    double logA, alpha;
+
+    // Do the MCMC
+    for(size_t i=0; i<mcmc_steps; ++i)
+    {
+        // Do proposal
+        proposal = particles[which];
+        logA = proposal.perturb(rng);
+        proposal_distance = Particle::distance(reference_particle, proposal);
+
+        // Acceptance probability
+        alpha = (logA >= 0.0) ? (1.0) : (exp(logA));
+
+        // Check for acceptance
+        if(proposal_distance < threshold && rng.rand() <= alpha)
+        {
+            particles[which] = proposal;
+            distances[which] = proposal_distance;
+        }
+    }
 }
 
 
