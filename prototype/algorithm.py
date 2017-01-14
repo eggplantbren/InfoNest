@@ -54,7 +54,12 @@ class Run:
         worst = np.argmax(self.distances)
 
         # Print iteration, and worst particle's distance
-        print( str(self.iteration) + " " + str(self.distances[worst]) )
+        s = str(self.iteration) + " " + str(self.distances[worst])
+
+        f = open("output.txt", "a")
+        f.write(s + "\n")
+        f.close()
+        print(s)
 
         # Replace worst particle.
         self.replace(worst)
@@ -94,18 +99,29 @@ class Run:
 
 if __name__ == "__main__":
     """
-    Little test.
+    Run the algorithm.
     """
 
     # Number of repetitions
-    reps = 100
+    reps = 1000
+
+    # Number of particles
+    num_particles = 1
+
+    # Clear output file
+    f = open("output.txt", "w")
+    f.close()
+
+    # Write the number of particles to file
+    f = open("num_particles.txt", "w")
+    f.write(str(num_particles) + "\n")
+    f.close()
 
     for rep in range(0, reps):
-        run = Run(1)
+        run = Run(num_particles)
         run.initialise()
 
         for i in range(0, 20):
             run.iterate()
-
 
 
