@@ -43,6 +43,15 @@ class Particle:
         return str(self.x)
 
 
+    def factory():
+        """
+        Class-level function. Returns a `generated` particle, ready for use.
+        """
+        particle = Particle()
+        particle.generate()
+        return particle
+
+
 def distance(particle1, particle2):
     """
     Distance between two particles.
@@ -57,8 +66,7 @@ if __name__ == "__main__":
     A few tiny little tests.
     """
 
-    particle = Particle()
-    particle.generate()
+    particle = Particle.factory()
 
     for i in range(0, 1000):
         particle.perturb()
