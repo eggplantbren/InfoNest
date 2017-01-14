@@ -44,5 +44,10 @@ void Normal::print(std::ostream& out)
     out<<x<<' '<<y<<' ';
 }
 
+double Normal::distance(const Normal& normal1, const Normal& normal2)
+{
+    return std::abs(normal1.y - normal2.y);
+}
+
 } // namespace InfoNest
 

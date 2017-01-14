@@ -39,6 +39,9 @@ class Normal
 
         // Printing
         void print(std::ostream& out);
+
+        // Distance function
+        static double distance(const Normal& normal1, const Normal& normal2);
 };
 
 } // namespace InfoNest
