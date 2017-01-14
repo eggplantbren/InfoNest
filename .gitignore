@@ -1,5 +1,6 @@
 output.txt
 num_particles.txt
+paper/ms.pdf
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
