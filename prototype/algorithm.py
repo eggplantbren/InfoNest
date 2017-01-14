@@ -103,7 +103,7 @@ if __name__ == "__main__":
     """
 
     # Number of repetitions
-    reps = 1000
+    reps = 10000
 
     # Number of particles
     num_particles = 1
