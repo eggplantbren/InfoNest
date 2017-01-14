@@ -4,6 +4,7 @@
 main
 
 output.txt
+run_data.txt
 num_particles.txt
 paper/ms.pdf
 

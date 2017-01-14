@@ -5,10 +5,13 @@
 #include "RNG.h"
 #include "Examples/Normal.h"
 
-void copyright();
-
 int main()
 {
+    // Run parameters
+    size_t num_particles = 10;
+    size_t mcmc_steps = 1000;
+    double depth = 25.0;
+
     // Create random number generator, seeded with time
     InfoNest::RNG rng(time(0));
 
@@ -19,16 +22,25 @@ int main()
     std::fstream fout("output.txt", std::ios::out);
     fout.close();
 
+    // Write run data to a file
+    fout.open("run_data.txt", std::ios::out);
+    fout << num_particles << "\t# num_particles." << std::endl;
+    fout.close();
+
     for(int i=0; i<num_reps; ++i)
     {
         // Create a Rep.
-        InfoNest::Rep<InfoNest::Normal> rep(10, 1000, 25.0, rng);
+        InfoNest::Rep<InfoNest::Normal> rep(num_particles,
+                                            mcmc_steps,
+                                            depth,
+                                            rng);
 
         // Initialise and execute it.
         rep.initialise();
         rep.execute();
 
-        std::cout<<"Completed "<<(i+1)<<" reps."<<std::endl;
+        // Print a message.
+        std::cout << "Completed " << (i+1) << " reps." << std::endl;
     }
 
     return 0;
