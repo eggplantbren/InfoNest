@@ -37,7 +37,7 @@ class Normal
         // Metropolis proposal
         double perturb(RNG& rng);
 
-        // Printing
+        // Printing to stream
         void print(std::ostream& out);
 
         // Distance function
