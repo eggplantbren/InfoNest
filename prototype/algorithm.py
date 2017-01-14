@@ -97,11 +97,15 @@ if __name__ == "__main__":
     Little test.
     """
 
-    run = Run(10)
-    run.initialise()
+    # Number of repetitions
+    reps = 100
 
-    for i in range(0, 100):
-        run.iterate()
+    for rep in range(0, reps):
+        run = Run(1)
+        run.initialise()
+
+        for i in range(0, 20):
+            run.iterate()
 
 
 
