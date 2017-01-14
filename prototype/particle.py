@@ -23,7 +23,7 @@ class Particle:
         """
         Generate the point from its probability distribution.
         """
-        self.x = -10.0 + 20.0 * rng.rand()
+        self.x = rng.randn()
 
 
     def perturb(self):
@@ -31,10 +31,11 @@ class Particle:
         Metropolis proposal that would explore the probability distribution.
         Return ln(a) such that acceptance probability alpha = min(1, a).
         """
-        self.x += 20.0 * randh()
-        self.x = wrap(self.x, -10.0, 10.0)
-        return 0.0
-
+        logA = 0.0
+        logA -= -0.5 * self.x**2
+        self.x += 1.0 * randh()
+        logA += -0.5 * self.x**2
+        return logA
 
     def __str__(self):
         """
