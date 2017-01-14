@@ -105,8 +105,10 @@ if __name__ == "__main__":
     # Number of repetitions
     reps = 10000
 
-    # Number of particles
-    num_particles = 1
+    # Number of NS particles, MCMC steps per NS iteration, and depth
+    num_particles = 10
+    mcmc_steps = 1000
+    depth = 25.0
 
     # Clear output file
     f = open("output.txt", "w")
@@ -117,11 +119,12 @@ if __name__ == "__main__":
     f.write(str(num_particles) + "\n")
     f.close()
 
+    # Do `reps` runs
     for rep in range(0, reps):
-        run = Run(num_particles)
+        run = Run(num_particles, mcmc_steps)
         run.initialise()
 
-        for i in range(0, 20):
+        for i in range(0, int(depth * num_particles)):
             run.iterate()
 
 
