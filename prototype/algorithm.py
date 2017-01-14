@@ -2,6 +2,7 @@
 __all__ = ["Run"]
 
 # Imports
+import numpy as np
 from particle import Particle, distance
 
 
@@ -30,6 +31,7 @@ class Run:
         self.comparison_particles = [ Particle.factory()
                                         for i in range(0, self.num_particles) ]
         self.compute_distances()
+        self.iteration = 1
 
 
     def compute_distances(self):
@@ -39,8 +41,23 @@ class Run:
         """
         self.distances = [ distance(self.reference_particle, p)
                                 for p in self.comparison_particles ]
+        self.distances = np.array(self.distances)
 
-    
+    def iterate(self):
+        """
+        Find the worst particle and replace it, NS style.
+        """
+
+        # Index of worst particle
+        worst = np.argmax(self.distances)
+
+        # Print iteration, and worst particle's distance
+        print( str(self.iteration) + " " + str(self.distances[worst]) )
+
+        # Update iteration counter.
+        self.iteration += 1
+
+
 
 
 
@@ -52,5 +69,7 @@ if __name__ == "__main__":
     run = Run(10)
     run.initialise()
 
-    print(run.distances)
+    run.iterate()
+
+
 
