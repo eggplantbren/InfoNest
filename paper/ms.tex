@@ -166,6 +166,15 @@ p(\x, \d) &= p(\x)p(\d | \x)
 
 \subsection{The relevance of data}
 
+The degree to which the question ``what is the value of $\x$?'' is
+answered by the question ``what is the value of $\d$?'' is given by the
+conditional entropy
+\begin{align}
+H_{\x | \d} &= - \sum_{\d} p(\d) \sum_{\x} p(\x | \d) \log p(\x | \d)
+\end{align}
+which is the expected value of the entropy of the posterior, averaged over
+all possible datasets which might be observed.
+
 
 \section{Nested Sampling}
 Nested Sampling \citep[NS][]{skilling2006nested}
