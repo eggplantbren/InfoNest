@@ -38,11 +38,11 @@
 %=================================================================
 \setcounter{page}{1}
 \lastpage{x}
-\doinum{10.3390/------}
-\pubvolume{xx}
-\pubyear{2016}
+\doinum{}       %\doinum{10.3390/------}
+\pubvolume{}    % \pubvolume{xx}
+\pubyear{2017}
 %\externaleditor{Academic Editor: xx}
-\history{Received: xx / Accepted: xx / Published: xx}
+\history{In preparation}%\history{Received: xx / Accepted: xx / Published: xx}
 
 \usepackage{dsfont}
 \usepackage[utf8]{inputenc}
@@ -56,10 +56,8 @@
 \usepackage{microtype}
 
 \DeclareUnicodeCharacter{00A0}{ }
-\newcommand{\xx}{\boldsymbol{\theta}}
-\newcommand{\dx}{d\boldsymbol{\theta}}
-\newcommand{\data}{\boldsymbol{D}}
-\newcommand{\II}{\boldsymbol{I}}
+\newcommand{\x}{\boldsymbol{x}}
+\renewcommand{\d}{\boldsymbol{d}}
 
 %------------------------------------------------------------------
 % The following line should be uncommented if the LaTeX file is uploaded to arXiv.org
@@ -142,6 +140,30 @@ Auckland 1142, New Zealand}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Introduction}
+
+If an unknown quantity $\x$ has a discrete probability distribution $p(\x)$,
+the entropy is
+\begin{align}
+H_{\x} &= -\sum_{\x} p(\x) \log p(\x)
+\end{align}
+where the sum is over all of the possible values of $\x$ under consideration.
+This probability distribution is implicitly conditional on some prior
+information, which is have omitted from the notation.
+
+\section{Entropies in Bayesian inference}
+
+In a standard situation where Bayesian inference would be used,
+the unknown quantities are the parameters $\x$ and the data $\d$
+(which subsequently becomes known). The prior information leads the
+user to specify a prior distribution $p(\x)$ for the unknown parameters,
+along with a ``sampling distribution'' $p(\d | \x)$ describing prior knowledge
+of how the data is related to the parameters. By the product rule, this yields
+a joint prior
+\begin{align}
+p(\x, \d) &= p(\x)p(\d | \x)
+\end{align}
+
+
 
 \acknowledgments{Acknowledgements}
 
