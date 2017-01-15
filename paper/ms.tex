@@ -168,6 +168,9 @@ p(\x, \d) &= p(\x)p(\d | \x)
 \end{align}
 
 
+The entropy of this joint prior describes the degree to which the question
+``what is the value of the pair $(\x, \d)$?'' remains unanswered.
+
 \subsection{The relevance of data}
 
 The degree to which the question ``what is the value of $\x$?'' is
@@ -198,16 +201,27 @@ of a question and a statement.
 
 
 \subsection{Mutual information}
+The mutual information is another way of describing the relevance of the
+data to the parameters.
 
-The mutual information is
+Its definition is
 \begin{align}
 I_{\x, \d} &= \sum_{\x} \sum_{\d} p(\x, \d)
                        \log\left[\frac{p(\x, \d)}{p(\x)p(\d)}\right]\\
-           &= H_{\x} + H_{\d} - H_{\x, \d}
+           &= H_{\x} + H_{\d} - H_{\x, \d}.
 \end{align}
+For present purposes, it is more conveniently written as
+\begin{align}
+I_{\x, \d} &= \sum_{\x} \sum_{\d} p(\x, \d)
+              \log\left[\frac{p(\d | \x)}{p(\d)}\right].
+\end{align}
+As with the conditional entropy, we see that the difficulty appears in the
+form of the log of the marginal likelihood,
+$\log p(\d) = \log \sum_{\x} p(\x)p(\d | \x)$.
 
 
-
+For experimental design purposes, maximising either $I_{\x, \d}$ or
+$H_{\x | \d}$ will produce the same result. {\todo Mention reference priors?}
 
 
 \section{Nested Sampling}
