@@ -31,7 +31,7 @@ void Sinusoid::assemble()
     for(size_t i=0; i<N; ++i)
     {
         t = t_min + i * dt;
-        y[i] = A * sin(omega*t + phi);
+        y[i] = A * sin(omega*t + phi) + sigma * n[i];
     }
 }
 
