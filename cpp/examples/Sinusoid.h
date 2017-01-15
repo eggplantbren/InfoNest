@@ -27,8 +27,8 @@ class Sinusoid
         static constexpr double sigma = 1.0;
 
     private:
-        // Amplitude, period, and phase
-        double A, T, phi;
+        // Amplitude, log-period, and phase
+        double A, log10_period, phi;
 
         // Latent coordinates for noise
         std::vector<double> n;

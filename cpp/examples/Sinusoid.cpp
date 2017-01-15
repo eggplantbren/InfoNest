@@ -16,7 +16,7 @@ Sinusoid::Sinusoid()
 void Sinusoid::generate(RNG& rng)
 {
     A = -log(1.0 - rng.rand());
-    T = exp(log(1E-3 * t_range) + log(1E3) * rng.rand());
+    log10_period = log10(1E-3 * t_range) + 3.0 * rng.rand();
     phi = 2.0 * M_PI * rng.rand();
 
     for(double& nn : n)
@@ -29,7 +29,7 @@ void Sinusoid::generate(RNG& rng)
 void Sinusoid::assemble()
 {
     double t;
-    double omega = 2*M_PI/T; // Angular frequency
+    double omega = 2*M_PI/pow(10.0, log10_period); // Angular frequency
     for(size_t i=0; i<N; ++i)
     {
         t = t_min + i * dt;
@@ -54,10 +54,8 @@ double Sinusoid::perturb(RNG& rng)
         }
         else if(which == 1)
         {
-            T = log(T);
-            T += log(1E3) * rng.randh();
-            wrap(T, log(1E-3*t_range), log(t_range));
-            T = exp(T);
+            log10_period += 3.0 * rng.randh();
+            wrap(log10_period, log10(1E-3 * t_range), log10(t_range));
         }
         else
         {
@@ -93,9 +91,15 @@ double Sinusoid::perturb(RNG& rng)
 
 void Sinusoid::print(std::ostream& out)
 {
-    out<<A<<' '<<T<<' '<<phi<<' ';
+    out<<A<<' '<<log10_period<<' '<<phi<<' ';
     for(double yy: y)
         out<<yy<<' ';
+}
+
+double Sinusoid::distance(const Sinusoid& s1, const Sinusoid& s2)
+{
+    // For H_T
+    return std::abs(s2.log10_period - s1.log10_period);
 }
 
 } // namespace InfoNest

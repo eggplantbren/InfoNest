@@ -258,6 +258,20 @@ Perhaps, in some applications, a more appropriate question is
 ``what is the value of $T$ to within $\pm$ 10\%''
 {\todo or something like that.}
 
+
+
+The priors are
+\begin{align}
+A           &\sim \textnormal{Exponential}(1)  \\
+\log_{10} T &\sim \textnormal{Uniform}(-3, 0)  \\
+\phi        &\sim \textnormal{Uniform}(0, 2\pi)
+\end{align}
+
+$A$ and $\phi$ are nuisance parameters.
+
+The (differential) entropy of the prior for the log-period is
+$H_{\log_{10} T} = \log(3) \approx 1.0986$ nats.
+
 \section{Example 3: TBD}
 
 \acknowledgments{Acknowledgements}
