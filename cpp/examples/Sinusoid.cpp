@@ -91,5 +91,12 @@ double Sinusoid::perturb(RNG& rng)
     return logH;
 }
 
+void Sinusoid::print(std::ostream& out)
+{
+    out<<A<<' '<<T<<' '<<phi<<' ';
+    for(double yy: y)
+        out<<yy<<' ';
+}
+
 } // namespace InfoNest
 
