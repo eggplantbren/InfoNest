@@ -179,7 +179,14 @@ H_{\x | \d} &= - \sum_{\d} p(\d) \sum_{\x} p(\x | \d) \log p(\x | \d)
 which is the expected value of the entropy of the posterior, averaged over
 all possible datasets which might be observed.
 
-The 
+This is difficult to compute because the expression
+for the posterior distribution
+\begin{align}
+p(\x | \d) &= \frac{p(\x)p(\d | \x)}{p(\d)}
+\end{align}
+contains the marginal likelihood $p(\d)$.
+
+
 
 \subsection{Mutual information}
 
