@@ -56,8 +56,12 @@
 \usepackage{microtype}
 
 \DeclareUnicodeCharacter{00A0}{ }
-\newcommand{\x}{\boldsymbol{x}}
+
+\definecolor{orange}{rgb}{1, 0.5, 0}
+
 \renewcommand{\d}{\boldsymbol{d}}
+\newcommand{\todo}{\color{orange} \bf}
+\newcommand{\x}{\boldsymbol{x}}
 
 %------------------------------------------------------------------
 % The following line should be uncommented if the LaTeX file is uploaded to arXiv.org
@@ -175,6 +179,15 @@ H_{\x | \d} &= - \sum_{\d} p(\d) \sum_{\x} p(\x | \d) \log p(\x | \d)
 which is the expected value of the entropy of the posterior, averaged over
 all possible datasets which might be observed.
 
+The 
+
+\subsection{Mutual information}
+
+
+
+
+
+
 
 \section{Nested Sampling}
 Nested Sampling \citep[NS][]{skilling2006nested}
@@ -183,16 +196,40 @@ Nested Sampling \citep[NS][]{skilling2006nested}
 \subsection{The sequence of $X$ values}
 When $N=1$, the sequence of $X$ values is a Poisson process.
 
-\citet{Walter2015} showed how this property can be used to construct a
+\citet{Walter2015} showed how this view of the NS sequence of points
+can be used to construct a
 version of NS that produces unbiased estimates of the marginal likelihood.
-However, it can be used to construct an unbiased estimator of
+However, it can also be used to construct an unbiased estimator of
 a log-probability, which is more relevant to information theoretic
 quantities.
 
-\subsection{}
+\section{The algorithm}
 
+
+\section{Example 1: A trivial bivariate gaussian}
+
+
+\section{Example 2: Measuring the period of an oscillating signal}
+
+
+The multimodality of the posterior here raises an interesting issue. Is
+the question we really want answered ``what is the value of $T$
+{\bf precisely}?'', to which the mutual information relates?
+Most practicing scientists would not feel particularly informed to learn
+that the vast majority of possibilities had been ruled out, if the
+posterior still consisted of several widely separated modes!
+
+Perhaps, in some applications, a more appropriate question is
+``what is the value of $T$ to within $\pm$ 10\%''
+{\todo or something like that.}
+
+\section{Example 3: TBD}
 
 \acknowledgments{Acknowledgements}
+It is a pleasure to thank the following people for interesting and helpful
+conversations about this topic: Ruth Angus (Flatiron Institute),
+Ewan Cameron (Oxford), David Hogg (NYU), Kevin Knuth (SUNY Albany),
+Iain Murray (Edinburgh).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
