@@ -17,15 +17,26 @@ def postprocess(num_particles=1, tol=1E-3):
     start_indices = np.nonzero(output[:,0] == 1)[0]
 
     reps = len(start_indices)
-    counts = np.empty(reps)
+    counts = []
+    last_run_size = None
+
     for i in range(0, reps):
         start_index = start_indices[i]
         if i < reps - 1:
             run = output[start_index : start_indices[i+1], :]
         else:
             run = output[start_index : , :]
+
+        # Don't count the last rep if it's incomplete
+        if last_run_size != None and run.shape[0] != last_run_size:
+            break
+        last_run_size = run.shape[0]
+
+        counts.append((run[:,1] > tol).sum())
         print("Processed run {k}/{N}.".format(k=i+1, N=reps))
-        counts[i] = (run[:,1] > tol).sum()
+
+    # Convert to numpy array
+    counts = np.array(counts)
 
     print("mean(depth) = {mc}.".format(mc=counts.mean() / num_particles))
     print("std (depth) = {sd}.".format(sd=counts.std()  / num_particles))
