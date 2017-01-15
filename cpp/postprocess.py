@@ -27,16 +27,16 @@ def postprocess(num_particles=1, tol=1E-3):
         print("Processed run {k}/{N}.".format(k=i+1, N=reps))
         counts[i] = (run[:,1] > tol).sum()
 
-    print("mean(counts) = {mc}.".format(mc=counts.mean()))
-    print("std (counts) = {sd}.".format(sd=counts.std()))
+    print("mean(depth) = {mc}.".format(mc=counts.mean() / num_particles))
+    print("std (depth) = {sd}.".format(sd=counts.std()  / num_particles))
+    print("sem (depth) = {sem}.".format(\
+            sem=counts.std() / num_particles/np.sqrt(reps)))
 
-    # Estimate of the differential entropy
-    # log(probability) ~= log(2 * tol * density)
-    H = counts.mean() / num_particles + np.log(2 * tol)
-    stderr = (counts.std() / num_particles) / np.sqrt(reps)
-
-    print("H = {H} +- {stderr} nats.".format(H=H, stderr=stderr))
-
+#    # Estimate of the differential entropy
+#    # log(probability) ~= log(2 * tol * density)
+#    H = counts.mean() / num_particles + np.log(2 * tol)
+#    stderr = (counts.std() / num_particles) / np.sqrt(reps)
+#    print("H = {H} +- {stderr} nats.".format(H=H, stderr=stderr))
 #    plt.hist(mean_depth, 100, color=[0.2, 0.2, 0.2])
 #    plt.show()
 
