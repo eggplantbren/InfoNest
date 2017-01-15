@@ -3,7 +3,12 @@
 namespace InfoNest
 {
 
+Sinusoid::Sinusoid()
+:n(N)
+,y(N)
+{
 
+}
 
 
 

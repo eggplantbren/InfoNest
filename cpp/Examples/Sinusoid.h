@@ -16,9 +16,17 @@ namespace InfoNest
 class Sinusoid
 {
     private:
-        // Number of data points
+        // Number of data points and so on
         static constexpr size_t N = 101;
+        static constexpr double t_min = 0.0;
+        static constexpr double t_max = 1.0;
+        static constexpr double t_range = t_max - t_min;
+        static constexpr double dt = t_range / (N - 1);
 
+        // Noise sd
+        static constexpr double sigma = 1.0;
+
+    private:
         // Amplitude, period, and phase
         double A, T, phi;
 
