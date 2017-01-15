@@ -162,7 +162,7 @@ the unknown quantities are the parameters $\x$ and the data $\d$
 user to specify a prior distribution $p(\x)$ for the unknown parameters,
 along with a ``sampling distribution'' $p(\d | \x)$ describing prior knowledge
 of how the data is related to the parameters. By the product rule, this yields
-a joint prior
+a {\em joint prior}
 \begin{align}
 p(\x, \d) &= p(\x)p(\d | \x)
 \end{align}
@@ -201,7 +201,9 @@ of a question and a statement.
 
 The mutual information is
 \begin{align}
-I_{\x, \d} &= \sum_{\x} \sum_{\d}
+I_{\x, \d} &= \sum_{\x} \sum_{\d} p(\x, \d)
+                       \log\left[\frac{p(\x, \d)}{p(\x)p(\d)}\right]\\
+           &= H_{\x} + H_{\d} - H_{\x, \d}
 \end{align}
 
 
