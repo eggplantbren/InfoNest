@@ -30,8 +30,19 @@ int main()
         {
             s.print(fout);
             fout << std::endl;
-            std::cout << "Done " << (i+1) << " steps." << std::endl;
+            std::cout << "Done " << (i+1) << " MCMC steps." << std::endl;
         }
+    }
+
+    // Now do independent generating
+    steps /= thin;
+    for(int i=0; i<steps; ++i)
+    {
+        s.generate(rng);
+
+        s.print(fout);
+        fout << std::endl;
+        std::cout << "Done " << (i+1) << " generates." << std::endl;
     }
 
     fout.close();
