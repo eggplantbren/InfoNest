@@ -5,8 +5,8 @@ default:
 	$(CC) $(CFLAGS) -c main.cpp
 	$(CC) $(CFLAGS) -c RNG.cpp
 	$(CC) $(CFLAGS) -c Utils.cpp
-	$(CC) $(CFLAGS) -c Examples/Normal.cpp
-	$(CC) $(CFLAGS) -c Examples/Sinusoid.cpp
+	$(CC) $(CFLAGS) -c examples/Normal.cpp
+	$(CC) $(CFLAGS) -c examples/Sinusoid.cpp
 	$(CC) -o main *.o
 	rm -f *.o
 

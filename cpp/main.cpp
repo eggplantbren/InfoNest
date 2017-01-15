@@ -3,7 +3,7 @@
 #include <ctime>
 #include "Rep.hpp"
 #include "RNG.h"
-#include "Examples/Normal.h"
+#include "examples/Normal.h"
 
 int main()
 {
