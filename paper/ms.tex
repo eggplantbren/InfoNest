@@ -187,10 +187,22 @@ p(\x | \d) &= \frac{p(\x)p(\d | \x)}{p(\d)}
 contains the marginal likelihood $p(\d)$.
 
 
+It is important to distinguish between $H_{\x | \d}$ and the
+entropy of $\x$ given a particular value of $\d$, which might be written
+$H_{\x | \d=\d_0}$.
+The former measures the degree to which one question answers
+another, so is a function of two questions. The latter measures the
+degree to which a {\em statement} answered a question, and is a function
+of a question and a statement.
+
+
 
 \subsection{Mutual information}
 
-
+The mutual information is
+\begin{align}
+I_{\x, \d} &= \sum_{\x} \sum_{\d}
+\end{align}
 
 
 
