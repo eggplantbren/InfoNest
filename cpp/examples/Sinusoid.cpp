@@ -7,7 +7,7 @@ namespace InfoNest
 {
 
 Sinusoid::Sinusoid()
-:n(N)
+:mu(N)
 ,y(N)
 {
 
@@ -19,72 +19,120 @@ void Sinusoid::generate(RNG& rng)
     log10_period = log10(1E-3 * t_range) + 3.0 * rng.rand();
     phi = 2.0 * M_PI * rng.rand();
 
-    for(double& nn : n)
-        nn = rng.randn();
+    calculate_mu();
 
-    assemble();
+    for(double& yy: y)
+        yy += sigma * rng.randn();
+
+    calculate_logl();
 }
 
-
-void Sinusoid::assemble()
+void Sinusoid::calculate_mu()
 {
     double t;
     double omega = 2*M_PI/pow(10.0, log10_period); // Angular frequency
     for(size_t i=0; i<N; ++i)
     {
         t = t_min + i * dt;
-        y[i] = A * sin(omega*t + phi) + sigma * n[i];
+        mu[i] = A * sin(omega*t + phi);
     }
+}
+
+double Sinusoid::perturb_parameters(RNG& rng)
+{
+    double logH = 0.0;
+
+    // Perturb one of the three parameters
+    int which = rng.rand_int(3);
+    if(which == 0)
+    {
+        A = 1.0 - exp(-A);
+        A += rng.randh();
+        wrap(A, 0.0, 1.0);
+        A = -log(1.0 - A);
+    }
+    else if(which == 1)
+    {
+        log10_period += 3.0 * rng.randh();
+        wrap(log10_period, log10(1E-3 * t_range), log10(t_range));
+    }
+    else
+    {
+        phi += 2 * M_PI * rng.randh();
+        wrap(phi, 0.0, 2 * M_PI);
+    }
+
+    return logH;
+}
+
+void Sinusoid::calculate_logl()
+{
+    logl = 0.0;
+    double C = log(1.0 / sqrt(2.0 * M_PI) / sigma);
+    double tau = 1.0 / (sigma * sigma);
+
+    for(size_t i=0; i<N; ++i)
+        logl += C - 0.5 * pow(y[i] - mu[i], 2) * tau;
 }
 
 double Sinusoid::perturb(RNG& rng)
 {
     double logH = 0.0;
 
-    if(rng.rand() < 0.5)
+    int choice = rng.rand_int(4);
+
+    if(choice == 0)
     {
-        // Perturb one of the three parameters
-        int which = rng.rand_int(3);
-        if(which == 0)
+        // Perturb parameters, changing data along with it
+        std::vector<double> mu_old = mu;
+
+        logH += perturb_parameters(rng);
+        calculate_mu();
+
+        double n;
+        for(size_t i=0; i<N; ++i)
         {
-            A = 1.0 - exp(-A);
-            A += rng.randh();
-            wrap(A, 0.0, 1.0);
-            A = -log(1.0 - A);
+            n = (y[i] - mu_old[i]) / sigma;
+            y[i] = mu[i] + sigma * n;
         }
-        else if(which == 1)
-        {
-            log10_period += 3.0 * rng.randh();
-            wrap(log10_period, log10(1E-3 * t_range), log10(t_range));
-        }
-        else
-        {
-            phi += 2 * M_PI * rng.randh();
-            wrap(phi, 0.0, 2 * M_PI);
-        }
+
+        calculate_logl();
+    }
+    else if(choice == 1)
+    {
+        // Perturb parameters, keeping data constant
+        // (aka Metropolis step of the posterior!)
+        logH -= logl;
+
+        logH += perturb_parameters(rng);
+        calculate_mu();
+
+        logH += logl;        
+    }
+    else if(choice == 2)
+    {
+        // Just change one datum
+        int which = rng.rand_int(N);
+
+        logH -= -0.5*pow((y[which] - mu[which])/sigma, 2);
+        y[which] += sigma * rng.randh();
+        logH += -0.5*pow((y[which] - mu[which])/sigma, 2);
+
+        calculate_logl();
     }
     else
     {
-        // Perturb some of the ns.
-        if(rng.rand() <= 0.5)
+        // Potentially regenerate many of the data points
+        int reps = pow(N, rng.rand());
+        int which;
+        for(int i=0; i<reps; ++i)
         {
-            // Just change one
-            int which = rng.rand_int(N);
-            logH -= -0.5*pow(n[which], 2);
-            n[which] += rng.randh();
-            logH += -0.5*pow(n[which], 2);
-        }
-        else
-        {
-            // Potentially regenerate many
-            int reps = pow(N, rng.rand());
-            for(int i=0; i<reps; ++i)
-                n[rng.rand_int(N)] = rng.randn();
+            which = rng.rand_int(N);
+            y[which] = mu[which] + sigma * rng.randn();
         }
 
+        calculate_logl();
     }
-
-    assemble();
 
     return logH;
 }
@@ -125,7 +173,7 @@ double Sinusoid::distance3(const Sinusoid& s1, const Sinusoid& s2)
 
 double Sinusoid::distance(const Sinusoid& s1, const Sinusoid& s2)
 {
-    return distance1(s1, s2);
+    return distance3(s1, s2);
 }
 
 } // namespace InfoNest

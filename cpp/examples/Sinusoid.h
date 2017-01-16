@@ -30,14 +30,24 @@ class Sinusoid
         // Amplitude, log-period, and phase
         double A, log10_period, phi;
 
-        // Latent coordinates for noise
-        std::vector<double> n;
+        // Model curve
+        std::vector<double> mu;
 
         // The data
         std::vector<double> y;
 
-        // Compute y
-        void assemble();
+        // Log likelihood, i.e. ln p(y | params).
+        // Only needed for one of the proposals
+        double logl;
+
+        // Calculate log likelihood
+        void calculate_logl();
+
+        // Compute mu from the current parameter values
+        void calculate_mu();
+
+        // Helper for perturb
+        double perturb_parameters(RNG& rng);
 
     public:
         // Do-nothing constructor
