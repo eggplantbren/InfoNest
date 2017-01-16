@@ -19,6 +19,7 @@ def postprocess(num_particles=1, tol=1E-3):
     reps = len(start_indices)
     counts = []
     last_run_size = None
+    warn = False
 
     for i in range(0, reps):
         start_index = start_indices[i]
@@ -32,7 +33,11 @@ def postprocess(num_particles=1, tol=1E-3):
             break
         last_run_size = run.shape[0]
 
+        count = (run[:,1] > tol).sum()
         counts.append((run[:,1] > tol).sum())
+        if count == run.shape[0]:
+            warn = True
+
         print("Processed run {k}/{N}.".format(k=i+1, N=reps))
 
     # Convert to numpy array
@@ -45,6 +50,9 @@ def postprocess(num_particles=1, tol=1E-3):
     print("std (depth) = {sd}.".format(sd=counts.std()  / num_particles))
     print("sem (depth) = {sem}.".format(\
             sem=counts.std() / num_particles/np.sqrt(len(counts))))
+
+    if warn:
+        print("WARNING: A run didn't achieve the desired tolerance.")
 
 #    # Estimate of the differential entropy
 #    # log(probability) ~= log(2 * tol * density)
