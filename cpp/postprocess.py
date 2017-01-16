@@ -38,10 +38,13 @@ def postprocess(num_particles=1, tol=1E-3):
     # Convert to numpy array
     counts = np.array(counts)
 
+    if len(counts) < reps:
+        print("Skipping run {reps} as it is incomplete.".format(reps=reps))
+
     print("mean(depth) = {mc}.".format(mc=counts.mean() / num_particles))
     print("std (depth) = {sd}.".format(sd=counts.std()  / num_particles))
     print("sem (depth) = {sem}.".format(\
-            sem=counts.std() / num_particles/np.sqrt(reps)))
+            sem=counts.std() / num_particles/np.sqrt(len(counts))))
 
 #    # Estimate of the differential entropy
 #    # log(probability) ~= log(2 * tol * density)
