@@ -52,9 +52,14 @@ class Sinusoid
         // Printing to stream
         void print(std::ostream& out);
 
-        // Distance function
-        static double distance(const Sinusoid& s1,
-                               const Sinusoid& s2);
+    public:
+        // Distance function (the one that actually gets used)
+        static double distance(const Sinusoid& s1, const Sinusoid& s2);
+
+        // A few options to use for `distance`
+        static double distance1(const Sinusoid& s1, const Sinusoid& s2);
+        static double distance2(const Sinusoid& s1, const Sinusoid& s2);
+        static double distance3(const Sinusoid& s1, const Sinusoid& s2);
 };
 
 } // namespace InfoNest

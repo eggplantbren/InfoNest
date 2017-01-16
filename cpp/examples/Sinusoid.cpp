@@ -96,10 +96,41 @@ void Sinusoid::print(std::ostream& out)
         out<<yy<<' ';
 }
 
+double Sinusoid::distance1(const Sinusoid& s1, const Sinusoid& s2)
+{
+    // For H_{x} where x = log10_period.
+    return std::abs(s2.log10_period - s1.log10_period);
+}
+
+double Sinusoid::distance2(const Sinusoid& s1, const Sinusoid& s2)
+{
+    // For H_{data}
+    double rms = 0.0;
+
+    for(size_t i=0; i<N; ++i)
+        rms += pow(s2.y[i] - s1.y[i], 2);
+    rms = sqrt(rms / N);
+
+    return rms;
+}
+
+double Sinusoid::distance3(const Sinusoid& s1, const Sinusoid& s2)
+{
+    // For H_{x, data} where x = log10_period.
+    double rms = 0.0;
+
+    rms += pow(s2.log10_period - s1.log10_period, 2);
+    for(size_t i=0; i<N; ++i)
+        rms += pow(s2.y[i] - s1.y[i], 2);
+    rms = sqrt(rms / (N + 1));
+
+    return rms;
+}
+
+
 double Sinusoid::distance(const Sinusoid& s1, const Sinusoid& s2)
 {
-    // For H_T
-    return std::abs(s2.log10_period - s1.log10_period);
+    return distance3(s1, s2);
 }
 
 } // namespace InfoNest
