@@ -184,6 +184,9 @@ void Rep<Particle>::replace(int which)
     double proposal_distance;
     double logA, alpha;
 
+    // Count acceptances
+    int accepts = 0;
+
     // Do the MCMC
     for(size_t i=0; i<mcmc_steps; ++i)
     {
@@ -200,8 +203,14 @@ void Rep<Particle>::replace(int which)
         {
             particles[which] = proposal;
             distances[which] = proposal_distance;
+
+            ++accepts;
         }
     }
+
+//    std::cout<<"Iteration "<<iteration<<". ";
+//    std::cout<<"Acceptance fraction = "<<accepts<<" / "<<mcmc_steps<<".";
+//    std::cout<<std::endl;
 }
 
 
