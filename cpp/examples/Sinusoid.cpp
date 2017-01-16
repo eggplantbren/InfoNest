@@ -117,20 +117,15 @@ double Sinusoid::distance2(const Sinusoid& s1, const Sinusoid& s2)
 double Sinusoid::distance3(const Sinusoid& s1, const Sinusoid& s2)
 {
     // For H_{x, data} where x = log10_period.
-    double rms = 0.0;
-
-    rms += pow(s2.log10_period - s1.log10_period, 2);
-    for(size_t i=0; i<N; ++i)
-        rms += pow(s2.y[i] - s1.y[i], 2);
-    rms = sqrt(rms / (N + 1));
-
-    return rms;
+    double d1 = distance1(s1, s2);
+    double d2 = distance2(s1, s2);
+    return (d2 > d1) ? (d2) : (d1);
 }
 
 
 double Sinusoid::distance(const Sinusoid& s1, const Sinusoid& s2)
 {
-    return distance3(s1, s2);
+    return distance1(s1, s2);
 }
 
 } // namespace InfoNest
