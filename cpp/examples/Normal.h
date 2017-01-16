@@ -10,11 +10,15 @@ namespace InfoNest
 
 /*
 * A 2D gaussian example.
-* p(x)     ~ N(0,1)
-* p(y | x) ~ N(x,1)
+* p(x)     ~ N(0, 10^2)
+* p(y | x) ~ N(x, 1)
 * ==>
-* p(y)     ~ N(0, sd=sqrt(2))
-* H[p(y)] = 1.76551.
+* p(y)     ~ N(0, sd=sqrt(101))
+
+* H[p(x)]    = 3.72152363.            (differential entropy)
+* H[p(y)]    = 3.72649879.            (differential entropy)
+* H[p(x, y)] = 5.14046216.            (differential entropy)
+* I[x; y]    = 2.3075603.             (mutual information)
 */
 class Normal
 {

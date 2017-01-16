@@ -35,7 +35,7 @@ double Normal::perturb(RNG& rng)
 
 void Normal::assemble()
 {
-    x = n1;
+    x = 10 * n1;
     y = x + n2;
 }
 
