@@ -20,6 +20,19 @@ namespace InfoNest
 * H[p(x, y)] = 5.14046216.            (differential entropy)
 * I[x; y]    = 2.3075603.             (mutual information)
 */
+
+/*
+* Numerical results:
+* NB: these algorithm computes log-probabilities of meeting the tolerance,
+*     so a correction factor of log(2E-3) (log-volume)
+*     has been applied to make them match the above by converting probability
+*     to density. For H[p(x,y)], the correction factor is 2*log(2E-3).
+*  H[p(x)]   = 3.761 +- 0.040
+*  H[p(y)]   = 3.776 +- 0.048
+*  H[p(x,y)] = 5.167 +- 0.055
+*  I[x; y]   = 2.370 +- 0.083 (computed from the above).
+*/
+
 class Normal
 {
     private:

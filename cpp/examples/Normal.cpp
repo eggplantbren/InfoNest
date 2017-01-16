@@ -46,7 +46,11 @@ void Normal::print(std::ostream& out)
 
 double Normal::distance(const Normal& normal1, const Normal& normal2)
 {
-    return std::abs(normal1.y - normal2.y);
+    // Currently set up for H[p(x, y)]
+    double d1 = std::abs(normal1.x - normal2.x);
+    double d2 = std::abs(normal1.y - normal2.y);
+
+    return (d2 > d1)?(d2):(d1);
 }
 
 } // namespace InfoNest
