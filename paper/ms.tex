@@ -267,10 +267,15 @@ A           &\sim \textnormal{Exponential}(1)  \\
 \phi        &\sim \textnormal{Uniform}(0, 2\pi)
 \end{align}
 
-$A$ and $\phi$ are nuisance parameters.
+$A$ and $\phi$ are nuisance parameters. Let $\x = \log_{10} T$.
+These results were computed using a tolerance of 0.001 for every quantity.
+Results:
+\begin{align} % (num_particles, mcmc_steps) = (10,  1000)
+H_{\x} &=  7.293 \pm 0.049 \\
+H_{\d} &= 706.14 \pm 1.55  \\     
+\end{align}
 
-The (differential) entropy of the prior for the log-period is
-$H_{\log_{10} T} = \log(3) \approx 1.0986$ nats.
+
 
 \section{Example 3: TBD}
 
