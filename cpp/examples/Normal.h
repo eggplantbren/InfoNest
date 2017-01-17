@@ -27,6 +27,9 @@ class Normal
         double logl;
         void calculate_logl();
 
+        // Helper for perturb
+        double perturb_mu(RNG& rng);
+
     public:
         // Do-nothing constructor
         Normal();

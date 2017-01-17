@@ -28,6 +28,17 @@ void Normal::calculate_logl()
         logl += C - 0.5*pow(x - mu, 2);
 }
 
+double Normal::perturb_mu(RNG& rng)
+{
+    double logH = 0.0;
+
+    logH -= -0.5*pow(mu/10.0, 2);
+    mu += 10.0 * rng.randh();
+    logH += -0.5*pow(mu/10.0, 2);
+
+    return logH;
+}
+
 double Normal::perturb(RNG& rng)
 {
     double logH = 0.0;
@@ -39,25 +50,35 @@ double Normal::perturb(RNG& rng)
         // Perturb parameters, changing data along with it
         double old_mu = mu;
 
-        logH -= -0.5*pow(mu/10.0, 2);
-        mu += 10.0 * rng.randh();
-        logH += -0.5*pow(mu/10.0, 2);
+        logH += perturb_mu(rng);
 
         double delta_mu = mu - old_mu;
         for(double& x: xs)
             x += delta_mu;
 
+        calculate_logl();
     }
     else if(proposal_type == 1)
     {
         // Perturb parameters, keeping data constant
         // (aka Metropolis step of the posterior!)
+        logH -= logl;
+
+        logH += perturb_mu(rng);
+        
+        calculate_logl();
+        logH += logl;
     }
     else if(proposal_type == 2)
     {
         // Change one data point
         int which = rng.rand_int(xs.size());
-//        logH -= -0.5*pow(
+
+        logH -= -0.5*pow(xs[which] - mu, 2);
+        xs[which] += rng.randh();
+        logH += -0.5*pow(xs[which] - mu, 2);
+
+        calculate_logl();
     }
     else
     {
@@ -69,9 +90,9 @@ double Normal::perturb(RNG& rng)
             which = rng.rand_int(xs.size());
             xs[which] = mu + rng.randn();
         }
-    }
 
-    calculate_logl();
+        calculate_logl();
+    }
 
     return logH;
 }
@@ -83,7 +104,7 @@ void Normal::print(std::ostream& out)
 
 double Normal::distance(const Normal& normal1, const Normal& normal2)
 {
-    return 0.0;
+    return std::abs(normal1.mu - normal2.mu);
 }
 
 } // namespace InfoNest
