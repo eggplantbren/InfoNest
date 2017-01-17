@@ -104,9 +104,28 @@ void Normal::print(std::ostream& out)
         out<<x<<' ';
 }
 
-double Normal::distance(const Normal& normal1, const Normal& normal2)
+double Normal::parameter_distance(const Normal& normal1,
+                                  const Normal& normal2)
 {
     return std::abs(normal1.mu - normal2.mu);
+}
+
+double Normal::data_distance(const Normal& normal1,
+                             const Normal& normal2)
+{
+    double rms = 0.0;
+
+    size_t n = normal1.xs.size();
+    for(size_t i=0; i<n; ++i)
+        rms += pow(normal1.xs[i] - normal2.xs[i], 2);
+    rms = sqrt(rms / n);
+
+    return rms;
+}
+
+double Normal::distance(const Normal& normal1, const Normal& normal2)
+{
+    return parameter_distance(normal1, normal2);    
 }
 
 } // namespace InfoNest
