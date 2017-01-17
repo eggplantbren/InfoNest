@@ -16,6 +16,8 @@ main: lib
 	$(CC) -o main main.o -linfonest
 
 tests: lib
+	$(CC) $(CFLAGS) -c tests/normal.cpp
 	$(CC) $(CFLAGS) -c tests/sinusoid.cpp
+	$(CC) -o tests/normal normal.o -linfonest
 	$(CC) -o tests/sinusoid sinusoid.o -linfonest
 
