@@ -17,9 +17,15 @@ namespace InfoNest
 class Normal
 {
     private:
-        // The two actual quantities
+        // An unknown parameter
         double mu;
+
+        // Data
         std::vector<double> xs;
+
+        // Log-likelihood (useful for one of the proposals)
+        double logl;
+        void calculate_logl();
 
     public:
         // Do-nothing constructor
