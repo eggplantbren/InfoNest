@@ -100,6 +100,8 @@ double Normal::perturb(RNG& rng)
 void Normal::print(std::ostream& out)
 {
     out<<mu<<' ';
+    for(double x: xs)
+        out<<x<<' ';
 }
 
 double Normal::distance(const Normal& normal1, const Normal& normal2)
