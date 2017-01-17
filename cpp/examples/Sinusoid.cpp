@@ -79,9 +79,9 @@ double Sinusoid::perturb(RNG& rng)
 {
     double logH = 0.0;
 
-    int choice = rng.rand_int(4);
+    int proposal_type = rng.rand_int(4);
 
-    if(choice == 0)
+    if(proposal_type == 0)
     {
         // Perturb parameters, changing data along with it
         std::vector<double> mu_old = mu;
@@ -98,7 +98,7 @@ double Sinusoid::perturb(RNG& rng)
 
         calculate_logl();
     }
-    else if(choice == 1)
+    else if(proposal_type == 1)
     {
         // Perturb parameters, keeping data constant
         // (aka Metropolis step of the posterior!)
@@ -109,7 +109,7 @@ double Sinusoid::perturb(RNG& rng)
 
         logH += logl;        
     }
-    else if(choice == 2)
+    else if(proposal_type == 2)
     {
         // Just change one datum
         int which = rng.rand_int(N);
