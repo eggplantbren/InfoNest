@@ -227,10 +227,12 @@ $H_{\x | \d}$ will produce the same result. {\todo Mention reference priors?}
 
 
 \section{Nested Sampling}
+
 Nested Sampling \citep[NS][]{skilling2006nested}
 
 
 \subsection{The sequence of $X$ values}
+
 When $N=1$, the sequence of $X$ values is a Poisson process.
 
 \citet{Walter2015} showed how this view of the NS sequence of points
@@ -243,7 +245,32 @@ quantities.
 \section{The algorithm}
 
 
-\section{Example 1: A trivial bivariate gaussian}
+\subsection{Discrete vs. differential entropies}
+
+Continuous hypothesis spaces are commonly used in practice. Suppose
+$\x$ has probability density $f(\x)$. The algorithm actually estimates
+\begin{align}
+Q &= \int f(\x) \int f(\x')
+            \log \left[ P(d(\x', \x) < \epsilon | \x) \right]
+                        \, d\x' \, d\x.
+\end{align}
+If we actually want the differential
+entropy
+\begin{align}
+h_{\x} &= -\int f(x) \log f(x) \, dx
+\end{align}
+we can use the fact that density equals mass divided
+by volume. Assume $\epsilon$ is small, so that
+\begin{align}
+P(d(\x', \x) < \epsilon | \x)
+    &\approx
+    f(\x) \int_{d(\x', \x) < \epsilon} \, d\x'\\
+    &= f(\x) \, V
+\end{align}
+where $V$ is the volume of the region where $d(\x', \x) < \epsilon$.
+
+
+\section{Example 1: Measuring the mean of a gaussian}
 
 
 \section{Example 2: Measuring the period of an oscillating signal}
@@ -255,7 +282,6 @@ the question we really want answered ``what is the value of $T$
 Most practicing scientists would not feel particularly informed to learn
 that the vast majority of possibilities had been ruled out, if the
 posterior still consisted of several widely separated modes!
-
 Perhaps, in some applications, a more appropriate question is
 ``what is the value of $T$ to within $\pm$ 10\%''
 {\todo or something like that.}
@@ -268,7 +294,6 @@ A           &\sim \textnormal{Exponential}(1)  \\
 \log_{10} T &\sim \textnormal{Uniform}(-3, 0)  \\
 \phi        &\sim \textnormal{Uniform}(0, 2\pi)
 \end{align}
-
 $A$ and $\phi$ are nuisance parameters. Let $\x = \log_{10} T$.
 These results were computed using a tolerance of 0.001 for every quantity.
 Results:
@@ -294,7 +319,8 @@ H'_{\d}     &= 697.75 \pm 0.31  \\  % max depth was 1000
 H'_{\x, \d} &= 699.84 \pm 0.31      % max depth was 1000
 \end{align}
 and therefore a mutual information of {\query a negative value! Oh dear!
-Something is wrong.}
+Something is wrong. Update: well I found a bug after this, so it might
+change. :)}
 
 
 
