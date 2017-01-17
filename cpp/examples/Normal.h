@@ -46,6 +46,8 @@ class Normal
                                          const Normal& normal2);
         static double data_distance(const Normal& normal1,
                                     const Normal& normal2);
+        static double joint_distance(const Normal& normal1,
+                                     const Normal& normal2);
 
     public:
         // Do-nothing constructor
