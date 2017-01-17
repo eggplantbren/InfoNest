@@ -10,7 +10,7 @@ int main()
     // Run parameters
     size_t num_particles = 1;
     size_t mcmc_steps = 1000;
-    double depth = 25.0;
+    double depth = 30.0;
 
     // Create random number generator, seeded with time
     InfoNest::RNG rng(time(0));
