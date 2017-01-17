@@ -8,7 +8,7 @@
 
 %=================================================================
 
-\documentclass[journal,article,accept,moreauthors,pdftex,12pt,a4paper]{mdpi}
+\documentclass[entropy,article,submit,oneauthor,pdftex,10pt,a4paper]{mdpi}
 %--------------------
 % Class Options:
 %--------------------
@@ -58,9 +58,11 @@
 \DeclareUnicodeCharacter{00A0}{ }
 
 \definecolor{orange}{rgb}{1, 0.5, 0}
+\definecolor{green}{rgb}{0, 0.5, 0}
 
 \renewcommand{\d}{\boldsymbol{d}}
 \newcommand{\todo}{\color{orange} \bf}
+\newcommand{\query}{\color{green} \bf}
 \newcommand{\x}{\boldsymbol{x}}
 
 %------------------------------------------------------------------
@@ -270,11 +272,20 @@ A           &\sim \textnormal{Exponential}(1)  \\
 $A$ and $\phi$ are nuisance parameters. Let $\x = \log_{10} T$.
 These results were computed using a tolerance of 0.001 for every quantity.
 Results:
+
+% These were produced with a random number seed of 0
+% on commit 25301bb
+% With 10 particles, 1000 mcmc steps per NS iteration, and 1000 reps.
+
 \begin{align}
-H_{\x} &=  7.305 \pm 0.028 \\ % (num_particles, mcmc_steps, reps) = (10,  1000, 102)
-H_{\d} &= 706.14 \pm 1.55  \\     
+H_{\x}     &= 7.345 \pm 0.027 \\  % (max depth was 30)
+H_{\d}     &= 
+H_{\x, \d} &=    
 \end{align}
 
+{\query The multimodality of the posterior in this problem (sometimes) might
+affect mixing sufficiently that the NS gets the incorrect answer. Be
+careful! And maybe use an example where this is unlikely.}
 
 
 \section{Example 3: TBD}
