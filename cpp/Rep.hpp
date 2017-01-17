@@ -20,6 +20,9 @@ template<class Particle>
 class Rep
 {
     private:
+        // Identity
+        const size_t id;
+
         // Nested Sampling parameters
         const size_t num_particles;
         const size_t mcmc_steps;
@@ -59,7 +62,11 @@ class Rep
     public:        
         // Constructor. You need to pass in the NS parameters
         // and an RNG.
-        Rep(size_t num_particles, size_t mcmc_steps, double depth, RNG& rng);
+        Rep(size_t id,
+            size_t num_particles,
+            size_t mcmc_steps,
+            double depth,
+            RNG& rng);
 
         // Destructor. Closes output file.
         ~Rep();
@@ -77,9 +84,11 @@ class Rep
 /******************************/
 
 template<class Particle>
-Rep<Particle>::Rep(size_t num_particles, size_t mcmc_steps, double depth,
+Rep<Particle>::Rep(size_t id,
+                   size_t num_particles, size_t mcmc_steps, double depth,
                    RNG& rng)
-:num_particles(num_particles)
+:id(id)
+,num_particles(num_particles)
 ,mcmc_steps(mcmc_steps)
 ,depth(depth)
 ,rng(rng)
@@ -208,9 +217,10 @@ void Rep<Particle>::replace(int which)
         }
     }
 
-//    std::cout<<"Iteration "<<iteration<<". ";
-//    std::cout<<"Acceptance fraction = "<<accepts<<" / "<<mcmc_steps<<".";
-//    std::cout<<std::endl;
+    std::cout<<"Rep "<<id<<", ";
+    std::cout<<"iteration "<<iteration<<". ";
+    std::cout<<"Acceptance fraction = "<<accepts<<" / "<<mcmc_steps<<".";
+    std::cout<<std::endl;
 }
 
 

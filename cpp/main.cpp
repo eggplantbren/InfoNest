@@ -30,10 +30,11 @@ int main()
     for(int i=0; i<num_reps; ++i)
     {
         // Create a Rep.
-        InfoNest::Rep<InfoNest::Normal> rep(num_particles,
-                                            mcmc_steps,
-                                            depth,
-                                            rng);
+        InfoNest::Rep<InfoNest::Normal> rep(i+1,
+                                              num_particles,
+                                              mcmc_steps,
+                                              depth,
+                                              rng);
 
         // Initialise and execute it.
         rep.initialise();
