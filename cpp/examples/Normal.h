@@ -22,8 +22,8 @@ namespace InfoNest
 * I[x, y]   =   4.60522
 *
 * Numerical results (based on prob of meeting tolerance, not density!)
-* H'(mu)    = 9.976 +- 0.032
-*
+* H'(mu)    = 9.976  +- 0.032
+* H'(x)     = 928.58 +- 0.47
 *
 * log(volume of n-ball) = n/2 * log(pi) - gammaln(n/2 + 1) + n*log(tol)
 *   For mu, it's -6.21461. For x, it's -782.017.
