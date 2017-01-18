@@ -113,14 +113,12 @@ double Normal::parameter_distance(const Normal& normal1,
 double Normal::data_distance(const Normal& normal1,
                              const Normal& normal2)
 {
-    double rms = 0.0;
+    double dsq = 0.0;
 
-    size_t n = normal1.xs.size();
-    for(size_t i=0; i<n; ++i)
-        rms += pow(normal1.xs[i] - normal2.xs[i], 2);
-    rms = sqrt(rms / n);
+    for(size_t i=0; i<normal1.xs.size(); ++i)
+        dsq += pow(normal1.xs[i] - normal2.xs[i], 2);
 
-    return rms;
+    return sqrt(dsq);
 }
 
 double Normal::joint_distance(const Normal& normal1, const Normal& normal2)
