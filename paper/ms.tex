@@ -284,6 +284,20 @@ the entropy actually computed from the algorithm.
 
 \section{Example 1: Measuring the mean of a gaussian}
 
+Consider the basic problem of inferring a quantity $\mu$ from
+100 observations $\x = \{x_1, ..., x_{100}\}$ whose probability distribution
+(conditional on $\mu$) is
+\begin{align}
+p(x_i | \mu) &\sim \textnormal{Normal}(\mu, 1).
+\end{align}
+If the prior for $\mu$ is Normal$(0, 10^2)$, then the posterior is
+\begin{align}
+\mu | \x &\sim \textnormal{Normal}\left(
+                                       \frac{1}{100}\sum_{i=1}^{100} x_i,
+                                       \left[\frac{10}{\sqrt{10001}}\right]^2
+                                       \right).
+\end{align}
+
 
 \section{Example 2: Measuring the period of an oscillating signal}
 
