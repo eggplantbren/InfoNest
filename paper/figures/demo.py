@@ -39,12 +39,13 @@ if __name__ == "__main__":
     samples = generate(100)
 
     # Plot the pdf and the samples
-    plt.imshow(density(x, y), cmap="viridis", interpolation="nearest",
+    plt.imshow(density(x, y), cmap="Blues", interpolation="nearest",
                extent=[x.min(), x.max(), y.min(), y.max()])
     plt.xlabel("$x$", fontsize=20)
     plt.ylabel("$y$", fontsize=20)
     plt.hold(True)
-    plt.plot(samples["x"], samples["y"], "w.", alpha=0.6, markersize=10)
+    plt.contour(x, y, density(x, y), 50, colors=["k"], alpha=0.1)
+    plt.plot(samples["x"], samples["y"], "r.", alpha=0.3, markersize=10)
     plt.axis([x.min(), x.max(), y.min(), y.max()])
     plt.savefig("figure.png")
     plt.show()
