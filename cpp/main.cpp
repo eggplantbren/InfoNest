@@ -21,7 +21,7 @@ int main()
     InfoNest::RNG rng(time(0));
 
     // Do the runs.
-    execute<InfoNest::Normal>(rng, 30.0);
+    execute<InfoNest::Normal>(rng, 30.0, 1000, 1, 1000);
 
     return 0;
 }
