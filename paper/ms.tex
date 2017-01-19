@@ -269,6 +269,18 @@ P(d(\x', \x) < \epsilon | \x)
 \end{align}
 where $V$ is the volume of the region where $d(\x', \x) < \epsilon$.
 
+If the distance function $d(\x', \x)$ is chosen to be Cartesian,
+the constraint $d(\x', \x) < \epsilon$ corresponds to a ball in the space
+of possible $\x'$ values.
+The log-volume of a ball of radius $\epsilon$ in $n$ dimensions is
+\begin{align}
+\log V(\epsilon; n) &= \frac{n}{2}\log \pi
+                        - \log \Gamma\left(\frac{n}{2} + 1\right)
+                        + n \log \epsilon,
+\end{align}
+and provides the conversion factor between the differential entropy and
+the entropy actually computed from the algorithm.
+
 
 \section{Example 1: Measuring the mean of a gaussian}
 
