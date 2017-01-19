@@ -168,7 +168,7 @@ double Sinusoid::distance3(const Sinusoid& s1, const Sinusoid& s2)
 
 double Sinusoid::distance(const Sinusoid& s1, const Sinusoid& s2)
 {
-    return distance3(s1, s2);
+    return distance1(s1, s2);
 }
 
 } // namespace InfoNest
