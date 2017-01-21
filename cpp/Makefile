@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -O3 -std=c++14 -Wall -Wextra -pedantic
+CFLAGS = -O3 -I. -std=c++14 -Wall -Wextra -pedantic
 
 default: lib main tests
 	rm -f *.o
@@ -13,11 +13,11 @@ lib:
 
 main: lib
 	$(CC) $(CFLAGS) -c main.cpp
-	$(CC) -o main main.o -linfonest
+	$(CC) -L. -o main main.o -linfonest
 
 tests: lib
 	$(CC) $(CFLAGS) -c tests/normal.cpp
 	$(CC) $(CFLAGS) -c tests/sinusoid.cpp
-	$(CC) -o tests/normal normal.o -linfonest
-	$(CC) -o tests/sinusoid sinusoid.o -linfonest
+	$(CC) -L. -o tests/normal normal.o -linfonest
+	$(CC) -L. -o tests/sinusoid sinusoid.o -linfonest
 
