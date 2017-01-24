@@ -8,13 +8,18 @@
 namespace InfoNest
 {
 
+// A convenient name for a distance function
+template <class Particle>
+using DistFunc = std::function<double(const Particle&, const Particle&)>;
+
 // A function that does a run
 template<class Particle>
 void execute(InfoNest::RNG& rng,
              double depth,
-             size_t num_reps=1000,
-             size_t num_particles=1,
-             size_t mcmc_steps=1000);
+             size_t num_reps,
+             size_t num_particles,
+             size_t mcmc_steps,
+             const DistFunc<Particle>& dist_func);
 
 
 
@@ -27,7 +32,8 @@ void execute(InfoNest::RNG& rng,
              double depth,
              size_t num_reps,
              size_t num_particles,
-             size_t mcmc_steps)
+             size_t mcmc_steps,
+             const DistFunc<Particle>& dist_func)
 {
     // Clear output file
     std::fstream fout("output.txt", std::ios::out);
@@ -46,7 +52,8 @@ void execute(InfoNest::RNG& rng,
                                         num_particles,
                                         mcmc_steps,
                                         depth,
-                                        rng);
+                                        rng,
+                                        dist_func);
 
         // Initialise and execute it.
         rep.initialise();

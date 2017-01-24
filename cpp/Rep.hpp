@@ -4,12 +4,21 @@
 // Includes
 #include <exception>
 #include <fstream>
+#include <functional>
+#include <iostream>
 #include <stdlib.h>
 #include <vector>
 #include "RNG.h"
 
 namespace InfoNest
 {
+
+
+// A convenient name for a distance function
+// This is like a "template typedef"
+template <class Particle>
+using DistFunc = std::function<double(const Particle&, const Particle&)>;
+
 
 /*
 * An object of this class represents a single `rep`
@@ -20,6 +29,9 @@ template<class Particle>
 class Rep
 {
     private:
+        // Distance function to use
+        DistFunc<Particle> dist;
+
         // Identity
         const size_t id;
 
@@ -66,7 +78,8 @@ class Rep
             size_t num_particles,
             size_t mcmc_steps,
             double depth,
-            RNG& rng);
+            RNG& rng,
+            const DistFunc<Particle>& dist);
 
         // Destructor. Closes output file.
         ~Rep();
@@ -86,8 +99,10 @@ class Rep
 template<class Particle>
 Rep<Particle>::Rep(size_t id,
                    size_t num_particles, size_t mcmc_steps, double depth,
-                   RNG& rng)
-:id(id)
+                   RNG& rng,
+                   const DistFunc<Particle>& dist)
+:dist(dist)
+,id(id)
 ,num_particles(num_particles)
 ,mcmc_steps(mcmc_steps)
 ,depth(depth)
@@ -98,7 +113,7 @@ Rep<Particle>::Rep(size_t id,
 {
     // Check that the input was at least partially sane
     if(num_particles < 1 || mcmc_steps < 1 || depth < 1.0)
-        throw std::domain_error("Bad input to Rep constructor.");
+        throw std::invalid_argument("Bad input to Rep constructor.");
 
     // Open the output file in append mode.
     fout.open("output.txt", std::ios::out | std::ios::app);
@@ -136,7 +151,7 @@ void Rep<Particle>::compute_distances()
 {
     // Evaluate the distance of each particle from the reference particle.
     for(size_t i=0; i<num_particles; ++i)
-        distances[i] = Particle::distance(reference_particle, particles[i]);
+        distances[i] = dist(reference_particle, particles[i]);
 }
 
 template<class Particle>
@@ -202,7 +217,7 @@ void Rep<Particle>::replace(int which)
         // Do proposal
         proposal = particles[which];
         logA = proposal.perturb(rng);
-        proposal_distance = Particle::distance(reference_particle, proposal);
+        proposal_distance = dist(reference_particle, proposal);
 
         // Acceptance probability
         alpha = (logA >= 0.0) ? (1.0) : (exp(logA));
