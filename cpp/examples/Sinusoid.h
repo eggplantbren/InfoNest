@@ -67,9 +67,10 @@ class Sinusoid
         static double distance(const Sinusoid& s1, const Sinusoid& s2);
 
         // A few options to use for `distance`
-        static double distance1(const Sinusoid& s1, const Sinusoid& s2);
-        static double distance2(const Sinusoid& s1, const Sinusoid& s2);
-        static double distance3(const Sinusoid& s1, const Sinusoid& s2);
+        static double parameter_distance
+                            (const Sinusoid& s1, const Sinusoid& s2);
+        static double data_distance(const Sinusoid& s1, const Sinusoid& s2);
+        static double joint_distance(const Sinusoid& s1, const Sinusoid& s2);
 };
 
 } // namespace InfoNest
