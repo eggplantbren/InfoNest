@@ -9,7 +9,7 @@ namespace InfoNest
 {
 
 // A function that does a run
-template<class ParticleType>
+template<class Particle>
 void execute(InfoNest::RNG& rng,
              double depth,
              size_t num_reps=1000,
@@ -22,7 +22,7 @@ void execute(InfoNest::RNG& rng,
 /* Implementations below */
 
 // Implementation of execute
-template<class ParticleType>
+template<class Particle>
 void execute(InfoNest::RNG& rng,
              double depth,
              size_t num_reps,
@@ -42,7 +42,7 @@ void execute(InfoNest::RNG& rng,
     for(size_t i=0; i<num_reps; ++i)
     {
         // Create a Rep.
-        InfoNest::Rep<ParticleType> rep(i+1,
+        InfoNest::Rep<Particle> rep(i+1,
                                         num_particles,
                                         mcmc_steps,
                                         depth,
