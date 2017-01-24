@@ -18,7 +18,7 @@ int main()
     // Define run parameters
     constexpr double depth         = 30.0;
     constexpr size_t num_reps      = 1000;
-    constexpr size_t num_particles = 1;
+    constexpr size_t num_particles = 100;
     constexpr size_t mcmc_steps    = 1000;
 
     // Do the run.
