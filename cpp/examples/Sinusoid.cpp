@@ -165,11 +165,5 @@ double Sinusoid::joint_distance(const Sinusoid& s1, const Sinusoid& s2)
     return (d2 > d1) ? (d2) : (d1);
 }
 
-
-double Sinusoid::distance(const Sinusoid& s1, const Sinusoid& s2)
-{
-    return parameter_distance(s1, s2);
-}
-
 } // namespace InfoNest
 

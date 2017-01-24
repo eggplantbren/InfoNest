@@ -63,9 +63,6 @@ class Sinusoid
         void print(std::ostream& out);
 
     public:
-        // Distance function (the one that actually gets used)
-        static double distance(const Sinusoid& s1, const Sinusoid& s2);
-
         // A few options to use for `distance`
         static double parameter_distance
                             (const Sinusoid& s1, const Sinusoid& s2);

@@ -46,14 +46,6 @@ class Normal
         // Helper for perturb
         double perturb_mu(RNG& rng);
 
-        // Helpers for distance function
-        static double parameter_distance(const Normal& normal1,
-                                         const Normal& normal2);
-        static double data_distance(const Normal& normal1,
-                                    const Normal& normal2);
-        static double joint_distance(const Normal& normal1,
-                                     const Normal& normal2);
-
     public:
         // Do-nothing constructor
         Normal();
@@ -67,9 +59,14 @@ class Normal
         // Printing to stream
         void print(std::ostream& out);
 
-        // Distance function
-        static double distance(const Normal& normal1,
-                               const Normal& normal2);
+        // Available distance functions
+        static double parameter_distance(const Normal& normal1,
+                                         const Normal& normal2);
+        static double data_distance(const Normal& normal1,
+                                    const Normal& normal2);
+        static double joint_distance(const Normal& normal1,
+                                     const Normal& normal2);
+
 };
 
 } // namespace InfoNest

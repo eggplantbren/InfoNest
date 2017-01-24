@@ -128,10 +128,5 @@ double Normal::joint_distance(const Normal& normal1, const Normal& normal2)
     return (d1 > d2) ? (d1) : (d2);
 }
 
-double Normal::distance(const Normal& normal1, const Normal& normal2)
-{
-    return parameter_distance(normal1, normal2);    
-}
-
 } // namespace InfoNest
 

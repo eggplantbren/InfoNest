@@ -8,8 +8,9 @@
 // MAIN
 int main()
 {
-    // What example are we using?
+    // What example are we using? The class and the distance function.
     typedef InfoNest::Normal TheExample;
+    const auto& dist_func = TheExample::parameter_distance;
 
     // Create random number generator, seeded with time
     InfoNest::RNG rng(time(0));
@@ -22,7 +23,7 @@ int main()
 
     // Do the run.
     InfoNest::execute<TheExample>(rng, depth, num_reps, num_particles,
-                                  mcmc_steps);
+                                  mcmc_steps, dist_func);
 
     return 0;
 }
