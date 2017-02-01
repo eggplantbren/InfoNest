@@ -148,13 +148,12 @@ double Sinusoid::parameter_distance(const Sinusoid& s1, const Sinusoid& s2)
 double Sinusoid::data_distance(const Sinusoid& s1, const Sinusoid& s2)
 {
     // For H_{data}
-    double rms = 0.0;
+    double dsq = 0.0;
 
     for(size_t i=0; i<N; ++i)
-        rms += pow(s2.y[i] - s1.y[i], 2);
-    rms = sqrt(rms / N);
+        dsq += pow(s2.y[i] - s1.y[i], 2);
 
-    return rms;
+    return sqrt(dsq);
 }
 
 double Sinusoid::joint_distance(const Sinusoid& s1, const Sinusoid& s2)
