@@ -21,8 +21,8 @@ void Sinusoid::generate(RNG& rng)
 
     calculate_mu();
 
-    for(double& yy: y)
-        yy += sigma * rng.randn();
+    for(size_t i=0; i<N; ++i)
+        y[i] = mu[i] + sigma*rng.randn();
 
     calculate_logl();
 }
