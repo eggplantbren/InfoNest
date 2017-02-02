@@ -63,7 +63,7 @@
 \renewcommand{\d}{\boldsymbol{d}}
 \newcommand{\todo}{\color{orange} \bf}
 \newcommand{\query}{\color{green} \bf}
-\newcommand{\x}{\boldsymbol{x}}
+\newcommand{\x}{\boldsymbol{\theta}}
 
 %------------------------------------------------------------------
 % The following line should be uncommented if the LaTeX file is uploaded to arXiv.org
@@ -183,14 +183,12 @@ H_{\x | \d} &= - \sum_{\d} p(\d) \sum_{\x} p(\x | \d) \log p(\x | \d)
 \end{align}
 which is the expected value of the entropy of the posterior, averaged over
 all possible datasets which might be observed.
-
 This is difficult to compute because the expression
 for the posterior distribution
 \begin{align}
 p(\x | \d) &= \frac{p(\x)p(\d | \x)}{p(\d)}
 \end{align}
 contains the marginal likelihood $p(\d)$.
-
 
 It is important to distinguish between $H_{\x | \d}$ and the
 entropy of $\x$ given a particular value of $\d$, which might be written
@@ -204,13 +202,13 @@ of a question and a statement.
 
 \subsection{Mutual information}
 The mutual information is another way of describing the relevance of the
-data to the parameters.
-
-Its definition is
+data to the parameters. Its definition, and relation to other quantities, is
 \begin{align}
 I_{\x, \d} &= \sum_{\x} \sum_{\d} p(\x, \d)
                        \log\left[\frac{p(\x, \d)}{p(\x)p(\d)}\right]\\
-           &= H_{\x} + H_{\d} - H_{\x, \d}.
+           &= H_{\x} + H_{\d} - H_{\x, \d}\\
+           &= H_{\d} - H_{\d | \x}\\
+           &= H_{\x} - H_{\x | \d}.
 \end{align}
 For present purposes, it is more conveniently written as
 \begin{align}
