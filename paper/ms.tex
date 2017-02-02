@@ -337,24 +337,26 @@ These results were computed using a tolerance of 0.001 for every quantity.
 Results:
 
 % These were produced with a random number seed of 0
-% on commit 25301bb
-% With 10 particles, 1000 mcmc steps per NS iteration, and 1000 reps.
+% on commit 947317948d04255ea0baff7a7d3e357b0c2f7fcb
+% With 10 particles, 1000 mcmc steps per NS iteration.
 
-\begin{align}
-H_{\x}     &= 7.345  \pm 0.027 \\  % max depth was 30
-H_{\d}     &= 703.96 \pm 0.31  \\  % max depth was 1000
-H_{\x, \d} &= 712.27 \pm 0.31      % max depth was 1000
+\begin{align}                    % (num_particles, mcmc_steps, max_depth, reps)
+H_{\x}    &= 7.328 \pm 0.025 \\% (100, 1000, 30.0,  122)
+H_{\d}    &= 960.4 \pm 3.7   \\% (100, 1000, 1200.0, 99)
+H_{\x,\d} &= 968.6 \pm 3.4   \\% (100, 1000, 1200.0, 99)
 \end{align}
 
 {\query The multimodality of the posterior in this problem (sometimes) might
 affect mixing sufficiently that the NS gets the incorrect answer. Be
 careful! And maybe use an example where this is unlikely.}
 
-Converting these to differential entropies, we obtain
+To convert these to differential entropies, we need to add the appropriate
+log-volume to each. These are $-6.215$, $-782.02$, and
+$-788.23$ respectively.
 \begin{align}
-H'_{\x}     &= 1.131  \pm 0.027 \\  % max depth was 30
-H'_{\d}     &= 697.75 \pm 0.31  \\  % max depth was 1000
-H'_{\x, \d} &= 699.84 \pm 0.31      % max depth was 1000
+H'_{\x}     &= 1.113 \pm 0.025 \\
+H'_{\d}     &= 178.4 \pm 3.7   \\
+H'_{\x, \d} &= 180.4 \pm 3.4
 \end{align}
 and therefore a mutual information of {\query a negative value! Oh dear!
 Something is wrong. Update: well I found a bug after this, so it might
