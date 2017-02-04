@@ -51,16 +51,19 @@ def postprocess(tol=1E-3):
     if len(rep_lengths) > 1 and rep_lengths[-1] != rep_lengths[0]:
         counts = counts[0:-1]
         rep_lengths = rep_lengths[0:-1]
-        print("Skipping last rep as it is incomplete.")
+        print("# Skipping last rep as it is incomplete.")
 
-    print("Found {a} complete reps.".format(a=len(counts)))
-    print("mean(depth) = {mc}.".format(mc=counts.mean() / num_particles))
-    print("std (depth) = {sd}.".format(sd=counts.std()  / num_particles))
-    print("sem (depth) = {sem}.".format(\
+    for c in counts:
+        print(c / num_particles)
+
+    print("# Found {a} complete reps.".format(a=len(counts)))
+    print("# mean(depth) = {mc}.".format(mc=counts.mean() / num_particles))
+    print("# std (depth) = {sd}.".format(sd=counts.std()  / num_particles))
+    print("# sem (depth) = {sem}.".format(\
             sem=counts.std() / num_particles/np.sqrt(len(counts))))
 
     if np.any(counts == rep_lengths):
-        print("WARNING: A run didn't achieve the desired tolerance.")
+        print("# WARNING: A run didn't achieve the desired tolerance.")
 
 
 if __name__ == "__main__":

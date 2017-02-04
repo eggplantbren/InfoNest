@@ -85,7 +85,7 @@ class Rep
         ~Rep();
 
         // Initialise all the particles
-        void initialise();
+        void initialise(RNG& temp_rng);
 
         // Execute the Rep.
         void execute();
@@ -129,10 +129,10 @@ Rep<Particle>::~Rep()
 
 
 template<class Particle>
-void Rep<Particle>::initialise()
+void Rep<Particle>::initialise(RNG& temp_rng)
 {
     // Generate the reference particle from the distribution
-    reference_particle.generate(rng);
+    reference_particle.generate(temp_rng);
 
     // Generate the other particles
     for(auto& p: particles)

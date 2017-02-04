@@ -14,7 +14,8 @@ using DistFunc = std::function<double(const Particle&, const Particle&)>;
 
 // A function that does a run
 template<class Particle>
-void execute(InfoNest::RNG& rng,
+void execute(RNG& rng1,
+             RNG& rng2,
              double depth,
              size_t num_reps,
              size_t num_particles,
@@ -28,7 +29,8 @@ void execute(InfoNest::RNG& rng,
 
 // Implementation of execute
 template<class Particle>
-void execute(InfoNest::RNG& rng,
+void execute(RNG& rng1,
+             RNG& rng2,
              double depth,
              size_t num_reps,
              size_t num_particles,
@@ -52,11 +54,11 @@ void execute(InfoNest::RNG& rng,
                                         num_particles,
                                         mcmc_steps,
                                         depth,
-                                        rng,
+                                        rng1,
                                         dist_func);
 
         // Initialise and execute it.
-        rep.initialise();
+        rep.initialise(rng2);
         rep.execute();
 
         // Print a message.
