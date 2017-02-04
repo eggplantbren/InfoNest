@@ -363,6 +363,13 @@ and therefore a mutual information of {\query a negative value! Oh dear!
 Something is wrong. Update: well I found a bug after this, so it might
 change. :)}
 
+The mutual information is equal to $H_{\x} + H_{\d} - H_{\x, \d}$. The
+uncertainties in each of these three quantities is quite large, and would lead
+to a large uncertainty on $I_{\x, \d}$ if computed naively. To reduce this
+uncertainty, we computed the three entropies using a common random number
+generator for the reference pairs. This is an example of the
+{\em common random numbers} technique of variance reduction.
+
 
 The computational resources needed to compute these quantities are quite large,
 though the algorithm can be parallelised trivially. However, the problem
