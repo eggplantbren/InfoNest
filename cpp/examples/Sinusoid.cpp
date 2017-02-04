@@ -16,7 +16,7 @@ Sinusoid::Sinusoid()
 void Sinusoid::generate(RNG& rng)
 {
     A = -log(1.0 - rng.rand());
-    log10_period = log10(1E-3 * t_range) + 3.0 * rng.rand();
+    log10_period = log10(0.1*t_range) + 1.0*rng.rand();
     phi = 2.0 * M_PI * rng.rand();
 
     calculate_mu();
@@ -53,8 +53,8 @@ double Sinusoid::perturb_parameters(RNG& rng)
     }
     else if(which == 1)
     {
-        log10_period += 3.0 * rng.randh();
-        wrap(log10_period, log10(1E-3 * t_range), log10(t_range));
+        log10_period += 1.0*rng.randh();
+        wrap(log10_period, log10(0.1*t_range), log10(t_range));
     }
     else
     {

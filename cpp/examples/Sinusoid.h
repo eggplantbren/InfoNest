@@ -24,7 +24,7 @@ class Sinusoid
         static constexpr double dt = t_range / (N - 1);
 
         // Noise sd
-        static constexpr double sigma = 1.0;
+        static constexpr double sigma = 0.1;
 
     private:
         // Amplitude, log-period, and phase
