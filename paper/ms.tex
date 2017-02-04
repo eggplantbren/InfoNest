@@ -339,13 +339,12 @@ These results were computed using a tolerance of 0.001 for every quantity.
 Results:
 
 % These were produced with a random number seed of 0
-% on commit 947317948d04255ea0baff7a7d3e357b0c2f7fcb
-% With 10 particles, 1000 mcmc steps per NS iteration.
+% on commit 44525f13edd0d29de43e703db17c594fc0d5045c
 
-\begin{align}                    % (num_particles, mcmc_steps, max_depth, reps)
+\begin{align}                  % (num_particles, mcmc_steps, max_depth, reps)
 H_{\x}    &= 6.223 \pm 0.021 \\% (100, 1000, 20.0,  147)
-H_{\d}    &=    \\% (100, 1000, 1200.0, 99)
-H_{\x,\d} &=    \\% (100, 1000, 1200.0, 99)
+H_{\d}    &= 805.1 \pm 9.7   \\% (100, 1000, 1000.0, 52)
+H_{\x,\d} &= 873   \pm 25    \\% (100, 1000, 1200.0, 12)
 \end{align}
 
 {\query The multimodality of the posterior in this problem (sometimes) might
@@ -355,11 +354,11 @@ careful! And maybe use an example where this is unlikely.}
 To convert these to differential entropies, we need to add the appropriate
 log-volume to each. These are $-6.215$, $-782.02$, and
 $-788.23$ respectively.
-\begin{align}
-H'_{\x}     &= 1.113 \pm 0.025 \\
-H'_{\d}     &= 178.4 \pm 3.7   \\
-H'_{\x, \d} &= 180.4 \pm 3.4
-\end{align}
+%\begin{align}
+%H'_{\x}     &= 1.113 \pm 0.025 \\
+%H'_{\d}     &= 178.4 \pm 3.7   \\
+%H'_{\x, \d} &= 180.4 \pm 3.4
+%\end{align}
 and therefore a mutual information of {\query a negative value! Oh dear!
 Something is wrong. Update: well I found a bug after this, so it might
 change. :)}
