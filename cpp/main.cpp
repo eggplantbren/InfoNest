@@ -12,8 +12,8 @@ int main()
     typedef InfoNest::Normal TheExample;
     const auto& dist_func = TheExample::parameter_distance;
 
-    // Create random number generators, seeded with time
-    unsigned long seed1 = time(0);
+    // Create random number generators
+    unsigned long seed1 = 0;
     unsigned long seed2 = seed1 + 1;
     InfoNest::RNG rng1(seed1);
     InfoNest::RNG rng2(seed2);
