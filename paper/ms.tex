@@ -64,6 +64,7 @@
 \newcommand{\todo}{\color{orange} \bf}
 \newcommand{\query}{\color{green} \bf}
 \newcommand{\x}{\boldsymbol{\theta}}
+\newcommand{\n}{\boldsymbol{\eta}}
 
 %------------------------------------------------------------------
 % The following line should be uncommented if the LaTeX file is uploaded to arXiv.org
@@ -363,6 +364,24 @@ and therefore a mutual information of {\query a negative value! Oh dear!
 Something is wrong. Update: well I found a bug after this, so it might
 change. :)}
 
+
+The computational resources needed to compute these quantities are quite large,
+though the algorithm can be parallelised trivially. However, the problem
+being solved is not trivial. The mutual information of $\x$ and
+$\d$ is
+\begin{align}
+I_{\x, \d} &= \int p(\x, \d) \log\frac{p(\x, \d)}{p(\x)p(\d)} \, d\x \, d\d.
+\end{align}
+However, $\x$ is one of several parameters. The others, $A$, and $\phi$,
+were implicitly integrated out. Denoting the nuisance parameters by
+$\n$, the mutual information that has been calculated is
+\begin{align}
+I_{\x, \d} &= \int p(\x, \d)
+  \log\frac{\int p(\x, \n, \d) \, d\n }
+           {p(\x) \int p(\x', \n)p(\d | \x', \n) \, d\x' \, d\n}
+  \, d\x \, d\d.
+\end{align}
+It should not be considered surprising that this is a challenging task.
 
 
 \section{Example 3: TBD}
