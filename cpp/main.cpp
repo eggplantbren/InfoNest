@@ -10,7 +10,7 @@ int main()
 {
     // What example are we using? The class and the distance function.
     typedef InfoNest::Normal TheExample;
-    const auto& dist_func = TheExample::parameter_distance;
+    const auto& dist_func = TheExample::data_distance;
 
     // Create random number generators
     unsigned long seed1 = 0;
@@ -19,9 +19,9 @@ int main()
     InfoNest::RNG rng2(seed2);
 
     // Define run parameters
-    constexpr double depth         = 30.0;
+    constexpr double depth         = 1200.0;
     constexpr size_t num_reps      = 1000;
-    constexpr size_t num_particles = 100;
+    constexpr size_t num_particles = 1;
     constexpr size_t mcmc_steps    = 1000;
 
     // Do the run.
