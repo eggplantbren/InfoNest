@@ -434,25 +434,27 @@ The central issue about the value of a parameter $\x$ asks
 ``what is the value of $\x$, precisely?''. However, in practice we often
 don't need or want to know $\x$ to arbitrary precision. Using the central
 issue can also lead to counterintuitive results if you don't keep its
-definition in mind. For example, suppose $\x$ could take any integer value
-from 1 to 1 billion. If we learned the last digit of $\x$, we
+definition in mind. For example, suppose $x$ could take any integer value
+from 1 to 1 billion. If we learned the last digit of $x$, we
 will have ruled out nine tenths of the possibilities, and therefore obtained
 a lot of information about the central issue. However,
 this information might be useless {\em for practical purposes}.
 If we learned the final
-digit was a 9, $\x$ could still be 9, or 19, or 29, any number ending in 9
+digit was a 9, $x$ could still be 9, or 19, or 29, any number ending in 9
 up to 999,999,999.
 
 In practice, we may
 want to ask a question that is different from the central issue.
-For example, suppose we want to know the value of $\x$ to within a tolerance
-of $\pm 5$. Any of the following statements would resolve the issue:
+For example, suppose we want to know the value of $x$ to within a tolerance
+of $\pm 1$. Any of the following statements would resolve the issue:
 \begin{itemize}
-\item $\x \in \{1, ..., 11\}$ and anything that implies it
-\item $\x \in \{2, ..., 12\}$ and anything that implies it
-\item $\x \in \{3, ..., 13\}$ and anything that implies it\\
-...
-\item $\x \in \{999,999,990, ..., 1,000,000,000\}$ and anything that implies it.
+\item $x \in \{1, 2, 3\}$, $x \notin \{1, 2, 3\}$,
+                or anything that implies one of these
+\item $x \in \{2, 3, 4\}$, $x \notin \{2, 3, 4\}$,
+                or anything that implies one of these ...
+\item ... $x \in \{999999998, 999999999, 1000000000\}$,
+            $x \notin \{999999998, 999999999, 1000000000\}$,
+                or anything that implies one of these
 \end{itemize}
 
 
