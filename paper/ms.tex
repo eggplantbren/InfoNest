@@ -157,15 +157,22 @@ nested sampling; bayesian inference}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Introduction}
-
-If an unknown quantity $\x$ has a discrete probability distribution $p(\x)$,
-the entropy is
+\noindent
+If an unknown quantity $x$ has a discrete probability distribution $p(x)$,
+the Shannon entropy \citep{shannon} is defined as
 \begin{align}
-H_{\x} &= -\sum_{\x} p(\x) \log p(\x)
+H_{x} &= -\sum_{x} p(x) \log p(x)
 \end{align}
-where the sum is over all of the possible values of $\x$ under consideration.
+where the sum is over all of the possible values of $x$ under consideration.
+Throughout this paper, I use the compact
+`overloaded' notation for probability distributions, writing $p(x)$ instead
+of the more cumbersome $P(X=x)$.
 This probability distribution is implicitly conditional on some prior
-information, which is have omitted from the notation.
+information, which has been omitted from the notation.
+
+\citet{knuth} has shown that the entropy quantifies the degree to which the
+question ``which value of $x$ is true?'' remains unanswered by the prior
+information.
 
 \section{Entropies in Bayesian inference}
 
@@ -181,8 +188,7 @@ of how the data is related to the parameters
 \begin{align}
 p(\x, \d) &= p(\x)p(\d | \x)
 \end{align}
-which is the starting point for inference.
-
+which is the starting point for inference \citep{caticha}.
 
 The entropy of this joint prior describes the degree to which the question
 ``what is the value of the pair $(\x, \d)$?'' remains unanswered.
