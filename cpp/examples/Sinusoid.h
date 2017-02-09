@@ -31,6 +31,7 @@ class Sinusoid
         double A, log10_period, phi;
 
         // Model curve
+        std::vector<double> t;
         std::vector<double> mu;
 
         // The data

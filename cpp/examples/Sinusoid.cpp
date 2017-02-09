@@ -7,10 +7,18 @@ namespace InfoNest
 {
 
 Sinusoid::Sinusoid()
-:mu(N)
+:t(N)
+,mu(N)
 ,y(N)
 {
+    for(size_t i=0; i<N; ++i)
+    {
+        // For evenly spaced points
+        t[i] = t_min + i * dt;
 
+        // For unevenly spaced points
+        // t[i] = t_min + pow((i + 0.5)/N, 3)*t_range;
+    }
 }
 
 void Sinusoid::generate(RNG& rng)
@@ -29,13 +37,9 @@ void Sinusoid::generate(RNG& rng)
 
 void Sinusoid::calculate_mu()
 {
-    double t;
     double omega = 2*M_PI/pow(10.0, log10_period); // Angular frequency
     for(size_t i=0; i<N; ++i)
-    {
-        t = t_min + i * dt;
-        mu[i] = A * sin(omega*t + phi);
-    }
+        mu[i] = A * sin(omega*t[i] + phi);
 }
 
 double Sinusoid::perturb_parameters(RNG& rng)
