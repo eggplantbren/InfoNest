@@ -5,6 +5,7 @@ main
 normal
 sinusoid
 *.png
+runs/
 
 output.txt
 run_data.txt
