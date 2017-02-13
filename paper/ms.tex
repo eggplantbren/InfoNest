@@ -250,14 +250,25 @@ Nested Sampling \citep[NS][]{skilling2006nested}
 
 \subsection{The sequence of $X$ values}
 
-When $N=1$, the sequence of $X$ values is a Poisson process.
-
-\citet{Walter2015} showed how this view of the NS sequence of points
+When $N=1$, the sequence of $\ln X$ values is a Poisson process with rate
+1. \citet{Walter2015} showed how this view of the NS sequence of points
 can be used to construct a
 version of NS that produces unbiased estimates of the marginal likelihood.
 However, it can also be used to construct an unbiased estimator of
 a log-probability, which is more relevant to information theoretic
 quantities.
+
+Given the definition of the NS algorithm,
+the probability distribution for the proportion $t$ of the prior mass
+retained on a given iteration is
+\begin{align}
+t_i &\sim \textnormal{Beta}(N, 1),
+\end{align}
+and the probability distribution for the sequence of $X$-values is
+obtained from
+\begin{align}
+X_i &= \prod_{k=1}^i t_i.
+\end{align}
 
 \section{The algorithm}
 
