@@ -392,10 +392,10 @@ $I_{\tau, \d} = 10.35 \pm 0.61$ nats.
 
 The computational resources needed to compute these quantities are quite large,
 though the algorithm can be parallelised trivially. However, the problem
-being solved is not trivial. The mutual information of $\x$ and
+being solved is not trivial. The mutual information of $\tau$ and
 $\d$ is
 \begin{align}
-I_{\x, \d} &= \int p(\x, \d) \log\frac{p(\x, \d)}{p(\x)p(\d)} \, d\x \, d\d.
+I_{\tau, \d} &= \int p(\x, \d) \log\frac{p(\x, \d)}{p(\x)p(\d)} \, d\x \, d\d.
 \end{align}
 However, $\x$ is one of several parameters. The others, $A$, and $\phi$,
 were implicitly integrated out. Denoting the nuisance parameters by
@@ -410,9 +410,12 @@ It should not be considered surprising that this is a challenging task.
 
 
 \subsection{Uneven observations}
-The results for the uneven observing schedule are
+The results for the uneven observing schedule are as follows:
 \begin{align}
-I_{\x, \d} &= 12.09 \pm 0.82
+H'_{\tau}     &= 1.122 \pm 0.028 \\
+H'_{\d}       &= 106.8 \pm 1.1   \\
+H'_{\tau, \d} &= 97.0 \pm 1.0
+I_{\tau, \d} &= 10.9 \pm 0.4
 \end{align}
 which appears to be higher than under the even observing schedule,
 though the uncertainties
