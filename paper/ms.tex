@@ -245,8 +245,23 @@ $H_{\x | \d}$ will produce the same result. {\todo Mention reference priors?}
 
 \section{Nested Sampling}
 
-Nested Sampling \citep[NS][]{skilling2006nested}
+Nested Sampling \citep[NS][]{skilling2006nested} is an algorithm whose aim is
+to calculate the marginal likelihood
+\begin{align}
+Z &= \int \pi(\x) L(\x) \, d\x
+\end{align}
+where $\x$ is the unknown parameter(s), $\pi$ is the prior distribution,
+and $L$ is the likelihood function. It does this evolving a population of
+$N$ particles in the parameter space.
 
+Defining $X(\ell)$ as the amount of prior mass with likelihood greater than
+some threshold $\ell$,
+\begin{align}
+X(\ell) &= \int \pi(\x) \mathds{1}\left(L(\x) > \ell\right) \, d\x,
+\end{align} 
+
+The $N$ particles are initially initialised from the prior $\pi(\x)$, and the
+particle with the lowest likelihood.
 
 \subsection{The sequence of $X$ values}
 
