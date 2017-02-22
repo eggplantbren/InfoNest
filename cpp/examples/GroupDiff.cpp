@@ -17,7 +17,7 @@ void GroupDiff::generate(RNG& rng)
     mu1 = rng.randn();
     sigma1 = exp(rng.randn());
     diff_mu = rng.randn();
-    diff_log_sigma = exp(0.1*rng.randn());
+    diff_log_sigma = 0.1*rng.randn();
     compute_derived_quantities();
 
     // Build the data
@@ -78,11 +78,9 @@ double GroupDiff::perturb_parameter(RNG& rng)
     }
     else if(which == 3)
     {
-        diff_log_sigma = log(diff_log_sigma);
         logH -= -0.5*pow(diff_log_sigma/0.1, 2);
         diff_log_sigma += 0.1*rng.randh();
         logH += -0.5*pow(diff_log_sigma/0.1, 2);
-        diff_log_sigma = exp(diff_log_sigma);
     }
 
     compute_derived_quantities();
