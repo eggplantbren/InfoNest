@@ -209,7 +209,7 @@ double GroupDiff::data_distance(const GroupDiff& g1,
         dsq += pow(g1.xs1[i] - g2.xs1[i], 2);
 
     for(size_t i=0; i<g2.xs2.size(); ++i)
-        dsq += pow(g2.xs2[i] - g2.xs2[i], 2);
+        dsq += pow(g1.xs2[i] - g2.xs2[i], 2);
 
     return sqrt(dsq);
 }
