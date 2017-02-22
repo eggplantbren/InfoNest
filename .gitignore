@@ -7,6 +7,7 @@ normal
 sinusoid
 *.png
 runs/
+cpp/latest_particles.txt
 
 output.txt
 run_data.txt
