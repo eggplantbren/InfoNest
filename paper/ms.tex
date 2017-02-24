@@ -350,8 +350,34 @@ The log-volume of a 100-dimensional ball of radius $10^{-3}$ is
 $p(\d)$ is $928.80 - 782.017 = 146.79 \pm 0.38$, consistent with the
 true value of $146.499$.
 
+\section{Example 2: Measuring the difference between two group means}
 
-\section{Example 2: Measuring the period of an oscillating signal}
+A basic problem in statistics is the inference of the difference between
+two `group mean' parameters $\mu_1$ and $\mu_2$ from data in the form of
+samples $\boldsymbol{x} = \{x_1, ..., x_m\}$ and
+$\boldsymbol{y} = \{y_1, ..., y_n\}$
+The standard frequentist method for this
+problem is the two-sample $t$-test, and Bayesian alternatives are
+straightforward to specify.
+
+The priors are
+\begin{align}
+         \mu_1  &\sim \textnormal{Normal}(0,1)     \\
+  \ln \sigma_1  &\sim \textnormal{Normal}(0,1)     \\
+         d_\mu  &\sim \textnormal{Normal}(0,1)     \\
+ d_{\ln \sigma} &\sim \textnormal{Normal}(0,0.1^2) \\
+         \mu_2  &\leftarrow \mu_1 + d_\mu          \\
+  \ln \sigma_2  &\leftarrow \ln \sigma_1 + d_{\ln \sigma}
+\end{align}
+and the conditional prior for the data given the parameters is
+\begin{align}
+x_i &\sim \textnormal{Normal}\left(\mu_1, \sigma_1^2\right) \\
+y_i &\sim \textnormal{Normal}\left(\mu_2, \sigma_2^2\right)
+\end{align}
+
+
+
+\section{Example 3: Measuring the period of an oscillating signal}
 
 
 The multimodality of the posterior here raises an interesting issue. Is
