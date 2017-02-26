@@ -14,7 +14,7 @@ int main()
 
     // Create random number generators
     unsigned long seed1 = 0;
-    unsigned long seed2 = seed1 + 1;
+    unsigned long seed2 = time(0);
     InfoNest::RNG rng1(seed1);
     InfoNest::RNG rng2(seed2);
 
