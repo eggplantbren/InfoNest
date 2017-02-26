@@ -145,7 +145,7 @@ double GroupDiff::perturb(RNG& rng)
 
         int which = rng.rand_int(xs->size());
         logH -= -0.5*pow(((*xs)[which] - mu)/sigma, 2);
-        (*xs)[which] += rng.randh();
+        (*xs)[which] += sigma*rng.randh();
         logH += -0.5*pow(((*xs)[which] - mu)/sigma, 2);
         calculate_logl();
     }
