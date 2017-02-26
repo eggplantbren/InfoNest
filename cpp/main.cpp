@@ -13,8 +13,8 @@ int main()
     const auto& dist_func = TheExample::data_distance;
 
     // Create random number generators
-    unsigned long seed1 = 0;
-    unsigned long seed2 = time(0);
+    unsigned long seed1 = time(0);
+    unsigned long seed2 = 0;
     InfoNest::RNG rng1(seed1);
     InfoNest::RNG rng2(seed2);
 
