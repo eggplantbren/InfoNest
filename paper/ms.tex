@@ -375,7 +375,7 @@ period? To answer this, we need to be able to calculate the mutual
 information between the unknown period and the data.
 
 I consider two possible observing strategies, both involving
-$n=101$ measurements. The `even' strategy has us observe at times
+$n=101$ measurements. The `even' strategy has observations at times
 \begin{align}
 t_i = \frac{i-1}{n-1}
 \end{align}
@@ -387,9 +387,8 @@ according to
 \begin{align}
 t_i = \left(\frac{i - \frac{1}{2}}{n}\right)^3
 \end{align}
-which schedules observations close together initially, and the
-spacing increases with time.
-
+which schedules observations close together initially, and further apart
+as time goes on.
 
 \subsection{Assumptions}
 
@@ -418,33 +417,32 @@ the data.
 Letting $\tau = \log_{10} T$, and treating
 $A$ and $\phi$ are nuisance parameters, I calculated the entropies
 of $\tau$, $\d$, and $(\tau, \d)$.
-These results were computed using a tolerance of 0.001 for every quantity.
-The results were
+These results were computed using a tolerance of 0.001 for each of the three
+runs. The {\todo interim} results are:
 \begin{align}
-H_{\tau}    &= 7.337 \pm 0.028 \\
-H_{\d}      &= 903.8 \pm 1.1   \\
-H_{\tau,\d} &= 900.8 \pm 1.1      % Interim result only
+H_{\tau}    &= 7.307 \pm 0.027 \\
+H_{\d}      &= 905.5 \pm 5.6   \\
+H_{\tau,\d} &= 883.6 \pm 5.2
 \end{align}
 
-
-
-To convert these to differential entropies, we need to add the appropriate
-log-volume to each. These are $-6.215$, $-790.32$, and
-$-796.53$ respectively, so the differential entropies are:
+To conver these to differential entropies, I applied the log-volume
+correction factors for 1, 101, and 102 dimensions, which are
+$-6.215$, $-790.32$, and $-798.62$ respectively. This gives
+the following {\todo interim} values for the differential entropies:
 \begin{align}
-H'_{\tau}     &= 1.122 \pm 0.028 \\
-H'_{\d}       &= 115.5 \pm 1.9   \\
-H'_{\tau, \d} &= 105.7 \pm 1.7
+H'_{\tau}     &= 1.092 \pm 0.027 \label{eqn:h_tau}\\
+H'_{\d}       &= 115.2 \pm 5.6   \\
+H'_{\tau, \d} &=  93.3 \pm 5.2   \label{eqn:h_joint}
 \end{align}
 The mutual information is equal to $H_{\tau} + H_{\d} - H_{\tau, \d}$. The
 uncertainties in each of these three quantities is quite large, and would lead
-to a large uncertainty on $I_{\tau, \d}$ if computed naively. To reduce this
+to a large uncertainty on $I_{\tau, \d}$ if computed from the results
+in Equations~\ref{eqn:h_tau} to~\ref{eqn:h_joint}. To reduce this
 uncertainty, we computed the three entropies using a common random number
 generator for the reference pairs. This is an example of the
 {\em common random numbers} technique of variance reduction.
-The resulting mutual information is
-$I_{\tau, \d} = 10.35 \pm 0.61$ nats.
-
+The resulting {\todo provisional} mutual information is
+$I_{\tau, \d} = 31.7 \pm 3.8$ nats.
 
 The computational resources needed to compute these quantities are quite large,
 though the algorithm can be parallelised trivially. However, the problem
