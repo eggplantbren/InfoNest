@@ -8,6 +8,7 @@ sinusoid
 *.png
 runs/
 cpp/latest_particles.txt
+*.pdf
 
 output.txt
 run_data.txt
