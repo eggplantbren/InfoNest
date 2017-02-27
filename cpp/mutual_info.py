@@ -8,17 +8,17 @@ def log_volume(n, e):
     return 0.5*n*np.log(np.pi) - gammaln(0.5*n+1) + n*np.log(e)
 
 # Name of the problem
-name = "groupdiff"
+name = "normal"
 results1 = np.loadtxt("results/" + name + "1.txt")
 results2 = np.loadtxt("results/" + name + "2.txt")
 results3 = np.loadtxt("results/" + name + "3.txt")
 
 # Parameter and data dimensions
-dim = [1, 200]
+dim = [1, 100]
 dim.append(sum(dim))
 
 # Tolerances used
-tol = [0.001, 0.3, 0.3]
+tol = [1E-3, 1E-3, 1E-3]
 
 # log-volumes
 lvs = [ log_volume(dim[i], tol[i]) for i in range(0, 3) ]

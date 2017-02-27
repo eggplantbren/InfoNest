@@ -168,7 +168,7 @@ double Sinusoid::joint_distance(const Sinusoid& s1, const Sinusoid& s2)
     // For H_{x, data} where x = log10_period.
     double d1 = parameter_distance(s1, s2);
     double d2 = data_distance(s1, s2);
-    return (d2 > d1) ? (d2) : (d1);
+    return sqrt(d1*d1 + d2*d2);
 }
 
 } // namespace InfoNest

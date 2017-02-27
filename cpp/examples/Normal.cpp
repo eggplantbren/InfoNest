@@ -125,7 +125,7 @@ double Normal::joint_distance(const Normal& normal1, const Normal& normal2)
 {
     double d1 = parameter_distance(normal1, normal2);
     double d2 = data_distance(normal1, normal2);
-    return (d1 > d2) ? (d1) : (d2);
+    return sqrt(d1*d1 + d2*d2);
 }
 
 } // namespace InfoNest

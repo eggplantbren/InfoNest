@@ -217,7 +217,7 @@ double GroupDiff::joint_distance(const GroupDiff& g1,
 {
     double d1 = parameter_distance(g1, g2);
     double d2 = data_distance(g1, g2);
-    return (d1 > d2) ? (d1) : (d2);
+    return sqrt(d1*d1 + d2*d2);
 }
 
 } // namespace InfoNest

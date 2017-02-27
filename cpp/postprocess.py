@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 
-def postprocess(tol=1E-2):
+def postprocess(tol=1E-3):
     """
     Load the output file and estimate the entropy.
     """
