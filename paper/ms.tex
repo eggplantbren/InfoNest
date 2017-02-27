@@ -360,34 +360,54 @@ The log-volume of a 100-dimensional ball of radius $10^{-3}$ is
 $p(\d)$ is $928.80 - 782.017 = 146.79 \pm 0.38$, consistent with the
 true value of $146.499$.
 
-\section{Example 2: Measuring the difference between two group means}
+\section{Example 2: Measuring the period of an oscillating signal}
 
-A basic problem in statistics is the inference of the difference between
-two `group mean' parameters $\mu_1$ and $\mu_2$ from data in the form of
-samples $\boldsymbol{x} = \{x_1, ..., x_m\}$ and
-$\boldsymbol{y} = \{y_1, ..., y_n\}$
-The standard frequentist method for this
-problem is the two-sample $t$-test, and Bayesian alternatives are
-straightforward to specify.
+In physics and astronomy, it is common to measure an oscillating signal
+at a set of times $\{t_1, ..., t_n\}$, in order to infer the amplitude,
+period, and phase of the signal.
+Here, I demonstrate the algorithm on a toy version
+of Bayesian experimental design: at what times should the signal be
+observed in order to obtain as much information as possible about the
+period? To answer this, we need to be able to calculate the mutual
+information between the unknown period and the data.
 
-The priors are
+I consider two possible observing strategies, both involving
+$n=101$ measurements. The `even' strategy has us observe at times
 \begin{align}
-         \mu_1  &\sim \textnormal{Normal}(0,1)     \\
-  \ln \sigma_1  &\sim \textnormal{Normal}(0,1)     \\
-         d_\mu  &\sim \textnormal{Normal}(0,1)     \\
- d_{\ln \sigma} &\sim \textnormal{Normal}(0,0.1^2) \\
-         \mu_2  &\leftarrow \mu_1 + d_\mu          \\
-  \ln \sigma_2  &\leftarrow \ln \sigma_1 + d_{\ln \sigma}
+t_i = \frac{i-1}{n-1}
 \end{align}
-and the conditional prior for the data given the parameters is
+for $i \in \{1, 2, ..., 101\}$, that is, the observation times are
+$0, 0.01, 0.02, ..., 0.99, 1$ ---
+evenly spaced from $t=0$ to $t=1$, including the endpoints.
+The second, `uneven' observing strategy schedules the observations
+according to
 \begin{align}
-x_i &\sim \textnormal{Normal}\left(\mu_1, \sigma_1^2\right) \\
-y_i &\sim \textnormal{Normal}\left(\mu_2, \sigma_2^2\right)
+t_i = \left(\frac{i - \frac{1}{2}}{n}\right)^3
 \end{align}
+which schedules observations close together initially, and the
+spacing increases with time.
 
 
+\subsection{Assumptions}
 
-\section{Example 3: Measuring the period of an oscillating signal}
+A purely sinusoidal signal has the form
+\begin{align}
+y(t) &= A \sin \left(\frac{2\pi t}{T} + \phi\right)
+\end{align}
+where $A$ is the amplitude, $T$ is the period, and $\phi$ is the phase.
+Throughout this section, I parameterise the period by its logarithm,
+$\tau = \log_{10} T$. I assumed the following priors:
+\begin{align}
+\ln A   &\sim \textnormal{Normal}\left(0, 0.1^2\right)  \\
+\tau    &\sim \textnormal{Uniform}(-1, 0)  \\
+\phi    &\sim \textnormal{Uniform}(0, 2\pi)
+\end{align}
+and the following conditional prior for the data:
+\begin{align}
+d_i | A, T, \phi &\sim \textnormal{Normal}\left(y(t_i), 0.1^2\right).
+\end{align}
+That is, the data is just the signal $y(t)$ observed at particular times
+$\{t_1, ..., t_n\}$, with gaussian noise of standard deviation 0.1.
 
 
 The multimodality of the posterior here raises an interesting issue. Is
@@ -400,23 +420,7 @@ Perhaps, in some applications, a more appropriate question is
 ``what is the value of $T$ to within $\pm$ 10\%''
 {\todo or something like that.}
 
-The signal has the form
-\begin{align}
-y(t) &= A \sin \left(\frac{2\pi t}{T} + \phi\right)
-\end{align}
-where $A$ is the amplitude, $T$ is the period, and $\phi$ is the phase.
-I assumed the following priors:
-\begin{align}
-\log_e{A}   &\sim \textnormal{Normal}\left(0, 0.1^2\right)  \\
-\log_{10} T &\sim \textnormal{Uniform}(-1, 0)  \\
-\phi        &\sim \textnormal{Uniform}(0, 2\pi)
-\end{align}
-and the following conditional prior for the data:
-\begin{align}
-d_i | A, T, \phi &\sim \textnormal{Normal}\left(y(t_i), 0.1^2\right).
-\end{align}
-That is, the data is just the signal $y(t)$ observed at particular times
-$\{t_1, ..., t_n\}$, with gaussian noise of standard deviation 0.1.
+
 
 Letting $\tau = \log_{10} T$, and treating
 $A$ and $\phi$ are nuisance parameters, I calculated the entropies
