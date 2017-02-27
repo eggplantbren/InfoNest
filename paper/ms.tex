@@ -64,6 +64,8 @@
 \newcommand{\todo}{\color{orange} \bf}
 \newcommand{\query}{\color{green} \bf}
 \newcommand{\x}{\boldsymbol{\theta}}
+\newcommand{\bphi}{\boldsymbol{\phi}}
+\newcommand{\boldeta}{\boldsymbol{\eta}}
 \newcommand{\n}{\boldsymbol{\eta}}
 
 \newcommand{\apj}{The Astrophysical Journal}
@@ -444,26 +446,9 @@ generator for the reference pairs. This is an example of the
 The resulting {\todo provisional} mutual information is
 $I_{\tau, \d} = 31.7 \pm 3.8$ nats.
 
-The computational resources needed to compute these quantities are quite large,
-though the algorithm can be parallelised trivially. However, the problem
-being solved is not trivial. The mutual information of $\tau$ and
-$\d$ is
-\begin{align}
-I_{\tau, \d} &= \int p(\x, \d) \log\frac{p(\x, \d)}{p(\x)p(\d)} \, d\x \, d\d.
-\end{align}
-However, $\x$ is one of several parameters. The others, $A$, and $\phi$,
-were implicitly integrated out. Denoting the nuisance parameters by
-$\n$, the mutual information that has been calculated is
-\begin{align}
-I_{\x, \d} &= \int p(\x, \d)
-  \log\frac{\int p(\x, \n, \d) \, d\n }
-           {p(\x) \int p(\x', \n)p(\d | \x', \n) \, d\x' \, d\n}
-  \, d\x \, d\d.
-\end{align}
-It should not be considered surprising that this is a challenging task.
-
 
 \subsection{Uneven observations}
+
 The results for the uneven observing schedule are as follows:
 \begin{align}
 H'_{\tau}     &= 1.122 \pm 0.028 \\
@@ -486,6 +471,43 @@ $\phi=0$, observed with noise standard deviation 0.1 with the
 even (gold points) and uneven (green points) observing strategies.
 \label{fig:sinewave}}
 \end{figure}
+
+\subsection{Computational cost}
+
+The computational resources needed to compute these quantities was quite large
+--- three lots of 1,000 repetitions of Nested Sampling, in all
+(though the algorithm can be parallelised trivially).
+However, it is worth reflecting on the difficulty of the calculation that
+has been done.
+
+In a Bayesian inference problem with parameters $\x$ and data $\d$, the
+mutual information is
+\begin{align}
+I_{\x, \d} &= \iint p(\x, \d)
+                        \ln \left[\frac{p(\x, \d)}{p(\x)p(\d)}\right]
+                        \, d\x \, d\d
+\end{align}
+and this measures the dependence between $\x$ and $\d$. A Monte Carlo
+strategy to evaluate this is to sample from $p(\x, \d)$ and average
+the value of the logarithm, which involves computing the log-evidence
+\begin{align}
+\ln p(\d) = \ln\left[\int p(\x)p(\d | \x) \, d\x\right]
+\end{align}
+for each possible data set. Computing $p(\d)$ for even a single
+data set has historically been considered difficult.
+
+However, if we want the mutual information between the data and
+{\em a subset of the parameters} (i.e., there are nuisance parameters
+we don't care about), things become even more tricky. Suppose we
+partition the parameters $\x$ into important parameters
+$\bphi$ and nuisance parameters $\boldeta$, such that we want to calculate
+the mutual information $I_{\bphi, \d}$. This is given by
+\begin{align}
+I_{\bphi, \d} &= \iint p(\bphi, \d)
+                        \ln \left[\frac{p(\bphi, \d)}{p(\bphi)p(\d)}\right]
+                        \, d\bphi \, d\d
+\end{align}
+
 
 
 \subsection{Multimodality and precisional questions}
