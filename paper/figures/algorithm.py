@@ -55,6 +55,6 @@ if __name__ == "__main__":
     plt.plot(samples["x"], samples["y"], "r.", alpha=0.5, markersize=20)
     plt.contour(x, y, distance, 20, colors=["r"], alpha=0.1)
     plt.axis([x.min(), x.max(), y.min(), y.max()])
-    plt.savefig("figure.pdf", bbox_inches="tight")
+    plt.savefig("algorithm.pdf", bbox_inches="tight")
     plt.show()
 
