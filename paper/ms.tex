@@ -66,6 +66,9 @@
 \newcommand{\x}{\boldsymbol{\theta}}
 \newcommand{\n}{\boldsymbol{\eta}}
 
+\newcommand{\apj}{The Astrophysical Journal}
+\newcommand{\mnras}{Monthly Notices of the Royal Astronomical Society}
+
 %------------------------------------------------------------------
 % The following line should be uncommented if the LaTeX file is uploaded to arXiv.org
 %\pdfoutput=1
@@ -409,8 +412,8 @@ d_i | A, T, \phi &\sim \textnormal{Normal}\left(y(t_i), 0.1^2\right).
 That is, the data is just the signal $y(t)$ observed at particular times
 $\{t_1, ..., t_n\}$, with gaussian noise of standard deviation 0.1.
 The amplitude of the sinusoid is very likely to be around 10 times the
-noise level, and the period is between 0.1 and 1 times the observation
-interval.
+noise level, and the period is between 0.1 and 1 times the duration of
+the data.
 
 Letting $\tau = \log_{10} T$, and treating
 $A$ and $\phi$ are nuisance parameters, I calculated the entropies
@@ -488,6 +491,9 @@ even (gold points) and uneven (green points) observing strategies.
 
 
 \subsection{Multimodality and precisional questions}
+
+When inferring the period of an oscillating signal, multimodal posterior
+distributions for the period are common \citep{gregoryTrimodal, exoplanet}
 
 The multimodality of the posterior here raises an interesting issue. Is
 the question we really want answered ``what is the value of $T$
