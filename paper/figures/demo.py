@@ -6,6 +6,10 @@ import matplotlib.pyplot as plt
 Generate some figures and perhaps a movie.
 """
 
+plt.rc("font", size=14, family="serif", serif="Computer Sans")
+plt.rc("text", usetex=True)
+
+
 def density(x, y):
     """
     A 2D joint density used for the demo.
@@ -36,16 +40,20 @@ if __name__ == "__main__":
     f = density(x, y)
 
     # Generate from the pdf
-    samples = generate(100)
+    samples = generate(1)
+
+    # Euclidean distance from the sample
+    distance = np.sqrt((x - samples["x"][0])**2 + \
+                       (y - samples["y"][0])**2)
 
     # Plot the pdf and the samples
     plt.imshow(density(x, y), cmap="Blues", interpolation="nearest",
                extent=[x.min(), x.max(), y.min(), y.max()])
-    plt.xlabel("$x$", fontsize=20)
-    plt.ylabel("$y$", fontsize=20)
-    plt.hold(True)
-    plt.contour(x, y, density(x, y), 50, colors=["k"], alpha=0.1)
-    plt.plot(samples["x"], samples["y"], "r.", alpha=0.3, markersize=10)
+    plt.xlabel("$x$")
+    plt.ylabel("$y$")
+    plt.contour(x, y, density(x, y), 20, colors=["b"], alpha=0.1)
+    plt.plot(samples["x"], samples["y"], "r.", alpha=0.5, markersize=20)
+    plt.contour(x, y, distance, 20, colors=["r"], alpha=0.1)
     plt.axis([x.min(), x.max(), y.min(), y.max()])
     plt.savefig("figure.png")
     plt.show()
