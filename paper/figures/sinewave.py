@@ -11,7 +11,7 @@ rc()
 
 # True signal
 def signal(t):
-    return np.sin(2 * np.pi * t / 0.3)
+    return np.sin(2 * np.pi * t / (10.0 ** -0.5))
 
 # Number of data points
 n = 101
