@@ -1,14 +1,14 @@
+from plot_utils import rc
 import numpy as np
 import numpy.random as rng
 import matplotlib.pyplot as plt
 
+# Set default fonts etc
+rc()
+
 """
 Generate some figures and perhaps a movie.
 """
-
-plt.rc("font", size=14, family="serif", serif="Computer Sans")
-plt.rc("text", usetex=True)
-
 
 def density(x, y):
     """
