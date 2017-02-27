@@ -408,19 +408,9 @@ d_i | A, T, \phi &\sim \textnormal{Normal}\left(y(t_i), 0.1^2\right).
 \end{align}
 That is, the data is just the signal $y(t)$ observed at particular times
 $\{t_1, ..., t_n\}$, with gaussian noise of standard deviation 0.1.
-
-
-The multimodality of the posterior here raises an interesting issue. Is
-the question we really want answered ``what is the value of $T$
-{\bf precisely}?'', to which the mutual information relates?
-Most practicing scientists would not feel particularly informed to learn
-that the vast majority of possibilities had been ruled out, if the
-posterior still consisted of several widely separated modes!
-Perhaps, in some applications, a more appropriate question is
-``what is the value of $T$ to within $\pm$ 10\%''
-{\todo or something like that.}
-
-
+The amplitude of the sinusoid is very likely to be around 10 times the
+noise level, and the period is between 0.1 and 1 times the observation
+interval.
 
 Letting $\tau = \log_{10} T$, and treating
 $A$ and $\phi$ are nuisance parameters, I calculated the entropies
@@ -433,10 +423,7 @@ H_{\d}      &= 903.8 \pm 1.1   \\
 H_{\tau,\d} &= 900.8 \pm 1.1      % Interim result only
 \end{align}
 
-{\query The multimodality of the posterior in this problem (sometimes) might
-affect mixing sufficiently that the NS gets the incorrect answer. Be
-careful! And maybe use an example where this is unlikely, or double
-check it using brute force.}
+
 
 To convert these to differential entropies, we need to add the appropriate
 log-volume to each. These are $-6.215$, $-790.32$, and
@@ -480,12 +467,30 @@ The results for the uneven observing schedule are as follows:
 \begin{align}
 H'_{\tau}     &= 1.122 \pm 0.028 \\
 H'_{\d}       &= 106.8 \pm 1.1   \\
-H'_{\tau, \d} &= 97.0 \pm 1.0
+H'_{\tau, \d} &= 97.0 \pm 1.0    \\
 I_{\tau, \d} &= 10.9 \pm 0.4
 \end{align}
 which appears to be higher than under the even observing schedule,
 though the uncertainties
 are not small enough to be certain of this.
+
+
+\subsection{Multimodality and precisional questions}
+
+The multimodality of the posterior here raises an interesting issue. Is
+the question we really want answered ``what is the value of $T$
+{\bf precisely}?'', to which the mutual information relates?
+Most practicing scientists would not feel particularly informed to learn
+that the vast majority of possibilities had been ruled out, if the
+posterior still consisted of several widely separated modes!
+Perhaps, in some applications, a more appropriate question is
+``what is the value of $T$ to within $\pm$ 10\%''
+{\todo or something like that.}
+{\query The multimodality of the posterior in this problem (sometimes) might
+affect mixing sufficiently that the NS gets the incorrect answer. Be
+careful! And maybe use an example where this is unlikely, or double
+check it using brute force.}
+
 
 \section{Example 3: TBD}
 
