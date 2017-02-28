@@ -526,10 +526,13 @@ written as an explicit integral over $\boldeta$:
 
 \begin{align}
 I_{\bphi, \d} &= \iint
-                   \int p(\bphi, \boldeta)p(\d | \phi, \boldeta) \, d\boldeta
-                        \ln \left[\frac{p(\bphi, \d)}{p(\bphi)p(\d)}\right]
-                        \, d\bphi \, d\d \label{eqn:mutual_info3}
+  \left(\int p(\bphi, \boldeta)p(\d | \bphi, \boldeta) \, d\boldeta\right)
+                        \ln \left[
+  \frac{\int p(\bphi, \boldeta)p(\d | \bphi, \boldeta) \, d\boldeta}
+{p(\bphi)\int p(\bphi, \boldeta)p(\d | \bphi, \boldeta) \, d\bphi \, \d\boldeta}\right]
+                        \, d\bphi \, d\d
 \end{align}
+It should not be surprising that this is costly.
 
 
 
