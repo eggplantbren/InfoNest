@@ -162,22 +162,33 @@ nested sampling; bayesian inference}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Introduction}
-\noindent
+
 If an unknown quantity $x$ has a discrete probability distribution $p(x)$,
 the Shannon entropy \citep{shannon} is defined as
 \begin{align}
 H_{x} &= -\sum_{x} p(x) \log p(x)
 \end{align}
 where the sum is over all of the possible values of $x$ under consideration.
+
+The entropy quantifies the degree to which the issue
+``what is the value of $x$, precisely?'' remains unresolved. For example,
+if there is only one possible value which has probability 1, $H_x$ is
+zero\footnote{Conventionally, $0 \times \log 0$ is defined to be equal
+to $\lim_{x \to 0^+} x\log x$, which is zero.}.
+If there are $N$ possibilities with equal probabilities $1/N$ each,
+then the entropy is $H_x = \log(N)$.
+
+\subsection{Notation and conventions}
+
 Throughout this paper, I use the compact
 `overloaded' notation for probability distributions, writing $p(x)$ instead
 of the more cumbersome $P(X=x)$.
-This probability distribution is implicitly conditional on some prior
-information, which has been omitted from the notation.
-
-\citet{knuth} has shown that the entropy quantifies the degree to which the
-question ``which value of $x$ is true?'' remains unanswered by the prior
-information.
+Probability distribution is implicitly conditional on some prior
+information, which has been omitted from the notation unless necessary.
+All logarithms are written $\log$ and any base can be used, unless otherwise
+specified (for example by writing $\ln$ or $\log_{10}$). Any numerical
+values given for the value of specific entropies are in {\em nats}, i.e.,
+the natural logarithm was used.
 
 \section{Entropies in Bayesian inference}
 
@@ -193,7 +204,8 @@ of how the data is related to the parameters
 \begin{align}
 p(\x, \d) &= p(\x)p(\d | \x)
 \end{align}
-which is the starting point for inference \citep{caticha2008lectures}.
+which is the starting point for
+Bayesian inference \citep{caticha2008lectures}.
 
 The entropy of the prior $p(\x)$ describes the degree to which the question
 ``what is the value of $\x$, precisely?'', while the
