@@ -349,28 +349,27 @@ the entropy actually computed from the algorithm.
 \section{Example 1: Measuring the mean of a gaussian}
 
 Consider the basic problem of inferring a quantity $\mu$ from
-100 observations $\x = \{x_1, ..., x_{100}\}$ whose probability distribution
-(conditional on $\mu$) is
+100 observations $\d = \{d_1, ..., d_{100}\}$ whose
+probability distribution (conditional on $\mu$) is
 \begin{align}
-p(x_i | \mu) &\sim \textnormal{Normal}(\mu, 1).
+p(d_i | \mu) &\sim \textnormal{Normal}(\mu, 1).
 \end{align}
 If the prior for $\mu$ is Normal$(0, 10^2)$, then the posterior is
 \begin{align}
-\mu | \x &\sim \textnormal{Normal}\left(
-                                       \frac{1}{100}\sum_{i=1}^{100} x_i,
+\mu | \d &\sim \textnormal{Normal}\left(
+                                       \frac{1}{100}\sum_{i=1}^{100} d_i,
                                        \left[\frac{10}{\sqrt{10001}}\right]^2
                                        \right).
 \end{align}
+The true value of $H_{\d}$, calculated analytically, is $146.499$.
+
 
 The result was
 \begin{align}
 H_{\d} &= 928.80 \pm 0.38.
 \end{align}
 The log-volume of a 100-dimensional ball of radius $10^{-3}$ is
--782.017. Therefore, the measured differential entropy of
-$p(\d)$ is $928.80 - 782.017 = 146.79 \pm 0.38$, consistent with the
-true value of $146.499$.
-
+-782.017. Therefore, the measured differential en
 \section{Example 2: Measuring the period of an oscillating signal}
 
 In physics and astronomy, it is common to measure an oscillating signal
