@@ -9,6 +9,7 @@ sinusoid
 runs/
 cpp/latest_particles.txt
 *.pdf
+paper/references.bib
 
 output.txt
 run_data.txt
