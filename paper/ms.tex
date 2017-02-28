@@ -8,7 +8,7 @@
 
 %=================================================================
 
-\documentclass[entropy,article,submit,oneauthor,pdftex,10pt,a4paper]{mdpi}
+\documentclass[entropy,article,accept,oneauthor,pdftex,10pt,a4paper]{mdpi}
 %--------------------
 % Class Options:
 %--------------------
@@ -193,10 +193,13 @@ of how the data is related to the parameters
 \begin{align}
 p(\x, \d) &= p(\x)p(\d | \x)
 \end{align}
-which is the starting point for inference \citep{caticha}.
+which is the starting point for inference \citep{caticha2008lectures}.
 
-The entropy of this joint prior describes the degree to which the question
-``what is the value of the pair $(\x, \d)$?'' remains unanswered.
+The entropy of the prior $p(\x)$ describes the degree to which the question
+``what is the value of $\x$, precisely?'', while the
+entropy of the joint prior $p(\x, \d)$
+describes the degree to which the question
+``what is the value of the pair $(\x, \d)$, precisely?'' remains unanswered.
 
 \subsection{The relevance of data}
 The degree to which the question ``what is the value of $\x$?'' is
@@ -234,11 +237,14 @@ I_{\x, \d} &= \sum_{\x} \sum_{\d} p(\x, \d)
            &= H_{\d} - H_{\d | \x}\\
            &= H_{\x} - H_{\x | \d}.
 \end{align}
-For present purposes, it is more conveniently written as
+It can also be written in terms of the prior, likelihood, and evidence,
+as
 \begin{align}
-I_{\x, \d} &= \sum_{\x} \sum_{\d} p(\x, \d)
-              \log\left[\frac{p(\d | \x)}{p(\d)}\right].
+I_{\x, \d} &= \sum_{\x} \sum_{\d} p(\x)p(\d | \x)
+              \left[\log p(\d | \x) - \log p(\d)\right],
 \end{align}
+i.e., the mutual information is the prior expected value of the
+log likelihood minus the log evidence.
 As with the conditional entropy, we see that the difficulty appears in the
 form of the log of the marginal likelihood,
 $\log p(\d) = \log \sum_{\x} p(\x)p(\d | \x)$.
@@ -485,15 +491,17 @@ mutual information is
 \begin{align}
 I_{\x, \d} &= \iint p(\x, \d)
                         \ln \left[\frac{p(\x, \d)}{p(\x)p(\d)}\right]
-                        \, d\x \, d\d
+                        \, d\x \, d\d \label{eqn:mutual_info2}
 \end{align}
-and this measures the dependence between $\x$ and $\d$. A Monte Carlo
+and this measures the dependence between $\x$ and $\d$. A
+Monte Carlo
 strategy to evaluate this is to sample from $p(\x, \d)$ and average
 the value of the logarithm, which involves computing the log-evidence
 \begin{align}
 \ln p(\d) = \ln\left[\int p(\x)p(\d | \x) \, d\x\right]
 \end{align}
-for each possible data set. Computing $p(\d)$ for even a single
+for each possible data set.
+Computing $p(\d)$ for even a single
 data set has historically been considered difficult.
 
 However, if we want the mutual information between the data and
@@ -505,7 +513,22 @@ the mutual information $I_{\bphi, \d}$. This is given by
 \begin{align}
 I_{\bphi, \d} &= \iint p(\bphi, \d)
                         \ln \left[\frac{p(\bphi, \d)}{p(\bphi)p(\d)}\right]
-                        \, d\bphi \, d\d
+                        \, d\bphi \, d\d \label{eqn:mutual_info3}
+\end{align}
+which is equivalent to Equation~\ref{eqn:mutual_info2} but with
+$\x$ replaced throughout by $\bphi$. However, this is an even more
+difficult calculation than before, as $p(\d | \bphi)$, the marginal likelihood
+function with the nuisance parameters integrated out, is typically
+unavailable in closed form. If we were to marginalise out the nuisance
+parameters $\boldeta$ explicitly, this would give us
+Equation~\ref{eqn:mutual_info3} with every probability distribution
+written as an explicit integral over $\boldeta$:
+
+\begin{align}
+I_{\bphi, \d} &= \iint
+                   \int p(\bphi, \boldeta)p(\d | \phi, \boldeta) \, d\boldeta
+                        \ln \left[\frac{p(\bphi, \d)}{p(\bphi)p(\d)}\right]
+                        \, d\bphi \, d\d \label{eqn:mutual_info3}
 \end{align}
 
 
