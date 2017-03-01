@@ -176,17 +176,19 @@ void Rep<Particle>::iterate(bool generate_replacement)
     // Write its information to the output file.
     fout << iteration << ' ' << distances[worst] << std::endl;
 
-    // Output the two particles
-    std::fstream particles_file("latest_particles.txt", std::ios::out);
-    reference_particle.print(particles_file);
-    particles_file << '\n';
-    particles[worst].print(particles_file);
-    particles_file << '\n';
-    particles_file.close();
-
     // Generate replacement (unless told not to!)
     if(generate_replacement)
         replace(worst);
+    else
+    {
+        // Output the two particles
+        std::fstream particles_file("latest_particles.txt", std::ios::out);
+        reference_particle.print(particles_file);
+        particles_file << '\n';
+        particles[worst].print(particles_file);
+        particles_file << '\n';
+        particles_file.close();
+    }
 
     // Increment the iteration counter.
     ++iteration;
