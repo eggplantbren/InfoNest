@@ -242,10 +242,13 @@ void Rep<Particle>::replace(int which)
         }
     }
 
-    std::cout<<"Rep "<<id<<", ";
-    std::cout<<"iteration "<<iteration<<". ";
-    std::cout<<"Acceptance fraction = "<<accepts<<" / "<<mcmc_steps<<".";
-    std::cout<<std::endl;
+    if(iteration % particles.size() == 0)
+    {
+        std::cout<<"Rep "<<id<<", ";
+        std::cout<<"iteration "<<iteration<<". ";
+        std::cout<<"Acceptance fraction = "<<accepts<<" / "<<mcmc_steps<<".";
+        std::cout<<std::endl;
+    }
 }
 
 
