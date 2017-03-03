@@ -442,21 +442,21 @@ Letting $\tau = \log_{10} T$, and treating
 $A$ and $\phi$ are nuisance parameters, I calculated the entropies
 of $\tau$, $\d$, and $(\tau, \d)$.
 These results were computed using a tolerance of 0.001 for each of the three
-runs. The {\todo interim} results are:
+runs. The results are:
 \begin{align}
 H_{\tau}    &= 7.307 \pm 0.027 \\
-H_{\d}      &= 905.5 \pm 5.6   \\
-H_{\tau,\d} &= 883.6 \pm 5.2
+H_{\d}      &= 900.6 \pm 1.1   \\
+H_{\tau,\d} &= 882.2 \pm 1.1
 \end{align}
 
 To conver these to differential entropies, I applied the log-volume
 correction factors for 1, 101, and 102 dimensions, which are
 $-6.215$, $-790.32$, and $-798.62$ respectively. This gives
-the following {\todo interim} values for the differential entropies:
+the following values for the differential entropies:
 \begin{align}
 H'_{\tau}     &= 1.092 \pm 0.027 \label{eqn:h_tau}\\
-H'_{\d}       &= 115.2 \pm 5.6   \\
-H'_{\tau, \d} &=  93.3 \pm 5.2   \label{eqn:h_joint}
+H'_{\d}       &= 110.3 \pm 1.1   \\
+H'_{\tau, \d} &=  83.6 \pm 1.1   \label{eqn:h_joint}
 \end{align}
 The mutual information is equal to $H_{\tau} + H_{\d} - H_{\tau, \d}$. The
 uncertainties in each of these three quantities is quite large, and would lead
@@ -465,8 +465,8 @@ in Equations~\ref{eqn:h_tau} to~\ref{eqn:h_joint}. To reduce this
 uncertainty, we computed the three entropies using a common random number
 generator for the reference pairs. This is an example of the
 {\em common random numbers} technique of variance reduction.
-The resulting {\todo provisional} mutual information is
-$I_{\tau, \d} = 31.7 \pm 3.8$ nats.
+The resulting  mutual information is
+$I_{\tau, \d} = 27.85 \pm 0.83$ nats.
 
 
 \subsection{Uneven observations}
