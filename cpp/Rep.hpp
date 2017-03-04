@@ -55,8 +55,9 @@ class Rep
         // Iteration counter
         unsigned int iteration;
 
-        // Output file handle
+        // Output file handle, and some cache
         std::fstream fout;
+        std::vector<std::tuple<size_t, double>> cache;
 
         // Member function to compute all the distances
         void compute_distances();
@@ -174,7 +175,18 @@ void Rep<Particle>::iterate(bool generate_replacement)
             worst = i;
 
     // Write its information to the output file.
-    fout << iteration << ' ' << distances[worst] << std::endl;
+    cache.push_back({iteration, distances[worst]});
+    size_t it; double d;
+    if(cache.size() >= 100)
+    {
+        for(size_t i=0; i<cache.size(); ++i)
+        {
+            std::tie(it, d) = cache[i];
+            fout << it << ' ' << d << '\n';
+        }
+        fout << std::flush;
+        cache.clear();
+    }
 
     // Generate replacement (unless told not to!)
     if(generate_replacement)
