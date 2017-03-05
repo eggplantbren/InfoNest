@@ -175,7 +175,9 @@ void Rep<Particle>::iterate(bool generate_replacement)
             worst = i;
 
     // Write its information to the output file.
-    cache.push_back({iteration, distances[worst]});
+    cache.push_back(
+        std::tuple<unsigned int, double>{iteration, distances[worst]}
+                   );
     unsigned int it; double d;
     if(cache.size() >= 100)
     {
