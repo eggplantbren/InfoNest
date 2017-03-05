@@ -102,6 +102,8 @@ double Sinusoid::perturb(RNG& rng)
             n = (y[i] - mu_old[i]) / sigma;
             y[i] = mu[i] + sigma * n;
         }
+
+        calculate_logl();
     }
     else if(proposal_type == 1)
     {
@@ -110,7 +112,9 @@ double Sinusoid::perturb(RNG& rng)
         logH -= logl;
 
         logH += perturb_parameters(rng);
+
         calculate_mu();
+        calculate_logl();
 
         logH += logl;        
     }
@@ -122,6 +126,8 @@ double Sinusoid::perturb(RNG& rng)
         logH -= -0.5*pow((y[which] - mu[which])/sigma, 2);
         y[which] += sigma * rng.randh();
         logH += -0.5*pow((y[which] - mu[which])/sigma, 2);
+
+        calculate_logl();
     }
     else
     {
@@ -133,9 +139,10 @@ double Sinusoid::perturb(RNG& rng)
             which = rng.rand_int(N);
             y[which] = mu[which] + sigma * rng.randn();
         }
+
+        calculate_logl();
     }
 
-    calculate_logl();
     return logH;
 }
 
