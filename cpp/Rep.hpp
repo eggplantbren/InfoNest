@@ -63,7 +63,7 @@ class Rep
         void compute_distances();
 
         // Do a single NS iteration
-        void iterate(bool generate_replacement);
+        void iterate(bool last);
 
         // Replace the specified particle.
         void replace(int which);
@@ -162,11 +162,11 @@ void Rep<Particle>::execute()
     // to reach `depth`.
     int steps = static_cast<int>(num_particles * depth);
     for(int i=0; i<steps; ++i)
-        iterate(i != steps-1);
+        iterate(i == steps-1);
 }
 
 template<class Particle>
-void Rep<Particle>::iterate(bool generate_replacement)
+void Rep<Particle>::iterate(bool last)
 {
     // Find the worst particle.
     int worst = 0;
@@ -179,7 +179,7 @@ void Rep<Particle>::iterate(bool generate_replacement)
         std::tuple<unsigned int, double>{iteration, distances[worst]}
                    );
     unsigned int it; double d;
-    if(cache.size() >= 100)
+    if(cache.size() >= 100 || last)
     {
         for(size_t i=0; i<cache.size(); ++i)
         {
@@ -188,13 +188,7 @@ void Rep<Particle>::iterate(bool generate_replacement)
         }
         fout << std::flush;
         cache.clear();
-    }
 
-    // Generate replacement (unless told not to!)
-    if(generate_replacement)
-        replace(worst);
-    else
-    {
         // Output the two particles
         std::fstream particles_file("latest_particles.txt", std::ios::out);
         reference_particle.print(particles_file);
@@ -203,6 +197,10 @@ void Rep<Particle>::iterate(bool generate_replacement)
         particles_file << '\n';
         particles_file.close();
     }
+
+    // Generate replacement (unless told not to!)
+    if(!last)
+        replace(worst);
 
     // Increment the iteration counter.
     ++iteration;
