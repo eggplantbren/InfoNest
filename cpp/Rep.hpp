@@ -57,7 +57,7 @@ class Rep
 
         // Output file handle, and some cache
         std::fstream fout;
-        std::vector<std::tuple<size_t, double>> cache;
+        std::vector<std::tuple<unsigned int, double>> cache;
 
         // Member function to compute all the distances
         void compute_distances();
@@ -176,7 +176,7 @@ void Rep<Particle>::iterate(bool generate_replacement)
 
     // Write its information to the output file.
     cache.push_back({iteration, distances[worst]});
-    size_t it; double d;
+    unsigned int it; double d;
     if(cache.size() >= 100)
     {
         for(size_t i=0; i<cache.size(); ++i)
