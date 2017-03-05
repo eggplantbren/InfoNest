@@ -436,8 +436,10 @@ That is, the data is just the signal $y(t)$ observed at particular times
 $\{t_1, ..., t_n\}$, with gaussian noise of standard deviation 0.1.
 The amplitude of the sinusoid is very likely to be around 10 times the
 noise level, and the period is between 0.1 and 1 times the duration of
-the data.
+the data. An example signal observed with the even and uneven observing schedules
+is shown in Figure~\ref{fig:sinewave}.
 
+\subsection{Results}
 Letting $\tau = \log_{10} T$, and treating
 $A$ and $\phi$ are nuisance parameters, I calculated the entropies
 of $\tau$, $\d$, and $(\tau, \d)$.
@@ -468,22 +470,21 @@ generator for the reference pairs. This is an example of the
 The resulting  mutual information is
 $I_{\tau, \d} = 27.85 \pm 0.83$ nats.
 
-
-\subsection{Uneven observations}
-
-The results for the uneven observing schedule are as follows:
+The results for the uneven observing schedule were:
 \begin{align}
 H'_{\tau}     &= 1.122 \pm 0.028 \\
-H'_{\d}       &= 106.8 \pm 1.1   \\
-H'_{\tau, \d} &= 97.0 \pm 1.0    \\
-I_{\tau, \d} &= 10.9 \pm 0.4
+H'_{\d}       &= 895.5 \pm 1.5   \\
+H'_{\tau, \d} &= 874.7 \pm 1.5    \\
+I_{\tau, \d} &= 30.13 \pm 0.70
 \end{align}
-which appears to be higher than under the even observing schedule,
-though the uncertainties
-are not small enough to be certain of this.
 
-An example signal observed with the even and uneven observing schedules
-is shown in Figure~\ref{fig:sinewave}.
+The difference in mutual informations between the two observation
+schedules is $2.3 \pm 1.3$ nats, suggesting a slight advantage to the
+uneven observing schedule, in terms of the data's relevance to inference
+of the log-period of the signal.
+In a serious experimental design situation, the relevance is not the only
+consideration (or the answer to every experimental design problem would
+be to obtain more data without limit), but it is a very important one.
 
 \begin{figure}[!ht]
 \centering
