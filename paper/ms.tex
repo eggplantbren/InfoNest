@@ -439,7 +439,18 @@ noise level, and the period is between 0.1 and 1 times the duration of
 the data. An example signal observed with the even and uneven observing schedules
 is shown in Figure~\ref{fig:sinewave}.
 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\linewidth]{figures/sinewave.pdf}
+\caption{A signal with true parameters $A=1$, $\tau=-0.5$, and
+$\phi=0$, observed with noise standard deviation 0.1 with the
+even (gold points) and uneven (green points) observing strategies.
+\label{fig:sinewave}}
+\end{figure}
+
+
 \subsection{Results}
+
 Letting $\tau = \log_{10} T$, and treating
 $A$ and $\phi$ are nuisance parameters, I calculated the entropies
 of $\tau$, $\d$, and $(\tau, \d)$.
@@ -486,21 +497,14 @@ In a serious experimental design situation, the relevance is not the only
 consideration (or the answer to every experimental design problem would
 be to obtain more data without limit), but it is a very important one.
 
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=0.7\linewidth]{figures/sinewave.pdf}
-\caption{A signal with true parameters $A=1$, $\tau=-0.5$, and
-$\phi=0$, observed with noise standard deviation 0.1 with the
-even (gold points) and uneven (green points) observing strategies.
-\label{fig:sinewave}}
-\end{figure}
+
 
 \subsection{Computational cost}
 
 The computational resources needed to compute these quantities was quite large
 --- three lots of 1,000 repetitions of Nested Sampling, in all
 (though the algorithm can be parallelised trivially).
-However, it is worth reflecting on the difficulty of the calculation that
+However, it is worth reflecting on the complexity of the calculation that
 has been done.
 
 In a Bayesian inference problem with parameters $\x$ and data $\d$, the
