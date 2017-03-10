@@ -110,7 +110,7 @@
 %=================================================================
 
 % Full title of the paper (Capitalized)
-\Title{Calculating Entropies With Nested Sampling}
+\Title{Computing Entropies With Nested Sampling}
 
 % Authors (Add full first names)
 \Author{Brendon J. Brewer$^{1,}$*}
@@ -174,7 +174,7 @@ The entropy quantifies the degree to which the issue
 ``what is the value of $x$, precisely?'' remains unresolved. For example,
 if there is only one possible value which has probability 1, $H_x$ is
 zero\footnote{Conventionally, $0 \times \log 0$ is defined to be equal
-to $\lim_{x \to 0^+} x\log x$, which is zero.}.
+to $\lim_{x \to 0^+} (x\log x)$, which is zero.}.
 If there are $N$ possibilities with equal probabilities $1/N$ each,
 then the entropy is $H_x = \log(N)$.
 
@@ -183,8 +183,8 @@ then the entropy is $H_x = \log(N)$.
 Throughout this paper, I use the compact
 `overloaded' notation for probability distributions, writing $p(x)$ instead
 of the more cumbersome $P(X=x)$.
-Probability distribution is implicitly conditional on some prior
-information, which has been omitted from the notation unless necessary.
+Probability distributions are implicitly conditional on some prior
+information, which is omitted from the notation unless necessary.
 All logarithms are written $\log$ and any base can be used, unless otherwise
 specified (for example by writing $\ln$ or $\log_{10}$). Any numerical
 values given for the value of specific entropies are in {\em nats}, i.e.,
@@ -213,7 +213,7 @@ which is the starting point for
 Bayesian inference \citep{caticha2008lectures}.
 
 The entropy of the prior $p(\x)$ describes the degree to which the question
-``what is the value of $\x$, precisely?'', while the
+``what is the value of $\x$, precisely?'' remains unanswered, while the
 entropy of the joint prior $p(\x, \d)$
 describes the degree to which the question
 ``what is the value of the pair $(\x, \d)$, precisely?'' remains unanswered.
