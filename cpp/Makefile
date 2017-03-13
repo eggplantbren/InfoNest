@@ -9,8 +9,9 @@ lib:
 	$(CC) $(CFLAGS) -c Utils.cpp
 	$(CC) $(CFLAGS) -c examples/GroupDiff.cpp
 	$(CC) $(CFLAGS) -c examples/Normal.cpp
+	$(CC) $(CFLAGS) -c examples/Pareto.cpp
 	$(CC) $(CFLAGS) -c examples/Sinusoid.cpp
-	ar rcs libinfonest.a GroupDiff.o Normal.o RNG.o Sinusoid.o Utils.o
+	ar rcs libinfonest.a GroupDiff.o Normal.o Pareto.o RNG.o Sinusoid.o Utils.o
 
 main: lib
 	$(CC) $(CFLAGS) -c main.cpp
@@ -19,8 +20,10 @@ main: lib
 tests: lib
 	$(CC) $(CFLAGS) -c tests/groupdiff.cpp
 	$(CC) $(CFLAGS) -c tests/normal.cpp
+	$(CC) $(CFLAGS) -c tests/pareto.cpp
 	$(CC) $(CFLAGS) -c tests/sinusoid.cpp
 	$(CC) -L. -o tests/groupdiff groupdiff.o -linfonest
 	$(CC) -L. -o tests/normal normal.o -linfonest
+	$(CC) -L. -o tests/pareto pareto.o -linfonest
 	$(CC) -L. -o tests/sinusoid sinusoid.o -linfonest
 

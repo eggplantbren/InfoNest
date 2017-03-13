@@ -3,6 +3,7 @@
 
 #include "GroupDiff.h"
 #include "Normal.h"
+#include "Pareto.h"
 #include "Sinusoid.h"
 
 #endif

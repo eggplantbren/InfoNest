@@ -4,6 +4,7 @@
 main
 groupdiff
 normal
+pareto
 sinusoid
 *.png
 runs/
