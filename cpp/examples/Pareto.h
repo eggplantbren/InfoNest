@@ -20,6 +20,13 @@ class Pareto
         // Data
         std::vector<double> xs;
 
+        // Log likelihood
+        double logl;
+        void compute_logl();
+
+        // Proposal for alpha
+        double perturb_alpha(RNG& rng);
+
     public:
         // Do-nothing constructor
         Pareto();

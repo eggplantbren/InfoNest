@@ -18,20 +18,36 @@ void Pareto::generate(RNG& rng)
 
     for(double& x: xs)
         x = x_min * pow(rng.rand(), -1.0 / alpha);
+
+    compute_logl();
+}
+
+void Pareto::compute_logl()
+{
+    logl = xs.size()*log(alpha);
+    for(double x: xs)
+        logl += -(alpha + 1.0)*log(x);
+}
+
+double Pareto::perturb_alpha(RNG& rng)
+{
+    alpha += 4.99*rng.randh();
+    wrap(alpha, 0.01, 5.0);
+
+    return 0.0;
 }
 
 double Pareto::perturb(RNG& rng)
 {
     double logH = 0.0;
 
-    int proposal_type = rng.rand_int(3);
+    int proposal_type = rng.rand_int(4);
 
     if(proposal_type == 0)
     {
         double old_alpha = alpha;
 
-        alpha += 4.99*rng.randh();
-        wrap(alpha, 0.01, 5.0);
+        logH += perturb_alpha(rng);
 
         // Transform data to go with new alpha value
         for(double& x: xs)
@@ -39,14 +55,27 @@ double Pareto::perturb(RNG& rng)
             x = pow(x / x_min, -old_alpha);
             x = x_min * pow(x, -1.0 / alpha);
         }
+
+        compute_logl();
     }
     else if(proposal_type == 1)
+    {
+        logH -= logl;
+
+        logH += perturb_alpha(rng);
+
+        compute_logl();
+        logH += logl;
+    }
+    else if(proposal_type == 2)
     {
         int which = rng.rand_int(xs.size());
         xs[which] = pow(xs[which] / x_min, -alpha);
         xs[which] += rng.randh();
         wrap(xs[which], 0.0, 1.0);
         xs[which] = x_min * pow(xs[which], -1.0 / alpha);
+
+        compute_logl();
     }
     else
     {
@@ -57,8 +86,9 @@ double Pareto::perturb(RNG& rng)
             which = rng.rand_int(xs.size());
             xs[which] = x_min * pow(rng.rand(), -1.0 / alpha);
         }
-    }
 
+        compute_logl();
+    }
 
     return logH;
 }
