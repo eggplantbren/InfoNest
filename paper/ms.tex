@@ -177,12 +177,21 @@ zero\footnote{Conventionally, $0 \times \log 0$ is defined to be equal
 to $\lim_{x \to 0^+} (x\log x)$, which is zero.}.
 If there are $N$ possibilities with equal probabilities $1/N$ each,
 then the entropy is $H_x = \log(N)$.
+If the space of possible $x$-values is continuous, the differential
+entropy
+\begin{align}
+H_{x} &= -\int p(x) \log p(x) \, dx
+\end{align}
+quantifies uncertainty by generalising the log-volume
+of the plausible region, where volume is defined with respect to $dx$.
 
 \subsection{Notation and conventions}
 
 Throughout this paper, I use the compact
-`overloaded' notation for probability distributions, writing $p(x)$ instead
-of the more cumbersome $P(X=x)$.
+`overloaded' notation for probability distributions favoured by
+Bayesians, writing $p(x)$ (for either a probability mass function
+or a probability density function) instead
+of the more correct but cumbersome $P(X=x)$ or $f_X(x)$.
 Probability distributions are implicitly conditional on some prior
 information, which is omitted from the notation unless necessary.
 All logarithms are written $\log$ and any base can be used, unless otherwise
@@ -212,13 +221,24 @@ p(\x, \d) &= p(\x)p(\d | \x)
 which is the starting point for
 Bayesian inference \citep{caticha2008lectures}.
 
+In practical applications of Bayesian inference, the following operations
+are usually feasible, and are assumed to be possible at low computational
+cost:
+\begin{enumerate}
+\item Points can be generated from the prior $p(\x)$;
+\item Simulated datasets can be generated from $p(\d | \x)$ for a given value of $\x$;
+\item The likelihood, $p(\d | \x)$ can be evaluated cheaply for any $\d$ and $\x$.
+\end{enumerate}
+
+\subsection{The relevance of data}
+
 The entropy of the prior $p(\x)$ describes the degree to which the question
 ``what is the value of $\x$, precisely?'' remains unanswered, while the
 entropy of the joint prior $p(\x, \d)$
 describes the degree to which the question
 ``what is the value of the pair $(\x, \d)$, precisely?'' remains unanswered.
 
-\subsection{The relevance of data}
+
 The degree to which the question ``what is the value of $\x$?'' is
 answered by the question ``what is the value of $\d$?'' is given by the
 conditional entropy
@@ -226,7 +246,8 @@ conditional entropy
 H_{\x | \d} &= - \sum_{\d} p(\d) \sum_{\x} p(\x | \d) \log p(\x | \d)
 \end{align}
 which is the expected value of the entropy of the posterior, averaged over
-all possible datasets which might be observed.
+all possible datasets which might be observed. 
+
 This is difficult to compute because the expression
 for the posterior distribution
 \begin{align}
