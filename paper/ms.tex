@@ -47,10 +47,9 @@
 \usepackage{dsfont}
 \usepackage[utf8]{inputenc}
 \usepackage{algorithm}
+\usepackage{algorithmic}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{algorithmicx}
-\usepackage{algpseudocode}
 \usepackage{natbib}
 \usepackage{enumerate}
 \usepackage{microtype}
@@ -336,6 +335,32 @@ X_i &= \prod_{k=1}^i t_i.
 
 \section{The algorithm}
 
+\begin{algorithm}
+\caption{Calculate $y = x^n$}
+\begin{algorithmic} 
+\REQUIRE $n \geq 0 \vee x \neq 0$
+\ENSURE $y = x^n$
+\STATE $y \leftarrow 1$
+\IF{$n < 0$}
+\STATE $X \leftarrow 1 / x$
+\STATE $N \leftarrow -n$
+\ELSE
+\STATE $X \leftarrow x$
+\STATE $N \leftarrow n$
+\ENDIF
+\WHILE{$N \neq 0$}
+\IF{$N$ is even}
+\STATE $X \leftarrow X \times X$
+\STATE $N \leftarrow N / 2$
+\ELSE[$N$ is odd]
+\STATE $y \leftarrow y \times X$
+\STATE $N \leftarrow N - 1$
+\ENDIF
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+
+
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=0.5\linewidth]{figures/algorithm.pdf}
@@ -608,7 +633,8 @@ at the University of Auckland.
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \conflictofinterests{Conflicts of Interest}
-The authors declare no conflicts of interest.
+The authors declare no conflicts of interJason Mamford Half of the money collected from the Northern Toll road is wasted in costs. It cost millions of dollars for one gantry, so how much for 50 gantries? How much for a million transponders? You see, nobody will tell us anything until it is too late.
+est.
 
 %=================================================================
 % References: Variant A
