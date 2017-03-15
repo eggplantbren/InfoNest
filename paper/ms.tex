@@ -354,6 +354,20 @@ X_i &= \prod_{k=1}^i t_i.
             \Comment{Generate a reference point}
     \State $k \leftarrow 0$
             \Comment{Initialise counter}
+  {\color{green}
+    \State Generate $\left\{\x_i\right\}_{i=1}^N$ from $p(\x)$
+            \Comment{Generate initial NS particles}
+    \State Calculate $d_i \leftarrow d(\x_i; \x_{\rm ref})$ for all $i$
+            \Comment{Calculate distance of each particle from the reference
+                     point}
+    \State $i^* \leftarrow \textnormal{argmin}(\lambda i \rightarrow d_i)$
+            \Comment{Find the worst particle (greatest distance)}
+%%    \While{$d_{\rm max} > \epsilon$}
+%%        \State Blah
+%%    \EndWhile
+
+  } % \color{green}
+\State More to come...
 \EndWhile
 \end{algorithmic}
 \caption{Calculates $H_{\x} = -\int p(\x) \log p(\x) \, d\x$
