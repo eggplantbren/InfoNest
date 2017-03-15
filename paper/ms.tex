@@ -502,29 +502,43 @@ generator for the reference pairs. This is an example of the
 The resulting  mutual information is
 $I_{\tau, \d} = 4.96 \pm 0.38$ nats.
 
-The results for the uneven observing schedule were:
+The results for the uneven observing schedule, again in terms of log
+probabilities, are:
 \begin{align}
-H'_{\tau}     &= 1.122 \pm 0.028 \\
-H'_{\d}       &= 895.5 \pm 1.5   \\
-H'_{\tau, \d} &= 874.7 \pm 1.5    \\
-I_{\tau, \d} &= 30.13 \pm 0.70
+H_{\tau}     &= 6.243  \pm 0.024 \\
+H_{\d}       &= 712.77 \pm 0.35   \\
+H_{\tau, \d} &= 715.84 \pm 0.35    \\
+I_{\tau, \d} &= 5.21 \pm 0.40
 \end{align}
 
 The difference in mutual informations between the two observation
-schedules is $2.3 \pm 1.3$ nats, suggesting a slight advantage to the
+schedules, assuming a uniform prior on this difference,
+is just $0.25 \pm 0.55$ nats, suggesting (extremely weakly)
+a slight advantage to the
 uneven observing schedule, in terms of the data's relevance to inference
-of the log-period of the signal.
+of the log-period of the signal. The situation may be different if we
+had allowed for shorter periods to be possible, as irregular observing
+schedules are known to reduce aliasing and ambiguity in the inferred period.
+When inferring the period of an oscillating signal, multimodal posterior
+distributions for the period are common \citep{gregoryTrimodal, exoplanet}.
+The multimodality of the posterior here raises an interesting issue. Is
+the question we really want answered ``what is the value of $T$
+{\bf precisely}?'', to which the mutual information relates?
+Most practicing scientists would not feel particularly informed to learn
+that the vast majority of possibilities had been ruled out, if the
+posterior still consisted of several widely separated modes!
+Perhaps, in some applications, a more appropriate question is
+``what is the value of $T$ to within $\pm$ 10\%'', or something along these
+lines.
+
 In a serious experimental design situation, the relevance is not the only
 consideration (or the answer to every experimental design problem would
 be to obtain more data without limit), but it is a very important one.
 
-
-
 \subsection{Computational cost}
 
-The computational resources needed to compute these quantities was quite large
---- three lots of 1,000 repetitions of Nested Sampling, in all
-(though the algorithm can be parallelised trivially).
+The computational resources needed to compute these quantities was quite large,
+as Nested Sampling appears in the inner loop of the algorithm.
 However, it is worth reflecting on the complexity of the calculation that
 has been done.
 
@@ -576,26 +590,6 @@ I_{\bphi, \d} &= \iint
 \end{align}
 It should not be surprising that this is costly.
 
-
-
-\subsection{Multimodality and precisional questions}
-
-When inferring the period of an oscillating signal, multimodal posterior
-distributions for the period are common \citep{gregoryTrimodal, exoplanet}
-
-The multimodality of the posterior here raises an interesting issue. Is
-the question we really want answered ``what is the value of $T$
-{\bf precisely}?'', to which the mutual information relates?
-Most practicing scientists would not feel particularly informed to learn
-that the vast majority of possibilities had been ruled out, if the
-posterior still consisted of several widely separated modes!
-Perhaps, in some applications, a more appropriate question is
-``what is the value of $T$ to within $\pm$ 10\%''
-{\todo or something like that.}
-{\query The multimodality of the posterior in this problem (sometimes) might
-affect mixing sufficiently that the NS gets the incorrect answer. Be
-careful! And maybe use an example where this is unlikely, or double
-check it using brute force.}
 
 
 \section{Example 3: TBD}
