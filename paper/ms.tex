@@ -46,8 +46,8 @@
 
 \usepackage{dsfont}
 \usepackage[utf8]{inputenc}
-\usepackage{algorithm}
-\usepackage{algorithmic}
+\usepackage{algorithm, mathtools}
+\usepackage[noend]{algpseudocode}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{natbib}
@@ -252,7 +252,10 @@ for the posterior distribution
 \begin{align}
 p(\x | \d) &= \frac{p(\x)p(\d | \x)}{p(\d)}
 \end{align}
-contains the marginal likelihood $p(\d)$.
+contains the marginal likelihood or `evidence'
+\begin{align}
+p(\d) &= \int p(\x) p(\d | \x) \, d\x.
+\end{align}
 
 It is important to distinguish between $H_{\x | \d}$ and the
 entropy of $\x$ given a particular value of $\d$, which might be written
@@ -336,30 +339,26 @@ X_i &= \prod_{k=1}^i t_i.
 \section{The algorithm}
 
 \begin{algorithm}
-\caption{Calculate $y = x^n$}
-\begin{algorithmic} 
-\REQUIRE $n \geq 0 \vee x \neq 0$
-\ENSURE $y = x^n$
-\STATE $y \leftarrow 1$
-\IF{$n < 0$}
-\STATE $X \leftarrow 1 / x$
-\STATE $N \leftarrow -n$
-\ELSE
-\STATE $X \leftarrow x$
-\STATE $N \leftarrow n$
-\ENDIF
-\WHILE{$N \neq 0$}
-\IF{$N$ is even}
-\STATE $X \leftarrow X \times X$
-\STATE $N \leftarrow N / 2$
-\ELSE[$N$ is odd]
-\STATE $y \leftarrow y \times X$
-\STATE $N \leftarrow N - 1$
-\ENDIF
-\ENDWHILE
-\end{algorithmic}
-\end{algorithm}
+\begin{algorithmic}
+\State {\em Set the numerical parameters:}
+\State $N \in \{1, 2, 3, ... \}$
+            \Comment{the number of Nested Sampling particles to use}
+\State $\epsilon \geq 0$
+            \Comment{the tolerance} \\
+\hrulefill
+\State $\widehat{\mathbf{h}} \leftarrow [\,]$
+            \Comment{Initialise an empty list of results}
 
+\While{more iterations desired}
+    \State Generate $\x_{\rm ref}$ from $p(\x)$
+            \Comment{Generate a reference point}
+    \State $k \leftarrow 0$
+            \Comment{Initialise counter}
+\EndWhile
+\end{algorithmic}
+\caption{Calculates $H_{\x} = -\int p(\x) \log p(\x) \, d\x$
+         without evaluating $\log p(\x)$.}
+\end{algorithm}
 
 \begin{figure}[!ht]
 \centering
