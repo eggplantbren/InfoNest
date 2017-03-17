@@ -350,10 +350,11 @@ X_i &= \prod_{k=1}^i t_i.
             \Comment{Initialise an empty list of results}
 
 \While{more iterations desired}
-    \State Generate $\x_{\rm ref}$ from $p(\x)$
-            \Comment{Generate a reference point}
     \State $k \leftarrow 0$
             \Comment{Initialise counter}
+    \State Generate $\x_{\rm ref}$ from $p(\x)$
+            \Comment{Generate a reference point}
+\color{green}
     \State Generate $\left\{\x_i\right\}_{i=1}^N$ from $p(\x)$
             \Comment{Generate initial NS particles}
     \State Calculate $d_i \leftarrow d(\x_i; \x_{\rm ref})$ for all $i$
@@ -376,7 +377,7 @@ X_i &= \prod_{k=1}^i t_i.
         \State $k \leftarrow k+1$
             \Comment{Increment counter $k$}
     \EndWhile
-
+\color{black}
     \State $\widehat{\mathbf{h}} \leftarrow \widehat{\mathbf{h}} + [k/N]$
             \Comment{Append latest estimate to results}
 \EndWhile
@@ -388,7 +389,8 @@ X_i &= \prod_{k=1}^i t_i.
          estimates is $\int f(\x) \int f(\x')
             \log \left[ P(d(\x', \x) < \epsilon | \x) \right]
                         \, d\x' \, d\x$, the expected value of the
-         log-probability of a small region near $\x$.}
+         log-probability of a small region near $\x$.
+        The part highlighted in green is standard Nested Sampling.}
 \end{algorithm}
 
 \begin{figure}[!ht]
