@@ -354,7 +354,6 @@ X_i &= \prod_{k=1}^i t_i.
             \Comment{Generate a reference point}
     \State $k \leftarrow 0$
             \Comment{Initialise counter}
-  {\color{green}
     \State Generate $\left\{\x_i\right\}_{i=1}^N$ from $p(\x)$
             \Comment{Generate initial NS particles}
     \State Calculate $d_i \leftarrow d(\x_i; \x_{\rm ref})$ for all $i$
@@ -364,16 +363,32 @@ X_i &= \prod_{k=1}^i t_i.
             \Comment{Find the worst particle (greatest distance)}
     \State $d_{\rm max} \leftarrow d_{i^*}$
             \Comment{Find the greatest distance}
-%%    \While{$d_{\rm max} > \epsilon$}
-%%        \State Blah
-%%    \EndWhile
+    \While{$d_{\rm max} > \epsilon$}
+        \State Replace $\x_{i^*}$ with $\x_{\rm new}$ from
+               $p\left(\x | (d(\x) < d_{\rm max})\right)$
+            \Comment{Replace worst particle}
+        \State Calculate $d_{i^*} \leftarrow d(\x_{\rm new}; \x_{\rm ref})$
+            \Comment{Calculate distance of new particle from reference point}
+        \State $i^* \leftarrow \textnormal{argmin}(\lambda i \rightarrow d_i)$
+                \Comment{Find the worst particle (greatest distance)}
+        \State $d_{\rm max} \leftarrow d_{i^*}$
+                \Comment{Find the greatest distance}
+        \State $k \leftarrow k+1$
+            \Comment{Increment counter $k$}
+    \EndWhile
 
-  } % \color{green}
-\State More to come...
+    \State $\widehat{\mathbf{h}} \leftarrow \widehat{\mathbf{h}} + [k/N]$
+            \Comment{Append latest estimate to results}
 \EndWhile
+\State $\widehat{h_{\rm final}} \leftarrow \frac{1}{\rm num\_iterations} \sum \widehat{\mathbf{h}}$
+            \Comment{Average results}
 \end{algorithmic}
 \caption{Calculates $H_{\x} = -\int p(\x) \log p(\x) \, d\x$
-         without evaluating $\log p(\x)$.}
+         without evaluating $\log p(\x)$. Technically, what it actually
+         estimates is $\int f(\x) \int f(\x')
+            \log \left[ P(d(\x', \x) < \epsilon | \x) \right]
+                        \, d\x' \, d\x$, the expected value of the
+         log-probability of a small region near $\x$.}
 \end{algorithm}
 
 \begin{figure}[!ht]
@@ -392,7 +407,7 @@ is the ``likelihood''.\label{fig:algorithm}}
 Continuous hypothesis spaces are commonly used in practice. Suppose
 $\x$ has probability density $f(\x)$. The algorithm actually estimates
 \begin{align}
-Q &= \int f(\x) \int f(\x')
+h &= \int f(\x) \int f(\x')
             \log \left[ P(d(\x', \x) < \epsilon | \x) \right]
                         \, d\x' \, d\x.
 \end{align}
