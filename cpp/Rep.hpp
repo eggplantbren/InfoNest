@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <vector>
 #include "RNG.h"
+#include "Utils.h"
 
 namespace InfoNest
 {
@@ -51,6 +52,9 @@ class Rep
 
         // Distances
         std::vector<double> distances;
+
+        // Tiebreakers for distances
+        std::vector<double> tiebreakers;
 
         // Iteration counter
         unsigned int iteration;
@@ -110,6 +114,7 @@ Rep<Particle>::Rep(size_t id,
 ,rng(rng)
 ,particles(num_particles)
 ,distances(num_particles)
+,tiebreakers(num_particles)
 ,iteration(0)
 {
     // Check that the input was at least partially sane
@@ -142,6 +147,10 @@ void Rep<Particle>::initialise(RNG& temp_rng)
     // Compute all the distances
     compute_distances();
 
+    // Assign tiebreakers
+    for(double& tb: tiebreakers)
+        tb = rng.rand();
+
     // Set iteration number
     iteration = 1;
 }
@@ -171,7 +180,9 @@ void Rep<Particle>::iterate(bool last)
     // Find the worst particle.
     int worst = 0;
     for(size_t i=1; i<num_particles; ++i)
-        if(distances[i] > distances[worst])
+        if(distances[i] > distances[worst] ||
+            (distances[i] == distances[worst] &&
+             tiebreakers[i] > tiebreakers[worst]))
             worst = i;
 
     // Write its information to the output file.
@@ -211,6 +222,7 @@ void Rep<Particle>::replace(int which)
 {
     // Distance threshold
     double threshold = distances[which];
+    double tb_threshold = tiebreakers[which];
 
     // If num_particles > 1, clone a survivor.
     if(num_particles > 1)
@@ -223,11 +235,13 @@ void Rep<Particle>::replace(int which)
 
         particles[which] = particles[copy];
         distances[which] = distances[copy];
+        tiebreakers[which] = tiebreakers[copy];
     }
 
     // Stuff needed for MCMC
     Particle proposal;
     double proposal_distance;
+    double proposal_tb;
     double logA, alpha;
 
     // Count acceptances
@@ -240,17 +254,25 @@ void Rep<Particle>::replace(int which)
         proposal = particles[which];
         logA = proposal.perturb(rng);
         proposal_distance = dist(reference_particle, proposal);
+        proposal_tb = tiebreakers[which] + rng.randh();
+        wrap(proposal_tb, 0.0, 1.0);
 
         // Acceptance probability
         alpha = (logA >= 0.0) ? (1.0) : (exp(logA));
 
         // Check for acceptance
-        if(proposal_distance < threshold && rng.rand() <= alpha)
+        if(rng.rand() <= alpha)
         {
-            particles[which] = proposal;
-            distances[which] = proposal_distance;
+            if(proposal_distance < threshold ||
+                (proposal_distance == threshold &&
+                 proposal_tb < tb_threshold))
+            {
+                particles[which] = proposal;
+                distances[which] = proposal_distance;
+                tiebreakers[which] = proposal_tb;
 
-            ++accepts;
+                ++accepts;
+            }
         }
     }
 
