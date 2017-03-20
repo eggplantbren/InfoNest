@@ -356,6 +356,15 @@ The expected value of $n$ given the definition of the algorithm is
 
 \section{The algorithm}
 
+See Algorithm~\ref{alg:algorithm} for a step-by-step description of the
+algorithm. The idea is to generate a reference particle from the distribution
+whose entropy is required, and then use Nested Sampling to measure the
+log-probability of a small region near that particle.
+
+The algorithm is written in terms of an unknown quantity $\x$ whose entropy is required. In applications, $\x$ may be parameters,
+a subset of the parameters, data, parameters and data jointly, or
+whatever.
+
 \begin{algorithm}
 \begin{algorithmic}
 \State {\em Set the numerical parameters:}
@@ -408,7 +417,8 @@ The expected value of $n$ given the definition of the algorithm is
             \log \left[ P(d(\x', \x) < \epsilon | \x) \right]
                         \, d\x' \, d\x$, the expected value of the
          log-probability of a small region near $\x$.
-        The part highlighted in green is standard Nested Sampling.}
+        The part highlighted in green is standard Nested Sampling.
+        \label{alg:algorithm}}
 \end{algorithm}
 
 \begin{figure}[!ht]
@@ -665,7 +675,10 @@ I_{\bphi, \d} &= \iint
 \end{align}
 It should not be surprising that this is costly.
 
-
+In the sinusoidal signal example, I calculated the difference in
+mutual information between two observing strategies. It is possible
+that there exists a more direct method of obtaining this which
+is more efficient than running the two strategies separately.
 
 \section{Example 3: TBD}
 
