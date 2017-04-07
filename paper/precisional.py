@@ -20,15 +20,13 @@ H = 0.0
 
 # Downset terms
 for i in range(0, len(x) - precision + 1):
-    subset = p[i:i+precision]
-    print(subset)
-    H += -np.sum(subset * np.log(subset))
+    p_subset = p[i:i+precision].sum()
+    H += -p_subset * np.log(p_subset)
 
 # Subtract overlap terms
 for i in range(1, len(x) - precision + 1):
-    subset = p[i:i+precision-1]
-    print(subset)
-    H -= -np.sum(subset * np.log(subset))
+    p_subset = p[i:i+precision-1].sum()
+    H -= -p_subset * np.log(p_subset)
 
-print(H)
+print("H_precisional = {H} nats".format(H=H))
 
