@@ -724,7 +724,7 @@ The authors declare no conflicts of interest.
 The central issue about the value of a parameter $\x$ asks
 ``what is the value of $\x$, precisely?''. However, in practice we often
 don't need or want to know $\x$ to arbitrary precision. Using the central
-issue can also lead to counterintuitive results if you don't keep its
+issue can lead to counterintuitive results if you don't keep its specific
 definition in mind. For example, suppose $x$ could take any integer value
 from 1 to 1 billion. If we learned the last digit of $x$, we
 will have ruled out nine tenths of the possibilities, and therefore obtained
@@ -736,7 +736,8 @@ up to 999,999,999.
 
 In practice, we may
 want to ask a question that is different from the central issue.
-For example, suppose we want to know the value of $x$ to within a tolerance
+For example, suppose $x \in \{1, ..., 10\}$ and
+we want to know the value of $x$ to within a tolerance
 of $\pm 1$. Any of the following statements would resolve the issue:
 \begin{itemize}
 \item $x \in \{1, 2, 3\}$ and anything that implies it
@@ -748,13 +749,17 @@ To quantify the degree to which this question is unanswered by
 $\top$, we can write the question as a union of ideal questions:
 \begin{align}
 Q &= \left[\downarrow (x \in \{1, 2, 3\})\right] \cup
-     \left[\downarrow (x \in \{2, 3, 4\})\right] \cup ...
+     \left[\downarrow (x \in \{2, 3, 4\})\right] \cup
+     \left[\downarrow (x \in \{3, 4, 5\})\right] \cup ...
 \end{align}
 
-Its quantification is therefore
+The entropy of this question is
 \begin{align}
-H(Q) &= -\sum_{i=1}^3 p_i \log p_i - \sum_{i=2}^4 p_i \log p_i
-+ \sum_{i=2}^3 p_i \log p_i
+H(Q) &= f_{1,2,3}\\
+     & \quad \quad + \left(f_{2,3,4} - f_{2,3}\right) \\
+     & \quad \quad + \left(f_{3,4,5} - f_{3,4}\right) \\
+     & \quad \quad + ... \\
+     & \quad \quad + \left(f_{8,9,10} - f_{8,9}\right).
 \end{align}
 
 
