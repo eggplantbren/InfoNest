@@ -763,6 +763,34 @@ H(Q) &= f_{1,2,3}\\
 \end{align}
 
 
+\subsection*{Continuous case}
+
+Consider a probability density function $f(x)$, defined on the real
+line. The probability contained in an interval
+$[x_0, x_0 + L]$, which has length $L$, is
+\begin{align}
+\int_{x_0}^{x_0 + L} f(x) \, dx &= F(x_0 + L) - F(x_0)
+\end{align}
+where $F(x)$ is the cumulative distribution function (CDF).
+This probability can be considered as a function of two variables,
+$x_0$ and $L$, which I will denote by $Q(,)$:
+\begin{align}
+Q(x_0, L) &= F(x_0 + L) - F(x_0).
+\end{align}
+The contribution of such an interval to an entropy expression
+is `minus $p\log p$', i.e.
+\begin{align}
+h(x_0, L) &= -Q(x_0, L) \log Q(x_0, L).
+\end{align}
+
+Consider the rate of change of $h$ as the interval is shifted to
+the right, but with its width $L$ held constant:
+\begin{align}
+\frac{\partial h}{\partial x_0} &= - \frac{\partial}{\partial x_0}
+  Q(x_0, L) \log Q(x_0, L)
+\end{align}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
