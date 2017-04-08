@@ -7,14 +7,14 @@ namespace InfoNest
 {
 
 Pareto::Pareto()
-:xs(1000)
+:xs(200)
 {
 
 }
 
 void Pareto::generate(RNG& rng)
 {
-    alpha = 0.01 + 4.99*rng.rand();
+    alpha = exp(log(5)*rng.rand());
 
     for(double& x: xs)
         x = x_min * pow(rng.rand(), -1.0 / alpha);
@@ -31,8 +31,10 @@ void Pareto::compute_logl()
 
 double Pareto::perturb_alpha(RNG& rng)
 {
-    alpha += 4.99*rng.randh();
-    wrap(alpha, 0.01, 5.0);
+    alpha = log(alpha);
+    alpha += log(5)*rng.randh();
+    wrap(alpha, 0.0, log(5.0));
+    alpha = exp(alpha);
 
     return 0.0;
 }
@@ -100,37 +102,45 @@ void Pareto::print(std::ostream& out)
         out<<x<<' ';
 }
 
+// Difference between maximum observations
+// from first half
 double Pareto::parameter_distance(const Pareto& pareto1,
                                   const Pareto& pareto2)
 {
-    double tot1 = 0.0;
-    for(size_t i=0; i<900; ++i)
-        tot1 += pareto1.xs[i];
+    double x1_max = -1E300;
+    double x2_max = -1E300;
 
-    double tot2 = 0.0;
-    for(size_t i=0; i<900; ++i)
-        tot2 += pareto2.xs[i];
+    for(size_t i=0; i<pareto1.xs.size()/2; ++i)
+    {
+        if(pareto1.xs[i] > x1_max)
+            x1_max = pareto1.xs[i];
+        if(pareto2.xs[i] > x2_max)
+            x2_max = pareto2.xs[i];
+    }
 
-    return std::abs(log(tot1/900) - log(tot2/900));
+    double delta = log(x2_max) - log(x1_max);
+    return std::abs(delta);
 }
 
+
+// Difference between maximum observations
+// from second half
 double Pareto::data_distance(const Pareto& pareto1,
                              const Pareto& pareto2)
 {
-    // Average of biggest 10
-    std::vector<double> temp = pareto1.xs;
-    std::sort(temp.begin(), temp.end());
-    double tot1 = 0.0;
-    for(size_t i=990; i<temp.size(); ++i)
-        tot1 += temp[i];
+    double x1_max = -1E300;
+    double x2_max = -1E300;
 
-    temp = pareto2.xs;
-    std::sort(temp.begin(), temp.end());
-    double tot2 = 0.0;
-    for(size_t i=990; i<temp.size(); ++i)
-        tot2 += temp[i];
+    for(size_t i=pareto1.xs.size()/2; i<pareto1.xs.size(); ++i)
+    {
+        if(pareto1.xs[i] > x1_max)
+            x1_max = pareto1.xs[i];
+        if(pareto2.xs[i] > x2_max)
+            x2_max = pareto2.xs[i];
+    }
 
-    return std::abs(log(tot1/10) - log(tot2/10));
+    double delta = log(x2_max) - log(x1_max);
+    return std::abs(delta);
 }
 
 double Pareto::joint_distance(const Pareto& pareto1, const Pareto& pareto2)
