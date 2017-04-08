@@ -782,14 +782,39 @@ is `minus $p\log p$', i.e.
 \begin{align}
 h(x_0, L) &= -Q(x_0, L) \log Q(x_0, L).
 \end{align}
-
 Consider the rate of change of $h$ as the interval is shifted to
 the right, but with its width $L$ held constant:
 \begin{align}
-\frac{\partial h}{\partial x_0} &= - \frac{\partial}{\partial x_0}
-  Q(x_0, L) \log Q(x_0, L)
+\frac{\partial h}{\partial x_0} &= \frac{\partial}{\partial x_0}
+    \left[-Q(x_0, L) \log Q(x_0, L)\right] \\
+    &= -\left[1 + \log Q(x_0, L)\right]\frac{\partial Q}{\partial x_0} \\
+    &= -\left[1 + \log Q(x_0, L)\right]\left[f(x_0 + L) - f(x_0)\right].
+\end{align}
+Consider also the rate of change of $h$ as the interval is
+expanded to the right, while keeping its left edge fixed:
+\begin{align}
+\frac{\partial h}{\partial L} &= \frac{\partial}{\partial L}
+    \left[-Q(x_0, L) \log Q(x_0, L)\right] \\
+    &= -\left[1 + \log Q(x_0, L)\right]\frac{\partial Q}{\partial L} \\
+    &= -\left[1 + \log Q(x_0, L)\right]f(x_0 + L).
 \end{align}
 
+The entropy of the precisional question is built up from
+$h$ terms. The extra entropy from moving from $x_0$ to
+$x_0 + \delta$, for small $\delta$, is
+\begin{align}
+\delta H &= h(x_0 + \delta, L) - h(x_0 + \delta, L - 2\delta) \\
+ &\approx \delta \frac{\partial h}{\partial x_0}
+    - \left[\delta \frac{\partial h}{\partial x_0}
+            -2\delta \frac{\partial h}{\partial L}\right] \\
+ &= 2\delta \frac{\partial h}{\partial L} \\
+ &= -2\delta\left[1 + \log Q(x_0, L)\right]f(x_0 + L)
+\end{align}
+Therefore
+\begin{align}
+\frac{dH}{dx_0} &= -2\left[1 + \log Q(x_0, L)\right]f(x_0 + L) \\
+  &= -2\left[1 + \log \left(F(x_0 + L) - F(x_0)\right)\right]f(x_0 + L)
+\end{align}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
