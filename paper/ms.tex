@@ -813,9 +813,14 @@ $x_0 + \delta$, for small $\delta$, is
 Therefore
 \begin{align}
 \frac{dH}{dx_0} &= -2\left[1 + \log Q(x_0, L)\right]f(x_0 + L) \\
-  &= -2\left[1 + \log \left(F(x_0 + L) - F(x_0)\right)\right]f(x_0 + L)
+  &= -2\left[1 + \log \left(F(x_0 + L) - F(x_0)\right)\right]f(x_0 + L),
 \end{align}
-
+which implies the overall entropy is
+\begin{align}
+H &= -2\int_{-\infty}^{+\infty} \left[1 + \log \left(F(x_0 + L) - F(x_0)\right)\right]f(x_0 + L) \, dx \\
+  &= 1-2\int_{-\infty}^{+\infty} f(x_0)\log \left[F(x_0-L/2) - F(x_0+L/2)\right] \, dx
+\end{align}
+which is connected to the expected value of the log-probability.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
