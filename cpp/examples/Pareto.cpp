@@ -60,7 +60,47 @@ double Pareto::perturb(RNG& rng)
 {
     double logH = 0.0;
 
- 
+    int which = rng.rand_int(3);
+
+    if(which == 0)
+    {
+        // p(x_min) ~ log-normal(1000, 5)
+        x_min = log(x_min);
+        logH -= -0.5*pow((x_min - log(1000.0))/5.0, 2);
+        x_min += 5.0*rng.randh();
+        logH += -0.5*pow((x_min - log(1000.0))/5.0, 2);
+        x_min = exp(x_min);
+    }
+    else if(which == 1)
+    {
+        alpha = log(alpha);
+        alpha += log(5.0)*rng.randh();
+        wrap(alpha, 0.0, log(5.0));
+        alpha = exp(alpha);
+    }
+    else
+    {
+        // p(N) ~ pareto(10, 0.5)T(, 1000000)
+
+        // Transform to exponential then uniform
+        double e = (log(N) - log(10.0))/2.0;
+        double u = 1.0 - exp(-e);
+
+        // Do the move
+        u += rng.randh();
+        wrap(u, 0.0, 1.0);
+
+        // Transform back to pareto
+        e = -log(1.0 - u);
+        N = exp(log(10.0) + 2.0*e);
+
+        // Enforce upper limit
+        if(N > 1000000.0)
+            return -1E300;
+    }
+
+    generate_data(rng);
+
     return logH;
 }
 
