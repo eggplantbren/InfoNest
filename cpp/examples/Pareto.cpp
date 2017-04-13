@@ -7,99 +7,45 @@ namespace InfoNest
 {
 
 Pareto::Pareto()
-:xs(200)
 {
 
 }
 
 void Pareto::generate(RNG& rng)
 {
-    alpha = exp(log(5)*rng.rand());
+    // p(x_min) ~ log-normal(1000, 5)
+    x_min = exp(log(1000.0) + 5.0*rng.randn());
 
-    for(double& x: xs)
-        x = x_min * pow(rng.rand(), -1.0 / alpha);
+    // p(alpha) ~ log-uniform(1, 5)
+    alpha = exp(log(5.0)*rng.rand());
 
-    compute_logl();
+    // p(N) ~ pareto(10, 0.5)T(, 1000000)
+    double logN;
+    do
+    {
+        logN = log(10.0) - 2.0*log(1.0 - rng.rand());
+        N = exp(logN);
+    }while(N > 1000000.0);
+
+    generate_data();
 }
 
-void Pareto::compute_logl()
+void Pareto::generate_data()
 {
-    logl = xs.size()*log(alpha);
-    for(double x: xs)
-        logl += -(alpha + 1.0)*log(x);
-}
 
-double Pareto::perturb_alpha(RNG& rng)
-{
-    alpha = log(alpha);
-    alpha += log(5)*rng.randh();
-    wrap(alpha, 0.0, log(5.0));
-    alpha = exp(alpha);
-
-    return 0.0;
 }
 
 double Pareto::perturb(RNG& rng)
 {
     double logH = 0.0;
 
-    int proposal_type = rng.rand_int(4);
-
-    if(proposal_type == 0)
-    {
-        double old_alpha = alpha;
-
-        logH += perturb_alpha(rng);
-
-        // Transform data to go with new alpha value
-        for(double& x: xs)
-        {
-            x = pow(x / x_min, -old_alpha);
-            x = x_min * pow(x, -1.0 / alpha);
-        }
-
-        compute_logl();
-    }
-    else if(proposal_type == 1)
-    {
-        logH -= logl;
-
-        logH += perturb_alpha(rng);
-
-        compute_logl();
-        logH += logl;
-    }
-    else if(proposal_type == 2)
-    {
-        int which = rng.rand_int(xs.size());
-        xs[which] = pow(xs[which] / x_min, -alpha);
-        xs[which] += rng.randh();
-        wrap(xs[which], 0.0, 1.0);
-        xs[which] = x_min * pow(xs[which], -1.0 / alpha);
-
-        compute_logl();
-    }
-    else
-    {
-        int reps = (int)pow((double)xs.size(), rng.rand());
-        int which;
-        for(int i=0; i<reps; ++i)
-        {
-            which = rng.rand_int(xs.size());
-            xs[which] = x_min * pow(rng.rand(), -1.0 / alpha);
-        }
-
-        compute_logl();
-    }
-
+ 
     return logH;
 }
 
 void Pareto::print(std::ostream& out)
 {
-    out<<alpha<<' ';
-    for(double x: xs)
-        out<<x<<' ';
+    out<<x_min<<' '<<alpha<<' '<<N<<' ';
 }
 
 // Difference between maximum observations

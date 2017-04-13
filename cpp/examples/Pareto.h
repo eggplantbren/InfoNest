@@ -11,21 +11,20 @@ namespace InfoNest
 class Pareto
 {
     private:
-        // Lower limit
-        static constexpr double x_min = 1.0;
-
-        // Slope
+        // Lower limit and slope
+        // of pareto distribution for scores
+        double x_min;
         double alpha;
 
-        // Data
+        // Number of games played (gets rounded down to
+        // an integer when needed)
+        double N;
+
+        // Full dataset
         std::vector<double> xs;
 
-        // Log likelihood
-        double logl;
-        void compute_logl();
-
-        // Proposal for alpha
-        double perturb_alpha(RNG& rng);
+        // Function that generates the full dataset
+        void generate_data();
 
     public:
         // Do-nothing constructor
