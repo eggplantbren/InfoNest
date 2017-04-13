@@ -7,7 +7,8 @@ namespace InfoNest
 {
 
 Pareto::Pareto()
-:top_ten(10)
+:us(100000)
+,top_ten(10)
 {
 
 }
@@ -20,18 +21,21 @@ void Pareto::generate(RNG& rng)
     // p(alpha) ~ log-uniform(1, 5)
     alpha = exp(log(5.0)*rng.rand());
 
-    // p(N) ~ pareto(10, 0.5)T(, 1000000)
+    // p(N) ~ pareto(10, 0.5)T(, 100000)
     double logN;
     do
     {
         logN = log(10.0) - 2.0*log(1.0 - rng.rand());
         N = exp(logN);
-    }while(N > 1000000.0);
+    }while(N > 100000.0);
 
-    generate_data(rng);
+    for(double& u: us)
+        u = rng.rand();
+
+    generate_data();
 }
 
-void Pareto::generate_data(RNG& rng)
+void Pareto::generate_data()
 {
     // All scores
     std::vector<unsigned int> scores((size_t)N);
@@ -42,11 +46,11 @@ void Pareto::generate_data(RNG& rng)
 
     // Generate scores
     double e;
-    for(unsigned int& score: scores)
+    for(size_t i=0; i<scores.size(); ++i)
     {
         // Generate an exponential
-        e = -log(1.0 - rng.rand());
-        score = (unsigned int)exp(log_x_min + one_over_alpha*e);
+        e = -log(1.0 - us[i]);
+        scores[i] = (unsigned int)exp(log_x_min + one_over_alpha*e);
     }
 
     // Find top ten scores, put them in top_ten
@@ -60,46 +64,68 @@ double Pareto::perturb(RNG& rng)
 {
     double logH = 0.0;
 
-    int which = rng.rand_int(3);
+    if(rng.rand() <= 0.5)
+    {
+        int which = rng.rand_int(3);
 
-    if(which == 0)
-    {
-        // p(x_min) ~ log-normal(1000, 5)
-        x_min = log(x_min);
-        logH -= -0.5*pow((x_min - log(1000.0))/5.0, 2);
-        x_min += 5.0*rng.randh();
-        logH += -0.5*pow((x_min - log(1000.0))/5.0, 2);
-        x_min = exp(x_min);
-    }
-    else if(which == 1)
-    {
-        alpha = log(alpha);
-        alpha += log(5.0)*rng.randh();
-        wrap(alpha, 0.0, log(5.0));
-        alpha = exp(alpha);
+        if(which == 0)
+        {
+            // p(x_min) ~ log-normal(1000, 5)
+            x_min = log(x_min);
+            logH -= -0.5*pow((x_min - log(1000.0))/5.0, 2);
+            x_min += 5.0*rng.randh();
+            logH += -0.5*pow((x_min - log(1000.0))/5.0, 2);
+            x_min = exp(x_min);
+        }
+        else if(which == 1)
+        {
+            alpha = log(alpha);
+            alpha += log(5.0)*rng.randh();
+            wrap(alpha, 0.0, log(5.0));
+            alpha = exp(alpha);
+        }
+        else
+        {
+            // p(N) ~ pareto(10, 0.5)T(, 100000)
+
+            // Transform to exponential then uniform
+            double e = (log(N) - log(10.0))/2.0;
+            double u = 1.0 - exp(-e);
+
+            // Do the move
+            u += rng.randh();
+            wrap(u, 0.0, 1.0);
+
+            // Transform back to pareto
+            e = -log(1.0 - u);
+            N = exp(log(10.0) + 2.0*e);
+
+            // Enforce upper limit
+            if(N > 100000.0)
+                return -1E300;
+        }
     }
     else
     {
-        // p(N) ~ pareto(10, 0.5)T(, 1000000)
+        if(rng.rand() <= 0.5)
+        {
+            int which = rng.rand_int(us.size());
+            us[which] += rng.randh();
+            wrap(us[which], 0.0, 1.0);
+        }
+        else
+        {
+            int reps = pow(us.size(), rng.rand());
+            int which;
+            for(int i=0; i<reps; ++i)
+            {
+                which = rng.rand_int(us.size());
+                us[which] = rng.rand();
+            }
+        }
 
-        // Transform to exponential then uniform
-        double e = (log(N) - log(10.0))/2.0;
-        double u = 1.0 - exp(-e);
-
-        // Do the move
-        u += rng.randh();
-        wrap(u, 0.0, 1.0);
-
-        // Transform back to pareto
-        e = -log(1.0 - u);
-        N = exp(log(10.0) + 2.0*e);
-
-        // Enforce upper limit
-        if(N > 1000000.0)
-            return -1E300;
     }
-
-    generate_data(rng);
+    generate_data();
 
     return logH;
 }
@@ -115,17 +141,17 @@ void Pareto::print(std::ostream& out)
 double Pareto::parameter_distance(const Pareto& pareto1,
                                   const Pareto& pareto2)
 {
-    return std::abs((int)pareto1.N - (int)pareto2.N);
+    return std::abs((int)pareto2.N - (int)pareto1.N);
 }
 
 // Difference between 'top ten'
 double Pareto::data_distance(const Pareto& pareto1,
                              const Pareto& pareto2)
 {
-    double d = 0.0;
+    double dsq = 0.0;
     for(size_t i=0; i<pareto1.top_ten.size(); ++i)
-        d += pow(pareto2.top_ten[i] - pareto1.top_ten[i], 2);
-    return d;
+        dsq += pow(pareto2.top_ten[i] - pareto1.top_ten[i], 2);
+    return sqrt(dsq);
 }
 
 double Pareto::joint_distance(const Pareto& pareto1, const Pareto& pareto2)

@@ -20,11 +20,14 @@ class Pareto
         // an integer when needed)
         double N;
 
+        // Source of 'random numbers' for generating the simulated data
+        std::vector<double> us;
+
         // Top ten scores
         std::vector<unsigned int> top_ten;
 
         // Function that generates the top ten scores
-        void generate_data(RNG& rng);
+        void generate_data();
 
     public:
         // Do-nothing constructor
