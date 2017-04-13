@@ -3,6 +3,7 @@
 
 // Includes
 #include <ostream>
+#include <tuple>
 #include "../RNG.h"
 
 namespace InfoNest
@@ -28,6 +29,9 @@ class Pareto
 
         // Function that generates the top ten scores
         void generate_data();
+
+        // Summaries of data, used to define data_distance
+        std::tuple<double, double, double> summaries() const;
 
     public:
         // Do-nothing constructor

@@ -137,26 +137,40 @@ void Pareto::print(std::ostream& out)
         out<<score<<' ';
 }
 
-// Difference between N values (rounded down to integers)
+std::tuple<double, double, double> Pareto::summaries() const
+{
+    // Summary stats: min, max, mean
+    double min = *min_element(top_ten.begin(), top_ten.end());
+    double max = *max_element(top_ten.begin(), top_ten.end());
+
+    double tot = 0.0;
+    for(double value: top_ten)
+        tot += value;
+    double mean = tot/top_ten.size();
+
+    return {min, max, mean};
+}
+
+
 double Pareto::parameter_distance(const Pareto& pareto1,
                                   const Pareto& pareto2)
 {
+    // Difference between N values (rounded down to integers)
     return std::abs((int)pareto2.N - (int)pareto1.N);
 }
 
-// Difference between RANGES of 'top ten'
 double Pareto::data_distance(const Pareto& pareto1,
                              const Pareto& pareto2)
 {
-    double min1, max1, min2, max2;
+    double min1, max1, mean1;
+    double min2, max2, mean2;
+    std::tie(min1, max1, mean1) = pareto1.summaries();
+    std::tie(min2, max2, mean2) = pareto2.summaries();
 
-    min1 = *min_element(pareto1.top_ten.begin(), pareto1.top_ten.end());
-    max1 = *max_element(pareto1.top_ten.begin(), pareto1.top_ten.end());
-
-    min2 = *min_element(pareto2.top_ten.begin(), pareto2.top_ten.end());
-    max2 = *max_element(pareto2.top_ten.begin(), pareto2.top_ten.end());
-
-    return std::abs((max2 - min2)/max2 - (max1 - min1)/max1);
+    // Compare on min/max and mean/max
+    double dsq = pow(min1/max1 - min2/max2, 2)
+                  + pow(mean1/max1 - mean2/max2, 2);
+    return sqrt(dsq);
 }
 
 double Pareto::joint_distance(const Pareto& pareto1, const Pareto& pareto2)
