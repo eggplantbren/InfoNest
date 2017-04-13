@@ -20,11 +20,11 @@ class Pareto
         // an integer when needed)
         double N;
 
-        // Full dataset
-        std::vector<double> xs;
+        // Top ten scores
+        std::vector<unsigned int> top_ten;
 
-        // Function that generates the full dataset
-        void generate_data();
+        // Function that generates the top ten scores
+        void generate_data(RNG& rng);
 
     public:
         // Do-nothing constructor
