@@ -2,6 +2,7 @@
 #include "Utils.h"
 
 #include <algorithm>
+#include <iostream>
 
 namespace InfoNest
 {
@@ -15,8 +16,13 @@ Pareto::Pareto()
 
 void Pareto::generate(RNG& rng)
 {
-    // p(x_min) ~ log-normal(1000, 5)
-    x_min = exp(log(1000.0) + 5.0*rng.randn());
+    // p(x_min) ~ pareto(10, 0.5)T(, 100000)
+    double log_x_min;
+    do
+    {
+        log_x_min = log(10.0) - 2.0*log(1.0 - rng.rand());
+        x_min = exp(log_x_min);
+    }while(x_min > 100000.0);
 
     // p(alpha) ~ log-uniform(1, 5)
     alpha = exp(log(5.0)*rng.rand());
@@ -70,12 +76,23 @@ double Pareto::perturb(RNG& rng)
 
         if(which == 0)
         {
-            // p(x_min) ~ log-normal(1000, 5)
-            x_min = log(x_min);
-            logH -= -0.5*pow((x_min - log(1000.0))/5.0, 2);
-            x_min += 5.0*rng.randh();
-            logH += -0.5*pow((x_min - log(1000.0))/5.0, 2);
-            x_min = exp(x_min);
+            // p(x_min) ~ pareto(10, 0.5)T(, 100000)
+
+            // Transform to exponential then uniform
+            double e = (log(x_min) - log(10.0))/2.0;
+            double u = 1.0 - exp(-e);
+
+            // Do the move
+            u += rng.randh();
+            wrap(u, 0.0, 1.0);
+
+            // Transform back to pareto
+            e = -log(1.0 - u);
+            x_min = exp(log(10.0) + 2.0*e);
+
+            // Enforce upper limit
+            if(x_min > 100000.0)
+                return -1E300;
         }
         else if(which == 1)
         {
