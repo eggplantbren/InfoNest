@@ -111,21 +111,21 @@ void Pareto::print(std::ostream& out)
         out<<score<<' ';
 }
 
-// Difference between maximum observations
-// from first half
+// Difference between N values (rounded down to integers)
 double Pareto::parameter_distance(const Pareto& pareto1,
                                   const Pareto& pareto2)
 {
-    return 0.0;
+    return std::abs((int)pareto1.N - (int)pareto2.N);
 }
 
-
-// Difference between maximum observations
-// from second half
+// Difference between 'top ten'
 double Pareto::data_distance(const Pareto& pareto1,
                              const Pareto& pareto2)
 {
-    return 0.0;
+    double d = 0.0;
+    for(size_t i=0; i<pareto1.top_ten.size(); ++i)
+        d += pow(pareto2.top_ten[i] - pareto1.top_ten[i], 2);
+    return d;
 }
 
 double Pareto::joint_distance(const Pareto& pareto1, const Pareto& pareto2)
