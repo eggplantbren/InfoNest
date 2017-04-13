@@ -61,7 +61,7 @@ class Sinusoid
         double perturb(RNG& rng);
 
         // Printing to stream
-        void print(std::ostream& out);
+        void print(std::ostream& out) const;
 
     public:
         // A few options to use for `distance`

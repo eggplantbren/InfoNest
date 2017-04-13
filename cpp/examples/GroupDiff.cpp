@@ -183,7 +183,7 @@ double GroupDiff::perturb(RNG& rng)
     return logH;
 }
 
-void GroupDiff::print(std::ostream& out)
+void GroupDiff::print(std::ostream& out) const
 {
     out<<mu1<<' '<<sigma1<<' '<<diff_mu<<' '<<diff_log_sigma<<' ';
     for(double x: xs1)

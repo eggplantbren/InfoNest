@@ -44,7 +44,7 @@ class Pareto
         double perturb(RNG& rng);
 
         // Printing to stream
-        void print(std::ostream& out);
+        void print(std::ostream& out) const;
 
         // Available distance functions
         static double parameter_distance(const Pareto& pareto1,

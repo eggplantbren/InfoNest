@@ -146,7 +146,7 @@ double Sinusoid::perturb(RNG& rng)
     return logH;
 }
 
-void Sinusoid::print(std::ostream& out)
+void Sinusoid::print(std::ostream& out) const
 {
     out<<A<<' '<<log10_period<<' '<<phi<<' ';
     for(double yy: y)

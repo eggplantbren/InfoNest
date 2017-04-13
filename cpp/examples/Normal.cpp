@@ -97,7 +97,7 @@ double Normal::perturb(RNG& rng)
     return logH;
 }
 
-void Normal::print(std::ostream& out)
+void Normal::print(std::ostream& out) const
 {
     out<<mu<<' ';
     for(double x: xs)

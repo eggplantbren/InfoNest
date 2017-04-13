@@ -130,7 +130,7 @@ double Pareto::perturb(RNG& rng)
     return logH;
 }
 
-void Pareto::print(std::ostream& out)
+void Pareto::print(std::ostream& out) const
 {
     out<<x_min<<' '<<alpha<<' '<<N<<' ';
     for(unsigned int score: top_ten)
