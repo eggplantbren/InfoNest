@@ -165,7 +165,7 @@ std::tuple<double, double, double> Pareto::summaries() const
         tot += value;
     double mean = tot/top_ten.size();
 
-    return {min, max, mean};
+    return std::tuple<double, double, double>{min, max, mean};
 }
 
 
