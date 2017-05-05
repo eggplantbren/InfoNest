@@ -773,52 +773,46 @@ $[x_0, x_0 + L]$, which has length $L$, is
 \end{align}
 where $F(x)$ is the cumulative distribution function (CDF).
 This probability can be considered as a function of two variables,
-$x_0$ and $L$, which I will denote by $Q(,)$:
+$x_0$ and $L$, which I will denote by $P(,)$:
 \begin{align}
-Q(x_0, L) &= F(x_0 + L) - F(x_0).
+P(x_0, L) &= F(x_0 + L) - F(x_0).
 \end{align}
 The contribution of such an interval to an entropy expression
-is `minus $p\log p$', i.e.
+is $-P\log P$, i.e.,
 \begin{align}
-h(x_0, L) &= -Q(x_0, L) \log Q(x_0, L).
+Q(x_0, L) &= -P(x_0, L) \log P(x_0, L).
 \end{align}
-Consider the rate of change of $h$ as the interval is shifted to
+Consider the rate of change of $Q$ as the interval is shifted to
 the right, but with its width $L$ held constant:
 \begin{align}
-\frac{\partial h}{\partial x_0} &= \frac{\partial}{\partial x_0}
-    \left[-Q(x_0, L) \log Q(x_0, L)\right] \\
-    &= -\left[1 + \log Q(x_0, L)\right]\frac{\partial Q}{\partial x_0} \\
-    &= -\left[1 + \log Q(x_0, L)\right]\left[f(x_0 + L) - f(x_0)\right].
+\frac{\partial Q}{\partial x_0} &= \frac{\partial}{\partial x_0}
+    \left[-P\log P\right] \\
+    &= -\left[1 + \log P(x_0, L)\right]\frac{\partial P}{\partial x_0} \\
+    &= -\left[1 + \log P(x_0, L)\right]\left[f(x_0 + L) - f(x_0)\right].
 \end{align}
-Consider also the rate of change of $h$ as the interval is
+Consider also the rate of change of $Q$ as the interval is
 expanded to the right, while keeping its left edge fixed:
 \begin{align}
-\frac{\partial h}{\partial L} &= \frac{\partial}{\partial L}
-    \left[-Q(x_0, L) \log Q(x_0, L)\right] \\
-    &= -\left[1 + \log Q(x_0, L)\right]\frac{\partial Q}{\partial L} \\
-    &= -\left[1 + \log Q(x_0, L)\right]f(x_0 + L).
+\frac{\partial Q}{\partial L} &= \frac{\partial}{\partial L}
+    \left[-P(x_0, L) \log P(x_0, L)\right] \\
+    &= -\left[1 + \log P(x_0, L)\right]\frac{\partial P}{\partial L} \\
+    &= -\left[1 + \log P(x_0, L)\right]f(x_0 + L).
 \end{align}
 
 The entropy of the precisional question is built up from
-$h$ terms. The extra entropy from moving from $x_0$ to
-$x_0 + \delta$, for small $\delta$, is
+$Q$ terms. The extra entropy from adding the interval
+$[x_0, x_0 + L]$ and removing the overlap $[x_0, x_0 + L - h]$, for small $h$, is
 \begin{align}
-\delta H &= h(x_0 + \delta, L) - h(x_0 + \delta, L - 2\delta) \\
- &\approx \delta \frac{\partial h}{\partial x_0}
-    - \left[\delta \frac{\partial h}{\partial x_0}
-            -2\delta \frac{\partial h}{\partial L}\right] \\
- &= 2\delta \frac{\partial h}{\partial L} \\
- &= -2\delta\left[1 + \log Q(x_0, L)\right]f(x_0 + L)
+\delta H &= Q(x_0, L) - Q(x_0, L - h)\\
+         &= h\frac{\partial Q}{\partial L} \\
+         &= -h\left[1 + \log P(x_0, L)\right]f(x_0 + L).
 \end{align}
-Therefore
+Therefore, the overall entropy is
 \begin{align}
-\frac{dH}{dx_0} &= -2\left[1 + \log Q(x_0, L)\right]f(x_0 + L) \\
-  &= -2\left[1 + \log \left(F(x_0 + L) - F(x_0)\right)\right]f(x_0 + L),
-\end{align}
-which implies the overall entropy is
-\begin{align}
-H &= -2\int_{-\infty}^{+\infty} \left[1 + \log \left(F(x_0 + L) - F(x_0)\right)\right]f(x_0 + L) \, dx \\
-  &= 1-2\int_{-\infty}^{+\infty} f(x_0)\log \left[F(x_0-L/2) - F(x_0+L/2)\right] \, dx
+H &=
+      -\int_{-\infty}^\infty
+        \left[1 + \log P(x-L, L)\right]f(x)
+      \, dx
 \end{align}
 which is connected to the expected value of the log-probability.
 
