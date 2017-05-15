@@ -811,12 +811,23 @@ $[x_0, x_0 + L]$ and removing the overlap $[x_0, x_0 + L - h]$, for small $h$, i
 \end{align}
 Therefore, the overall entropy is
 \begin{align}
-H &=
-      -\int_{-\infty}^\infty
+H &= -\int_{-\infty}^\infty
         \left[1 + \log P(x-L, L)\right]f(x)
+      \, dx \\
+  &= -\int_{-\infty}^\infty
+        \left[1 + \log F(x) - \log F(x-L)\right]f(x)
       \, dx
 \end{align}
 which is connected to the expected value of the log-probability.
+Interestingly, calculating the log-probability of an interval
+to the right of $x$ gives an equivalent result:
+\begin{align}
+H' &= -\int_{-\infty}^\infty
+        \left[1 + \log F(x+L) - \log F(x)\right]f(x)
+      \, dx \\
+   &= H.
+\end{align}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
