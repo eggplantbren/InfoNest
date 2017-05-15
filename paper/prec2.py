@@ -2,26 +2,46 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-x = np.linspace(-10, 10, 200001)
+# Set up grid
+x = np.linspace(-10, 10, 50001)
 dx = x[1] - x[0]
-p = x + 5.0
-p[np.abs(x) > 5] = 0
+
+# Set up a density
+f = (x + 5.0)**3
+f[np.abs(x) > 5] = 0
+f /= np.trapz(f, x=x)   # Normalise
+
+# Width of interval
 L = 1.0
-p /= p.sum()*dx
-plt.plot(x, p)
-plt.show()
 
-H = 0.0
+# Calculate the two integrands
+integrand_left  = np.zeros(len(x))
+integrand_right = np.zeros(len(x))
 for i in range(0, len(x)):
-    left = (x >= x[i]) & (x <= x[i] + L)
-    P = np.sum(p[left])*dx
+    left  = (x >= x[i] - L) & (x <= x[i])
+    right = (x >= x[i]) & (x <= x[i] + L)
 
-    # Alternative version uses
-    # right = (x >= x[i]) & (x <= x[i] + L)
-    # Instead of left
+    Pleft  = np.trapz(f[left],  x=x[left])
+    Pright = np.trapz(f[right], x=x[right])
+    if f[i] > 0.0:
+        integrand_left[i]  = f[i]*np.log(Pleft)
+        integrand_right[i] = f[i]*np.log(Pright)
+    print(i+1, "/", len(x))
 
-    if p[i] > 0:
-        H += -p[i]*dx*(1 + np.log(P))
-    if (i+1) % 1000 == 0:
-        print(i+1, H)
+# Do the integrals
+Hleft  = np.trapz(integrand_left,  x=x)
+Hright = np.trapz(integrand_right, x=x)
+
+# Calculate the difference
+d = np.abs((Hright - Hleft)/Hright)
+print("Relative difference =", d)
+
+# Plot it
+plt.plot(x, f, label="$f(x)$")
+plt.plot(x, integrand_left, label="Integrand (left)")
+plt.plot(x, integrand_right, label="Integrand (right)")
+plt.xlabel("$x$")
+plt.ylabel("$y$")
+plt.legend()
+plt.show()
 
