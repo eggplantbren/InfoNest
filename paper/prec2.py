@@ -7,7 +7,7 @@ x = np.linspace(-10, 10, 50001)
 dx = x[1] - x[0]
 
 # Set up a density
-f = (x + 5.0)**3
+f = np.exp(-0.5*x**2)
 f[np.abs(x) > 5] = 0
 f /= np.trapz(f, x=x)   # Normalise
 
@@ -24,16 +24,17 @@ for i in range(0, len(x)):
     Pleft  = np.trapz(f[left],  x=x[left])
     Pright = np.trapz(f[right], x=x[right])
     if f[i] > 0.0:
-        integrand_left[i]  = f[i]*np.log(Pleft)
-        integrand_right[i] = f[i]*np.log(Pright)
+        integrand_left[i]  = -f[i]*np.log(Pleft)
+        integrand_right[i] = -f[i]*np.log(Pright)
     print(i+1, "/", len(x))
 
-# Do the integrals
-Hleft  = np.trapz(integrand_left,  x=x)
-Hright = np.trapz(integrand_right, x=x)
+# Do the integ=rals
+Hleft  = -1.0 + np.trapz(integrand_left,  x=x)
+Hright = -1.0 + np.trapz(integrand_right, x=x)
 
 # Calculate the difference
 d = np.abs((Hright - Hleft)/Hright)
+print("Hleft", Hleft)
 print("Relative difference =", d)
 
 # Plot it
