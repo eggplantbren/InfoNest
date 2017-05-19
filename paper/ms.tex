@@ -471,7 +471,9 @@ the entropy actually computed from the algorithm.
 
 \section{Example 1: Measuring the mean of a gaussian}
 
-Consider the basic problem of inferring a quantity $\mu$ from
+This example demonstrates how the algorithm may be used to determine the
+entropy for a quantity whose distribution can only be sampled.
+Consider the basic statistics problem of inferring a quantity $\mu$ from
 100 observations $\d = \{d_1, ..., d_{100}\}$ whose
 probability distribution (conditional on $\mu$) is
 \begin{align}
@@ -484,15 +486,19 @@ If the prior for $\mu$ is Normal$(0, 10^2)$, then the posterior is
                                        \left[\frac{10}{\sqrt{10001}}\right]^2
                                        \right).
 \end{align}
-The true value of $H_{\d}$, calculated analytically, is $146.499$.
+The true value of the differential entropy $h_{\d}$ is available analytically
+in this case, and its value is $146.499$. However, in most situations, the
+entropy of a marginal distribution is not available in closed form. 
 
-
-The result was
+From the algorithm, the expected log-probability was
 \begin{align}
-H_{\d} &= 928.80 \pm 0.38.
+?_{\d} &= 928.80 \pm 0.38.
 \end{align}
 The log-volume of a 100-dimensional ball of radius $10^{-3}$ is
--782.017. Therefore, the measured differential en
+-782.017. Therefore, the measured differential entropy was
+
+
+
 \section{Example 2: Measuring the period of an oscillating signal}
 
 In physics and astronomy, it is common to measure an oscillating signal
