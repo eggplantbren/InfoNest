@@ -816,9 +816,8 @@ H &= -\int_{-\infty}^\infty
       \, dx \\
   &= -\int_{-\infty}^\infty
         \left(1 + \log\left[F(x) - F(x-L)\right]\right)f(x)
-      \, dx
+      \, dx.
 \end{align}
-which is connected to the expected value of the log-probability.
 Interestingly, calculating the log-probability of an interval
 to the right of $x$ gives an equivalent result:
 \begin{align}
@@ -827,6 +826,9 @@ H' &=  -\int_{-\infty}^\infty
       \, dx \\
    &= H.
 \end{align}
+This is not quite the same as the expected log-probability calculated by
+the version of the algorithm proposed in this paper (when the tolerance is not
+small).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
