@@ -12,26 +12,24 @@ namespace InfoNest
 class Pareto
 {
     private:
-        // Lower limit and slope
-        // of pareto distribution for scores
-        double x_min;
+        static constexpr double x_min = 1.0;
+
+        // Pareto slope
         double alpha;
 
-        // Number of games played (gets rounded down to
-        // an integer when needed)
-        double N;
-
-        // Source of 'random numbers' for generating the simulated data
+        // The data
+        static constexpr size_t N = 100;
         std::vector<double> us;
-
-        // Top ten scores
-        std::vector<unsigned int> top_ten;
+        std::vector<double> xs;
 
         // Function that generates the top ten scores
         void generate_data();
 
-        // Summaries of data, used to define data_distance
-        std::tuple<double, double, double> summaries() const;
+        // Sum of first half of data
+        double sum_first_half() const;
+
+        // Sum of second half of data
+        double sum_second_half() const;
 
     public:
         // Do-nothing constructor

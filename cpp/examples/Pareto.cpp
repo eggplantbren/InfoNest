@@ -8,32 +8,15 @@ namespace InfoNest
 {
 
 Pareto::Pareto()
-:us(100000)
-,top_ten(10)
+:us(N)
+,xs(N)
 {
 
 }
 
 void Pareto::generate(RNG& rng)
 {
-    // p(x_min) ~ pareto(10, 0.5)T(, 100000)
-    double log_x_min;
-    do
-    {
-        log_x_min = log(10.0) - 2.0*log(1.0 - rng.rand());
-        x_min = exp(log_x_min);
-    }while(x_min > 100000.0);
-
-    // p(alpha) ~ log-uniform(1, 5)
-    alpha = exp(log(5.0)*rng.rand());
-
-    // p(N) ~ pareto(10, 0.5)T(, 100000)
-    double logN;
-    do
-    {
-        logN = log(10.0) - 2.0*log(1.0 - rng.rand());
-        N = exp(logN);
-    }while(N > 100000.0);
+    alpha = exp(rng.randn());
 
     for(double& u: us)
         u = rng.rand();
@@ -43,104 +26,64 @@ void Pareto::generate(RNG& rng)
 
 void Pareto::generate_data()
 {
-    // All scores
-    std::vector<unsigned int> scores((size_t)N);
+    double inv_alpha = 1.0/alpha;
 
-    // Reciprocal of alpha
-    double log_x_min = log(x_min);
-    double one_over_alpha = 1.0/alpha;
-
-    // Generate scores
-    double e;
-    for(size_t i=0; i<scores.size(); ++i)
-    {
-        // Generate an exponential
-        e = -log(1.0 - us[i]);
-        scores[i] = (unsigned int)exp(log_x_min + one_over_alpha*e);
-    }
-
-    // Find top ten scores, put them in top_ten
-    std::sort(scores.begin(), scores.end());
-    size_t k=0;
-    for(size_t i=scores.size()-10; i<scores.size(); ++i)
-        top_ten[k++] = scores[i];
+    for(size_t i=0; i<N; ++i)
+       xs[i] = x_min*pow(1.0 - us[i], -inv_alpha);
 }
+
+double Pareto::sum_first_half() const
+{
+    double tot = 0.0;
+    for(size_t i=0; i<N/2; ++i)
+        tot += xs[i];
+    return tot;
+}
+
+double Pareto::sum_second_half() const
+{
+    double tot = 0.0;
+    for(size_t i=N/2; i<N; ++i)
+        tot += xs[i];
+    return tot;
+}
+
 
 double Pareto::perturb(RNG& rng)
 {
     double logH = 0.0;
 
-    if(rng.rand() <= 0.5)
+    // What to change?
+    int proposal_type = rng.rand_int(2);
+
+    if(proposal_type == 0)
     {
-        int which = rng.rand_int(3);
+        // Change alpha (and the data)
+        alpha = log(alpha);
 
-        if(which == 0)
-        {
-            // p(x_min) ~ pareto(10, 0.5)T(, 100000)
+        logH -= -0.5*pow(alpha, 2);
+        alpha += rng.randh();
+        logH += -0.5*pow(alpha, 2);
 
-            // Transform to exponential then uniform
-            double e = (log(x_min) - log(10.0))/2.0;
-            double u = 1.0 - exp(-e);
-
-            // Do the move
-            u += rng.randh();
-            wrap(u, 0.0, 1.0);
-
-            // Transform back to pareto
-            e = -log(1.0 - u);
-            x_min = exp(log(10.0) + 2.0*e);
-
-            // Enforce upper limit
-            if(x_min > 100000.0)
-                return -1E300;
-        }
-        else if(which == 1)
-        {
-            alpha = log(alpha);
-            alpha += log(5.0)*rng.randh();
-            wrap(alpha, 0.0, log(5.0));
-            alpha = exp(alpha);
-        }
-        else
-        {
-            // p(N) ~ pareto(10, 0.5)T(, 100000)
-
-            // Transform to exponential then uniform
-            double e = (log(N) - log(10.0))/2.0;
-            double u = 1.0 - exp(-e);
-
-            // Do the move
-            u += rng.randh();
-            wrap(u, 0.0, 1.0);
-
-            // Transform back to pareto
-            e = -log(1.0 - u);
-            N = exp(log(10.0) + 2.0*e);
-
-            // Enforce upper limit
-            if(N > 100000.0)
-                return -1E300;
-        }
+        alpha = exp(alpha);
     }
     else
     {
+        // Change the data
         if(rng.rand() <= 0.5)
         {
-            int which = rng.rand_int(us.size());
+            // Perturb one value
+            int which = rng.rand_int(N);
             us[which] += rng.randh();
             wrap(us[which], 0.0, 1.0);
         }
         else
         {
-            int reps = pow(us.size(), rng.rand());
-            int which;
+            // Regenerate many
+            int reps = (int)pow((double)N, rng.rand());
             for(int i=0; i<reps; ++i)
-            {
-                which = rng.rand_int(us.size());
-                us[which] = rng.rand();
-            }
+                us[rng.rand_int(N)] = rng.rand();
         }
-
     }
     generate_data();
 
@@ -149,45 +92,21 @@ double Pareto::perturb(RNG& rng)
 
 void Pareto::print(std::ostream& out) const
 {
-    out<<x_min<<' '<<alpha<<' '<<N<<' ';
-    for(unsigned int score: top_ten)
-        out<<score<<' ';
+    out << x_min << ' ' << alpha << ' ';
+    for(double x: xs)
+        out << x << ' ';    
 }
-
-std::tuple<double, double, double> Pareto::summaries() const
-{
-    // Summary stats: min, max, mean
-    double min = *min_element(top_ten.begin(), top_ten.end());
-    double max = *max_element(top_ten.begin(), top_ten.end());
-
-    double tot = 0.0;
-    for(double value: top_ten)
-        tot += value;
-    double mean = tot/top_ten.size();
-
-    return std::tuple<double, double, double>{min, max, mean};
-}
-
 
 double Pareto::parameter_distance(const Pareto& pareto1,
                                   const Pareto& pareto2)
 {
-    // Difference between N values (rounded down to integers)
-    return std::abs((int)pareto2.N - (int)pareto1.N);
+    return std::abs(log(pareto2.sum_first_half()/pareto1.sum_first_half()));
 }
 
 double Pareto::data_distance(const Pareto& pareto1,
                              const Pareto& pareto2)
 {
-    double min1, max1, mean1;
-    double min2, max2, mean2;
-    std::tie(min1, max1, mean1) = pareto1.summaries();
-    std::tie(min2, max2, mean2) = pareto2.summaries();
-
-    // Compare on min/max and mean/max
-    double dsq = pow(min1/max1 - min2/max2, 2)
-                  + pow(mean1/max1 - mean2/max2, 2);
-    return sqrt(dsq);
+    return std::abs(log(pareto2.sum_second_half() - pareto1.sum_second_half()));
 }
 
 double Pareto::joint_distance(const Pareto& pareto1, const Pareto& pareto2)
