@@ -1,4 +1,5 @@
 #include "Normal.h"
+#include <algorithm>
 
 namespace InfoNest
 {
@@ -107,18 +108,23 @@ void Normal::print(std::ostream& out) const
 double Normal::parameter_distance(const Normal& normal1,
                                   const Normal& normal2)
 {
-    return std::abs(normal1.mu - normal2.mu);
+    if(normal2.mu > normal1.mu)
+        return 1000.0 + (normal2.mu - normal1.mu);
+    return std::abs(normal2.mu - normal1.mu);
 }
 
 double Normal::data_distance(const Normal& normal1,
                              const Normal& normal2)
 {
-    double dsq = 0.0;
-
-    for(size_t i=0; i<normal1.xs.size(); ++i)
-        dsq += pow(normal1.xs[i] - normal2.xs[i], 2);
-
-    return sqrt(dsq);
+    std::vector<double> diffs(normal1.xs.size());
+    for(size_t i=0; i<diffs.size(); ++i)
+    {
+        if(normal2.xs[i] > normal1.xs[i])
+            diffs[i] = 1000.0 + (normal2.xs[i] - normal1.xs[i]);
+        else
+            diffs[i] = std::abs(normal2.xs[i] - normal1.xs[i]);
+    }
+    return *max_element(diffs.begin(), diffs.end());
 }
 
 double Normal::joint_distance(const Normal& normal1, const Normal& normal2)

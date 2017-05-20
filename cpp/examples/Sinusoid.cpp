@@ -2,6 +2,7 @@
 
 #include "../Utils.h"
 #include <cmath>
+#include <algorithm>
 
 namespace InfoNest
 {
@@ -156,18 +157,22 @@ void Sinusoid::print(std::ostream& out) const
 double Sinusoid::parameter_distance(const Sinusoid& s1, const Sinusoid& s2)
 {
     // For H_{x} where x = log10_period.
+    if(s2.log10_period > s1.log10_period)
+        return 1000.0 + (s2.log10_period - s1.log10_period);
     return std::abs(s2.log10_period - s1.log10_period);
 }
 
-double Sinusoid::data_distance(const Sinusoid& s1, const Sinusoid& s2)
+double Sinusoid::data_distance(const Sinusoid& sinusoid1, const Sinusoid& sinusoid2)
 {
-    // For H_{data}
-    double dsq = 0.0;
-
-    for(size_t i=0; i<N; ++i)
-        dsq += pow(s2.y[i] - s1.y[i], 2);
-
-    return sqrt(dsq);
+    std::vector<double> diffs(sinusoid1.y.size());
+    for(size_t i=0; i<diffs.size(); ++i)
+    {
+        if(sinusoid2.y[i] > sinusoid1.y[i])
+            diffs[i] = 1000.0 + (sinusoid2.y[i] - sinusoid1.y[i]);
+        else
+            diffs[i] = std::abs(sinusoid2.y[i] - sinusoid1.y[i]);
+    }
+    return *max_element(diffs.begin(), diffs.end());
 }
 
 double Sinusoid::joint_distance(const Sinusoid& s1, const Sinusoid& s2)
