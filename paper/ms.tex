@@ -169,9 +169,9 @@ the Shannon entropy \citep{shannon} is defined as
 H_{x} &= -\sum_{x} p(x) \log p(x)
 \end{align}
 where the sum is over all of the possible values of $x$ under consideration.
-
 The entropy quantifies the degree to which the issue
-``what is the value of $x$, precisely?'' remains unresolved. For example,
+``what is the value of $x$, precisely?'' remains unresolved
+\citep{knuth_questions}. For example,
 if there is only one possible value which has probability 1, $H_x$ is
 zero\footnote{Conventionally, $0 \times \log 0$ is defined to be equal
 to $\lim_{x \to 0^+} (x\log x)$, which is zero.}.
@@ -208,7 +208,7 @@ the probability distribution we have assigned to it.
 
 Bayesian inference is the use of probability theory to
 describe uncertainty, often about unknown quantities
-(``parameters'') $\x$. Some data $\d$, initially unknown but
+(`parameters') $\x$. Some data $\d$, initially unknown but
 thought to be relevant to $\x$, is obtained.
 The prior information leads the
 user to specify a prior distribution $p(\x)$ for the unknown parameters,
@@ -221,7 +221,6 @@ p(\x, \d) &= p(\x)p(\d | \x)
 \end{align}
 which is the starting point for
 Bayesian inference \citep{caticha2008lectures}.
-
 In practical applications, the following operations
 are usually feasible and have a low computational cost:
 \begin{enumerate}
@@ -240,9 +239,8 @@ The entropy of the prior $p(\x)$ describes the degree to which the question
 entropy of the joint prior $p(\x, \d)$
 describes the degree to which the question
 ``what is the value of the pair $(\x, \d)$, precisely?'' remains unanswered.
-
-The degree to which the question ``what is the value of $\x$?'' is
-answered by the question ``what is the value of $\d$?'' is given by the
+The degree to which the question ``what is the value of $\x$?'' would remain
+unresolved if $\d$ were resolved is given by the
 conditional entropy
 \begin{align}
 H_{\x | \d} &= - \sum_{\d} p(\d) \sum_{\x} p(\x | \d) \log p(\x | \d)
@@ -250,7 +248,8 @@ H_{\x | \d} &= - \sum_{\d} p(\d) \sum_{\x} p(\x | \d) \log p(\x | \d)
 which is the expected value of the entropy of the posterior, averaged over
 all possible datasets which might be observed. 
 
-Suppose we wanted to compute $H_{\x | \d}$.
+Suppose we wanted to compute $H_{\x | \d}$, perhaps to compare it to
+$H_{\x}$ and quantify how much might be learned about $\x$.
 This would be difficult because the expression
 for the posterior distribution
 \begin{align}
@@ -260,17 +259,15 @@ contains the marginal likelihood integral:
 \begin{align}
 p(\d) &= \int p(\x) p(\d | \x) \, d\x
 \end{align}
-also known as the `evidence'. In this paper I use the term evidence because
-for brevity.
+also known as the `evidence', which tends to be computable but costly.
 
 It is important to distinguish between $H_{\x | \d}$ and the
 entropy of $\x$ given a particular value of $\d$, which might be written
-$H_{\x | \d=\d_0}$.
+$H_{\x | \d=\d_0}$ (in traditional notation, $H(X|Y)$ and $H(X|Y=y)$).
 The former measures the degree to which one question answers
 another (ex ante), so is a function of two questions. The latter measures the
 degree to which a {\em statement} answered a question (ex post),
 and is a function of a question and a statement.
-
 
 \subsection{Mutual information}
 The mutual information is another way of describing the relevance of the
@@ -294,10 +291,11 @@ As with the conditional entropy, we see that the difficulty appears in the
 form of the log evidence,
 $\log p(\d) = \log \sum_{\x} p(\x)p(\d | \x)$.
 
-
-For experimental design purposes, maximising either $I_{\x, \d}$ or
-$H_{\x | \d}$ will produce the same result. {\todo Mention reference priors?}
-
+For experimental design purposes, if we want to maximise the expected amount
+of information obtained from data, maximising either $I_{\x, \d}$ or
+$H_{\x | \d}$ will produce the same result because the prior $p(\x)$ does not
+vary with the experimental design. Reference priors {\bf cite Bernardo}
+also make use of the mutual information but in a different way.
 
 \section{Nested Sampling}
 
@@ -360,6 +358,8 @@ The expected value of $n$ given the definition of the algorithm is
 
 
 \section{The algorithm}
+
+We would like to calculate the expected value of a log-probability:
 
 See Algorithm~\ref{alg:algorithm} for a step-by-step description of the
 algorithm. The idea is to generate a reference particle from the distribution
@@ -441,18 +441,19 @@ is the ``likelihood''.\label{fig:algorithm}}
 \subsection{Discrete vs. differential entropies}
 
 Continuous hypothesis spaces are commonly used in practice. Suppose
-$\x$ has probability density $f(\x)$. The algorithm actually estimates
+$\x$ has probability density $f(\x)$, so the differential entropy is
+\begin{align}
+H &= -\int_{-\infty}^{\infty} f(\x) \log f(\x) \, d\x
+\end{align}
+
+What the algorithm actually estimates is
 \begin{align}
 h &= \int f(\x) \int f(\x')
             \log \left[ P(d(\x', \x) < L | \x) \right]
                         \, d\x' \, d\x.
 \end{align}
 If we actually want the differential
-entropy
-\begin{align}
-h_{\x} &= -\int f(x) \log f(x) \, dx
-\end{align}
-we can use the fact that density equals mass divided
+entropy, we can use the fact that density equals mass divided
 by volume. Assume $L$ is small, so that
 \begin{align}
 P(d(\x', \x) < L | \x)
