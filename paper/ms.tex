@@ -128,10 +128,11 @@ Auckland 1142, New Zealand}
 \abstract{The Shannon entropy, and related quantities such as mutual
 information, can be used to quantify uncertainty and relevance.
 However, in practice, it can be difficult to compute these quantities
-for arbitrary probability distributions, particularly if some probability
+for arbitrary probability distributions, particularly if the probability
 mass functions or densities cannot be evaluated. This paper introduces a
 computational approach to evaluating entropies of probability distributions
-that can be sampled. The method is based on Nested Sampling, and is related to Approximate Bayesian Computation. I demonstrate the method
+that can only be sampled. The method is based on Nested Sampling,
+and is related to Approximate Bayesian Computation. I demonstrate the method
 on a simple gaussian example where the key quantities are known analytically,
 and an experimental design example about scheduling observations in order
 to measure the period of an oscillating signal.}
@@ -187,8 +188,8 @@ of the plausible region, where volume is defined with respect to $dx$.
 \subsection{Notation and conventions}
 
 Throughout this paper, I use the compact
-`overloaded' notation for probability distributions favoured by
-Bayesians, writing $p(x)$ (for either a probability mass function
+`overloaded' notation for probability distributions favoured by many
+Bayesian writers, writing $p(x)$ (for either a probability mass function
 or a probability density function) instead
 of the more correct but cumbersome $P(X=x)$ or $f_X(x)$.
 Probability distributions are implicitly conditional on some prior
@@ -201,7 +202,7 @@ the natural logarithm was used.
 I prefer to write the entropy of $x$ as $H_x$ rather than $H(x)$
 (or $H(X)$ as is often seen), because the latter can wrongly imply that
 the entropy is a property of the value of $x$ itself, rather than
-our probability distribution for it.
+the probability distribution we have assigned to it.
 
 \section{Entropies in Bayesian inference}
 
@@ -213,21 +214,24 @@ The prior information leads the
 user to specify a prior distribution $p(\x)$ for the unknown parameters,
 along with a ``sampling distribution'' $p(\d | \x)$ describing prior knowledge
 of how the data is related to the parameters
-(i.e., if the parameters where known, what data would likely be observed?). By the product rule, this yields a {\em joint prior}
+(i.e., if the parameters where known, what data would likely be observed?).
+By the product rule, this yields a {\em joint prior}
 \begin{align}
 p(\x, \d) &= p(\x)p(\d | \x)
 \end{align}
 which is the starting point for
 Bayesian inference \citep{caticha2008lectures}.
 
-In practical applications of Bayesian inference, the following operations
-are usually feasible, and are assumed to be possible at low computational
-cost:
+In practical applications, the following operations
+are usually feasible and have a low computational cost:
 \begin{enumerate}
-\item Points can be generated from the prior $p(\x)$;
-\item Simulated datasets can be generated from $p(\d | \x)$ for a given value of $\x$;
-\item The likelihood, $p(\d | \x)$ can be evaluated cheaply for any $\d$ and $\x$.
+  \item Points can be generated from the prior $p(\x)$;
+  \item Simulated datasets can be generated from $p(\d | \x)$ for any
+        given value of $\x$;
+  \item The likelihood, $p(\d | \x)$, can be evaluated cheaply for any
+        $\d$ and $\x$.
 \end{enumerate}
+Throughout this paper I assume these operations are available and inexpensive.
 
 \subsection{The relevance of data}
 
@@ -236,7 +240,6 @@ The entropy of the prior $p(\x)$ describes the degree to which the question
 entropy of the joint prior $p(\x, \d)$
 describes the degree to which the question
 ``what is the value of the pair $(\x, \d)$, precisely?'' remains unanswered.
-
 
 The degree to which the question ``what is the value of $\x$?'' is
 answered by the question ``what is the value of $\d$?'' is given by the
@@ -247,24 +250,26 @@ H_{\x | \d} &= - \sum_{\d} p(\d) \sum_{\x} p(\x | \d) \log p(\x | \d)
 which is the expected value of the entropy of the posterior, averaged over
 all possible datasets which might be observed. 
 
-This is difficult to compute because the expression
+Suppose we wanted to compute $H_{\x | \d}$.
+This would be difficult because the expression
 for the posterior distribution
 \begin{align}
 p(\x | \d) &= \frac{p(\x)p(\d | \x)}{p(\d)}
 \end{align}
-contains the marginal likelihood or `evidence'
+contains the marginal likelihood integral:
 \begin{align}
-p(\d) &= \int p(\x) p(\d | \x) \, d\x.
+p(\d) &= \int p(\x) p(\d | \x) \, d\x
 \end{align}
+also known as the `evidence'. In this paper I use the term evidence because
+for brevity.
 
 It is important to distinguish between $H_{\x | \d}$ and the
 entropy of $\x$ given a particular value of $\d$, which might be written
 $H_{\x | \d=\d_0}$.
 The former measures the degree to which one question answers
-another, so is a function of two questions. The latter measures the
-degree to which a {\em statement} answered a question, and is a function
-of a question and a statement.
-
+another (ex ante), so is a function of two questions. The latter measures the
+degree to which a {\em statement} answered a question (ex post),
+and is a function of a question and a statement.
 
 
 \subsection{Mutual information}
@@ -286,7 +291,7 @@ I_{\x, \d} &= \sum_{\x} \sum_{\d} p(\x)p(\d | \x)
 i.e., the mutual information is the prior expected value of the
 log likelihood minus the log evidence.
 As with the conditional entropy, we see that the difficulty appears in the
-form of the log of the marginal likelihood,
+form of the log evidence,
 $\log p(\d) = \log \sum_{\x} p(\x)p(\d | \x)$.
 
 
@@ -297,7 +302,7 @@ $H_{\x | \d}$ will produce the same result. {\todo Mention reference priors?}
 \section{Nested Sampling}
 
 Nested Sampling \citep[NS][]{skilling2006nested} is an algorithm whose aim is
-to calculate the marginal likelihood
+to calculate the evidence
 \begin{align}
 Z &= \int \pi(\x) L(\x) \, d\x
 \end{align}
@@ -318,7 +323,7 @@ The $N$ particles are initially initialised from the prior $\pi(\x)$, and the pa
 When $N=1$, the sequence of $\ln X$ values is a Poisson process with rate
 1. \citet{Walter2015} showed how this view of the NS sequence of points
 can be used to construct a
-version of NS that produces unbiased estimates of the marginal likelihood.
+version of NS that produces unbiased estimates of the evidence.
 However, it can also be used to construct an unbiased estimator of
 a log-probability, which is more relevant to information theoretic
 quantities.
