@@ -318,44 +318,30 @@ The $N$ particles are initially initialised from the prior $\pi(\x)$, and the pa
 
 \subsection{The sequence of $X$ values}
 
-When $N=1$, the sequence of $\ln X$ values is a Poisson process with rate
-1. \citet{Walter2015} showed how this view of the NS sequence of points
+The sequence of $\ln X$ values produced by a Nested Sampling run can be
+considered as a Poisson process with rate equal to $N$, the number of
+particles. For example, when $N=1$, the distribution for $\ln X_{i+1}$
+given $\ln X_i$ is a shifted (and reflected) exponential with rate 1.
+\citet{Walter2015} showed how this view of the NS sequence of points
 can be used to construct a
-version of NS that produces unbiased estimates of the evidence.
+version of NS that produces unbiased (in the frequentist sense)
+estimates of the evidence.
 However, it can also be used to construct an unbiased estimator of
 a log-probability, which is more relevant to information theoretic
 quantities.
 
-Given the definition of the NS algorithm,
-the probability distribution for the proportion $t$ of the prior mass
-retained on a given iteration is
+Consider a particular likelihood value $\ell$ whose corresponding $X$-value
+we would like to know. Since the $\ln X_i$ values have the same distribution
+as the arrival times of a Poisson process with rate $N$, the probability
+distribution for the number of points in an interval of length $t$ is
+Poisson with expected value $\lambda t$. Therefore the expected number of
+NS discarded points with likelihood below $\ell$ is $-\ln X(\ell)$:
 \begin{align}
-t_i &\sim \textnormal{Beta}(N, 1),
+\big< n(L(\x_i) \leq \ell) \big> &= -\ln X(\ell).
 \end{align}
-and the probability distribution for the sequence of $X$-values of
-the discarded points is obtained from
-\begin{align}
-X_i &= \prod_{k=1}^i t_i.
-\end{align}
-The corresponding likelihood values of the discarded points are
-denoted $L_1, L_2, L_3$, and so on.
-
-Consider a particular likelihood value $\ell$ whose $X$-value
-we would like to know.
-The number of discarded points with likelihood below $\ell$, i.e.,
-the number of NS iterations taken reach a likelihood above
-$\ell$, is
-\begin{align}
-n(L_i < \ell) &= \sum_i \mathds{1}\left(L_i < \ell\right) \\
-              &= \sum_i \mathds{1}\left(X_i > X(\ell)\right)
-\end{align}
-The expected value of $n$ given the definition of the algorithm is
-\begin{align}
-\left<n(L_i < \ell)\right> &= 
-              \sum_i \left<\mathds{1}\left(X_i > X(\ell)\right)\right>
-\end{align}
-
-
+We can therefore take $n(L(\x_i) \leq \ell)$, the number of points in the
+sequence with likelihood below $\ell$, as an unbiased estimator of
+$-\ln X(\ell)$.
 
 \section{The algorithm}
 
