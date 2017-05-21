@@ -366,7 +366,8 @@ algorithm. The idea is to generate a reference particle from the distribution
 whose entropy is required, and then use Nested Sampling to measure the
 log-probability of a small region near that particle.
 
-The algorithm is written in terms of an unknown quantity $\x$ whose entropy is required. In applications, $\x$ may be parameters,
+The algorithm is written in terms of an unknown quantity $\x$
+whose entropy is required. In applications, $\x$ may be parameters,
 a subset of the parameters, data, parameters and data jointly, or
 whatever.
 
@@ -375,7 +376,7 @@ whatever.
 \State {\em Set the numerical parameters:}
 \State $N \in \{1, 2, 3, ... \}$
             \Comment{the number of Nested Sampling particles to use}
-\State $\epsilon \geq 0$
+\State $L \geq 0$
             \Comment{the tolerance} \\
 \hrulefill
 \State $\widehat{\mathbf{h}} \leftarrow [\,]$
@@ -396,7 +397,7 @@ whatever.
             \Comment{Find the worst particle (greatest distance)}
     \State $d_{\rm max} \leftarrow d_{i^*}$
             \Comment{Find the greatest distance}
-    \While{$d_{\rm max} > \epsilon$}
+    \While{$d_{\rm max} > L$}
         \State Replace $\x_{i^*}$ with $\x_{\rm new}$ from
                $p\left(\x | (d(\x) < d_{\rm max})\right)$
             \Comment{Replace worst particle}
@@ -419,9 +420,9 @@ whatever.
 \caption{Calculates $H_{\x} = -\int p(\x) \log p(\x) \, d\x$
          without evaluating $\log p(\x)$. Technically, what it actually
          estimates is $\int f(\x) \int f(\x')
-            \log \left[ P(d(\x', \x) < \epsilon | \x) \right]
+            \log \left[ P(d(\x', \x) < L | \x) \right]
                         \, d\x' \, d\x$, the expected value of the
-         log-probability of a small region near $\x$.
+        log-probability of a small region near $\x$.
         The part highlighted in green is standard Nested Sampling.
         \label{alg:algorithm}}
 \end{algorithm}
@@ -443,7 +444,7 @@ Continuous hypothesis spaces are commonly used in practice. Suppose
 $\x$ has probability density $f(\x)$. The algorithm actually estimates
 \begin{align}
 h &= \int f(\x) \int f(\x')
-            \log \left[ P(d(\x', \x) < \epsilon | \x) \right]
+            \log \left[ P(d(\x', \x) < L | \x) \right]
                         \, d\x' \, d\x.
 \end{align}
 If we actually want the differential
@@ -452,27 +453,23 @@ entropy
 h_{\x} &= -\int f(x) \log f(x) \, dx
 \end{align}
 we can use the fact that density equals mass divided
-by volume. Assume $\epsilon$ is small, so that
+by volume. Assume $L$ is small, so that
 \begin{align}
-P(d(\x', \x) < \epsilon | \x)
+P(d(\x', \x) < L | \x)
     &\approx
-    f(\x) \int_{d(\x', \x) < \epsilon} \, d\x'\\
+    f(\x) \int_{d(\x', \x) < L} \, d\x'\\
     &= f(\x) \, V
 \end{align}
-where $V$ is the volume of the region where $d(\x', \x) < \epsilon$.
+where $V$ is the volume of the region where $d(\x', \x) < L$.
 
-If the distance function $d(\x', \x)$ is chosen to be Cartesian,
-the constraint $d(\x', \x) < \epsilon$ corresponds to a ball in the space
-of possible $\x'$ values.
-The log-volume of a ball of radius $\epsilon$ in $n$ dimensions is
+In a one-dimensional parameter space, the algorithm will calculate
 \begin{align}
-\log V(\epsilon; n) &= \frac{n}{2}\log \pi
-                        - \log \Gamma\left(\frac{n}{2} + 1\right)
-                        + n \log \epsilon,
+h(L) &= \int f(\x) \int f(\x')
+             \log \left[ \int_{x - L}^x f(x') \right]
+                        \, d\x' \, d\x.
 \end{align}
-and provides the conversion factor between the differential entropy and
-the entropy actually computed from the algorithm.
-
+See the Appendix for a discussion of this quantity. To obtain the differential
+entropy, compute $h(L)$ for small $L$ and then add $\log(L)$.
 
 \section{Example 1: Measuring the mean of a gaussian}
 
