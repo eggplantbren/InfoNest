@@ -426,6 +426,44 @@ is the ``likelihood''.\label{fig:algorithm}}
 
 \subsection{Discrete vs. differential entropies}
 
+
+
+\subsection{Discrete vs. differential entropies}
+
+Continuous hypothesis spaces are commonly used in practice. Suppose
+$\x$ has probability density $f(\x)$. The algorithm actually estimates
+\begin{align}
+h &= \int f(\x) \int f(\x')
+            \log \left[ P(d(\x', \x) < \epsilon | \x) \right]
+                        \, d\x' \, d\x.
+\end{align}
+If we actually want the differential
+entropy
+\begin{align}
+h_{\x} &= -\int f(x) \log f(x) \, dx
+\end{align}
+we can use the fact that density equals mass divided
+by volume. Assume $\epsilon$ is small, so that
+\begin{align}
+P(d(\x', \x) < \epsilon | \x)
+    &\approx
+    f(\x) \int_{d(\x', \x) < \epsilon} \, d\x'\\
+    &= f(\x) \, V
+\end{align}
+where $V$ is the volume of the region where $d(\x', \x) < \epsilon$.
+
+If the distance function $d(\x', \x)$ is chosen to be Euclidean,
+the constraint $d(\x', \x) < \epsilon$ corresponds to a ball in the space
+of possible $\x'$ values.
+The log-volume of a ball of radius $\epsilon$ in $n$ dimensions is
+\begin{align}
+\log V(\epsilon; n) &= \frac{n}{2}\log \pi
+                        - \log \Gamma\left(\frac{n}{2} + 1\right)
+                        + n \log \epsilon,
+\end{align}
+and provides the conversion factor between the differential entropy and
+the entropy actually computed from the algorithm.
+
 Continuous hypothesis spaces are commonly used in practice. Suppose
 $\x$ has probability density $f(\x)$, so the differential entropy is
 \begin{align}
