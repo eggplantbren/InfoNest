@@ -114,18 +114,17 @@ double Normal::parameter_distance(const Normal& normal1,
 double Normal::data_distance(const Normal& normal1,
                              const Normal& normal2)
 {
-    // Use something like cartesian distance for data.
     double dsq = 0.0;
     for(size_t i=0; i<normal1.xs.size(); ++i)
         dsq += pow(normal2.xs[i] - normal1.xs[i], 2);
-    return sqrt(dsq / normal1.xs.size());
+    return sqrt(dsq);
 }
 
 double Normal::joint_distance(const Normal& normal1, const Normal& normal2)
 {
     double d1 = parameter_distance(normal1, normal2);
     double d2 = data_distance(normal1, normal2);
-    return (d1 > d2)?(d1):(d2);
+    return sqrt(d1*d1 + d2*d2);
 }
 
 } // namespace InfoNest
