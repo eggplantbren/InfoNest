@@ -66,6 +66,7 @@
 \newcommand{\bphi}{\boldsymbol{\phi}}
 \newcommand{\boldeta}{\boldsymbol{\eta}}
 \newcommand{\n}{\boldsymbol{\eta}}
+\newcommand{\depth}{\textnormal{depth}}
 
 \newcommand{\apj}{The Astrophysical Journal}
 \newcommand{\mnras}{Monthly Notices of the Royal Astronomical Society}
@@ -424,78 +425,49 @@ Euclidian distance from the red point (illustrated with red contours)
 is the ``likelihood''.\label{fig:algorithm}}
 \end{figure}
 
-
-\subsection{Discrete vs. differential entropies}
-
-
-
 \subsection{Discrete vs. differential entropies}
 
 Continuous hypothesis spaces are commonly used in practice. Suppose
 $\x$ has probability density $f(\x)$. The algorithm actually estimates
+the `depth', or minus the expected value of the log-probability near $x$:
 \begin{align}
-h &= \int f(\x) \int f(\x')
-            \log \left[ P(d(\x', \x) < \epsilon | \x) \right]
+h &= -\int f(\x) \int f(\x')
+            \log \left[ P(d(\x', \x) < L | \x) \right]
                         \, d\x' \, d\x.
 \end{align}
+for some tolerance $L$.
+
 If we actually want the differential
 entropy
 \begin{align}
 h_{\x} &= -\int f(x) \log f(x) \, dx
 \end{align}
 we can use the fact that density equals mass divided
-by volume. Assume $\epsilon$ is small, so that
-\begin{align}
-P(d(\x', \x) < \epsilon | \x)
-    &\approx
-    f(\x) \int_{d(\x', \x) < \epsilon} \, d\x'\\
-    &= f(\x) \, V
-\end{align}
-where $V$ is the volume of the region where $d(\x', \x) < \epsilon$.
-
-If the distance function $d(\x', \x)$ is chosen to be Euclidean,
-the constraint $d(\x', \x) < \epsilon$ corresponds to a ball in the space
-of possible $\x'$ values.
-The log-volume of a ball of radius $\epsilon$ in $n$ dimensions is
-\begin{align}
-\log V(\epsilon; n) &= \frac{n}{2}\log \pi
-                        - \log \Gamma\left(\frac{n}{2} + 1\right)
-                        + n \log \epsilon,
-\end{align}
-and provides the conversion factor between the differential entropy and
-the entropy actually computed from the algorithm.
-
-Continuous hypothesis spaces are commonly used in practice. Suppose
-$\x$ has probability density $f(\x)$, so the differential entropy is
-\begin{align}
-H &= -\int_{-\infty}^{\infty} f(\x) \log f(\x) \, d\x
-\end{align}
-
-What the algorithm actually estimates is
-\begin{align}
-h &= \int f(\x) \int f(\x')
-            \log \left[ P(d(\x', \x) < L | \x) \right]
-                        \, d\x' \, d\x.
-\end{align}
-If we actually want the differential
-entropy, we can use the fact that density equals mass divided
 by volume. Assume $L$ is small, so that
 \begin{align}
-P(d(\x', \x) < L | \x)
+P(d(\x', \x) < \epsilon | \x)
     &\approx
     f(\x) \int_{d(\x', \x) < L} \, d\x'\\
     &= f(\x) \, V
 \end{align}
 where $V$ is the volume of the region where $d(\x', \x) < L$.
 
-In a one-dimensional parameter space, the algorithm will calculate
+If the distance function $d(\x', \x)$ is chosen to be Euclidean,
+the constraint $d(\x', \x) < L$ corresponds to a ball in the space
+of possible $\x'$ values.
+The log-volume of a ball of radius $L$ in $n$ dimensions is
 \begin{align}
-h(L) &= \int f(\x) \int f(\x')
-             \log \left[ \int_{x - L}^x f(x') \right]
-                        \, d\x' \, d\x.
+\log V(\epsilon; n) &= \frac{n}{2}\log \pi
+                        - \log \Gamma\left(\frac{n}{2} + 1\right)
+                        + n \log L,
 \end{align}
-See the Appendix for a discussion of this quantity. To obtain the differential
-entropy, compute $h(L)$ for small $L$ and then add $\log(L)$.
+and provides the conversion factor between the differential entropy and
+the entropy actually computed from the algorithm.
+
+If $L$ is not small, we might think we are calculating the entropy associated
+with the question `what is $x$, to within a tolerance of $\pm L$?'.
+This is not quite correct. See the Appendix for a discussion of this
+type of question.
 
 \section{Example 1: Measuring the mean of a gaussian}
 
@@ -520,7 +492,7 @@ entropy of a marginal distribution is not available in closed form.
 
 From the algorithm, the expected log-probability was
 \begin{align}
-?_{\d} &= 928.80 \pm 0.38.
+\depth_{\d} &= 928.80 \pm 0.38.
 \end{align}
 The log-volume of a 100-dimensional ball of radius $10^{-3}$ is
 -782.017. Therefore, the measured differential entropy was
