@@ -490,12 +490,22 @@ The true value of the differential entropy $h_{\d}$ is available analytically
 in this case, and its value is $146.499$. However, in most situations, the
 entropy of a marginal distribution is not available in closed form. 
 
-From the algorithm, the expected log-probability was
+I ran the algorithm and computed the depth using a tolerance of
+$L=10^{-3}\sqrt{100}$, so that the RMS difference between
+points in the two datasets was about $10^{-3}$.
+From the algorithm, the average depth was
 \begin{align}
-\depth_{\d} &= 928.80 \pm 0.38.
+\depth_{\d} &= 698.25 \pm 0.34.
 \end{align}
-The log-volume of a 100-dimensional ball of radius $10^{-3}$ is
--782.017. Therefore, the measured differential entropy was
+The log-volume of a 100-dimensional ball of radius
+$L=10^{-3}\sqrt{100}$ is
+$-551.76$. Therefore, the differential entropy is estimated to be
+\begin{align}
+H_{\d} &\approx 146.49 \pm 0.34.
+\end{align}
+which is very close to the true value (suspiciously close, but this
+was just a fluke).
+
 
 
 
