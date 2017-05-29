@@ -184,7 +184,7 @@ entropy
 H_{x} &= -\int p(x) \log p(x) \, dx
 \end{align}
 quantifies uncertainty by generalising the log-volume
-of the plausible region, where volume is defined with respect to $dx$.
+of the plausible region, when volume is defined with respect to $dx$.
 
 \subsection{Notation and conventions}
 
@@ -192,7 +192,9 @@ Throughout this paper, I use the compact
 `overloaded' notation for probability distributions favoured by many
 Bayesian writers, writing $p(x)$ (for either a probability mass function
 or a probability density function) instead
-of the more correct but cumbersome $P(X=x)$ or $f_X(x)$.
+of the more cumbersome $P(X=x)$ or $f_X(x)$ where one must always
+distinguish the `random variable' itself ($X$) from a similarly-named
+dummy variable ($x$).
 Probability distributions are implicitly conditional on some prior
 information, which is omitted from the notation unless necessary.
 All logarithms are written $\log$ and any base can be used, unless otherwise
@@ -585,24 +587,25 @@ the joint run. The results were:
 \depth_{\tau,\d} &= 479.96 \pm 0.31
 \end{align}
 
-To convert these to differential entropies, I applied the log-volume
-correction factors for 1, 101, and 102 dimensions, which are
-$-6.215$, $-790.32$, and $-798.62$ respectively. This gives
+To convert these to differential entropies, I added the log-volumes
+for 1, 101, and 102 dimensions, which are
+$-6.215$, $-557.252$, and $-562.746$ respectively. This gives
 the following values for the differential entropies:
 \begin{align}
-H'_{\tau}     &=  0.028 \pm 0.024 \label{eqn:h_tau}\\
-H'_{\d}       &= -77.89 \pm 0.35   \\
-H'_{\tau, \d} &= -82.81 \pm 0.34   \label{eqn:h_joint}
+H'_{\tau}     &=  0.001 \pm 0.025 \label{eqn:h_tau}\\
+H'_{\d}       &= -77.12 \pm 0.32   \\
+H'_{\tau, \d} &= -82.79 \pm 0.31   \label{eqn:h_joint}
 \end{align}
-The mutual information is equal to $H_{\tau} + H_{\d} - H_{\tau, \d}$. The
-uncertainties in each of these three quantities is quite large, and would lead
-to a large uncertainty on $I_{\tau, \d}$ if computed from the results
-in Equations~\ref{eqn:h_tau} to~\ref{eqn:h_joint}. To reduce this
-uncertainty, we computed the three entropies using a common random number
-generator for the reference pairs. This is an example of the
+The mutual information is equal to $H_{\tau} + H_{\d} - H_{\tau, \d}$,
+and can be computed from the results listed
+in Equations~\ref{eqn:h_tau} to~\ref{eqn:h_joint}.
+However, each of these three runs were produced with an identical random
+seed for the reference points, so there is a way to reduce the uncertainty
+by calculating $H_{\tau} + H_{\d} - H_{\tau, \d}$ for each reference pair.
+This is an instance of the
 {\em common random numbers} technique of variance reduction.
 The resulting  mutual information is
-$I_{\tau, \d} = 4.96 \pm 0.38$ nats.
+$I_{\tau, \d} = 5.67 \pm 0.30$ nats.
 
 The results for the uneven observing schedule, again in terms of log
 probabilities, are:
