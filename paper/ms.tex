@@ -66,7 +66,7 @@
 \newcommand{\bphi}{\boldsymbol{\phi}}
 \newcommand{\boldeta}{\boldsymbol{\eta}}
 \newcommand{\n}{\boldsymbol{\eta}}
-\newcommand{\depth}{\textnormal{depth}}
+\newcommand{\depth}{(\textnormal{depth})}
 
 \newcommand{\apj}{The Astrophysical Journal}
 \newcommand{\mnras}{Monthly Notices of the Royal Astronomical Society}
@@ -574,14 +574,15 @@ even (gold points) and uneven (green points) observing strategies.
 \subsection{Results}
 
 Letting $\tau = \log_{10} T$, and treating
-$A$ and $\phi$ are nuisance parameters, I calculated the entropies
-of $\tau$, $\d$, and $(\tau, \d)$.
-These results were computed using a tolerance of 0.001 for each of the three
-runs. The results are:
+$A$ and $\phi$ are nuisance parameters, I calculated the depths
+for $\tau$, $\d$, and $(\tau, \d)$.
+These results were computed using a tolerance of $L=0.001$
+for $\tau$, $0.001\sqrt{101}$ for $\d$, and $0.001\sqrt{102}$ for
+the joint run. The results were:
 \begin{align}
-H_{\tau}    &= 6.243  \pm 0.024 \\
-H_{\d}      &= 712.43 \pm 0.35   \\
-H_{\tau,\d} &= 715.81 \pm 0.34
+\depth_{\tau}    &= 6.216  \pm 0.025 \\
+\depth_{\d}      &= 480.13 \pm 0.32   \\
+\depth_{\tau,\d} &= 479.96 \pm 0.31
 \end{align}
 
 To convert these to differential entropies, I applied the log-volume
