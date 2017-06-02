@@ -167,21 +167,21 @@ nested sampling; bayesian inference}
 If an unknown quantity $x$ has a discrete probability distribution $p(x)$,
 the Shannon entropy \citep{shannon} is defined as
 \begin{align}
-H_{x} &= -\sum_{x} p(x) \log p(x)
+H(x) &= -\sum_{x} p(x) \log p(x)
 \end{align}
 where the sum is over all of the possible values of $x$ under consideration.
 The entropy quantifies the degree to which the issue
 ``what is the value of $x$, precisely?'' remains unresolved
 \citep{knuth_questions}. For example,
-if there is only one possible value which has probability 1, $H_x$ is
+if there is only one possible value which has probability 1, $H(x)$ is
 zero\footnote{Conventionally, $0 \times \log 0$ is defined to be equal
 to $\lim_{x \to 0^+} (x\log x)$, which is zero.}.
 If there are $N$ possibilities with equal probabilities $1/N$ each,
-then the entropy is $H_x = \log(N)$.
-If the space of possible $x$-values is continuous, the differential
-entropy
+then the entropy is $H(x) = \log(N)$.
+If the space of possible $x$-values is continuous so that $p(x)$ is a
+probability density function, the differential entropy
 \begin{align}
-H_{x} &= -\int p(x) \log p(x) \, dx
+H(x) &= -\int p(x) \log p(x) \, dx
 \end{align}
 quantifies uncertainty by generalising the log-volume
 of the plausible region, when volume is defined with respect to $dx$.
@@ -202,10 +202,9 @@ specified (for example by writing $\ln$ or $\log_{10}$). Any numerical
 values given for the value of specific entropies are in {\em nats}, i.e.,
 the natural logarithm was used.
 
-I prefer to write the entropy of $x$ as $H_x$ rather than $H(x)$
-(or $H(X)$ as is often seen), because the latter can wrongly imply that
-the entropy is a property of the value of $x$ itself, rather than
-the probability distribution we have assigned to it.
+Even though the entropy is written as $H(x)$, it is imperative that we
+remember it is not a property of the value of $x$ itself, but a property
+of the probability distribution we use to describe our ignorance of $x$.
 
 \section{Entropies in Bayesian inference}
 
@@ -246,13 +245,13 @@ The degree to which the question ``what is the value of $\x$?'' would remain
 unresolved if $\d$ were resolved is given by the
 conditional entropy
 \begin{align}
-H_{\x | \d} &= - \sum_{\d} p(\d) \sum_{\x} p(\x | \d) \log p(\x | \d)
+H(\x | \d) &= - \sum_{\d} p(\d) \sum_{\x} p(\x | \d) \log p(\x | \d)
 \end{align}
 which is the expected value of the entropy of the posterior, averaged over
 all possible datasets which might be observed. 
 
-Suppose we wanted to compute $H_{\x | \d}$, perhaps to compare it to
-$H_{\x}$ and quantify how much might be learned about $\x$.
+Suppose we wanted to compute $H(\x | \d)$, perhaps to compare it to
+$H(\x)$ and quantify how much might be learned about $\x$.
 This would be difficult because the expression
 for the posterior distribution
 \begin{align}
@@ -264,9 +263,9 @@ p(\d) &= \int p(\x) p(\d | \x) \, d\x
 \end{align}
 also known as the `evidence', which tends to be computable but costly.
 
-It is important to distinguish between $H_{\x | \d}$ and the
+It is important to distinguish between $H(\x | \d)$ and the
 entropy of $\x$ given a particular value of $\d$, which might be written
-$H_{\x | \d=\d_0}$ (in traditional notation, $H(X|Y)$ and $H(X|Y=y)$).
+$H(\x | \d=\d_0)$.
 The former measures the degree to which one question answers
 another (ex ante), so is a function of two questions. The latter measures the
 degree to which a {\em statement} answered a question (ex post),
@@ -276,16 +275,16 @@ and is a function of a question and a statement.
 The mutual information is another way of describing the relevance of the
 data to the parameters. Its definition, and relation to other quantities, is
 \begin{align}
-I_{\x, \d} &= \sum_{\x} \sum_{\d} p(\x, \d)
+I(\x; \d) &= \sum_{\x} \sum_{\d} p(\x, \d)
                        \log\left[\frac{p(\x, \d)}{p(\x)p(\d)}\right]\\
-           &= H_{\x} + H_{\d} - H_{\x, \d}\\
-           &= H_{\d} - H_{\d | \x}\\
-           &= H_{\x} - H_{\x | \d}.
+           &= H(\x) + H(\d) - H(\x, \d)\\
+           &= H(\d) - H(\d | \x)\\
+           &= H(\x) - H(\x | \d).
 \end{align}
 It can also be written in terms of the prior, likelihood, and evidence,
 as
 \begin{align}
-I_{\x, \d} &= \sum_{\x} \sum_{\d} p(\x)p(\d | \x)
+I(\x; \d) &= \sum_{\x} \sum_{\d} p(\x)p(\d | \x)
               \left[\log p(\d | \x) - \log p(\d)\right],
 \end{align}
 i.e., the mutual information is the prior expected value of the
@@ -295,8 +294,8 @@ form of the log evidence,
 $\log p(\d) = \log \sum_{\x} p(\x)p(\d | \x)$.
 
 For experimental design purposes, if we want to maximise the expected amount
-of information obtained from data, maximising either $I_{\x, \d}$ or
-$H_{\x | \d}$ will produce the same result because the prior $p(\x)$ does not
+of information obtained from data, maximising either $I(\x; \d)$ or
+$H(\x | \d)$ will produce the same result because the prior $p(\x)$ does not
 vary with the experimental design. Reference priors
 \citep{bernardo2005reference} also make use of the mutual information but in a
 different way.
@@ -317,7 +316,8 @@ some threshold $\ell$,
 X(\ell) &= \int \pi(\x) \mathds{1}\left(L(\x) > \ell\right) \, d\x,
 \end{align} 
 
-The $N$ particles are initially initialised from the prior $\pi(\x)$, and the particle with the lowest likelihood is found.
+The $N$ particles are initially initialised from the prior $\pi(\x)$, and the
+particle with the lowest likelihood is found.
 {\todo Write more here}
 
 \subsection{The sequence of $X$ values}
@@ -407,7 +407,7 @@ whatever.
 \State $\widehat{h_{\rm final}} \leftarrow \frac{1}{\rm num\_iterations} \sum \widehat{\mathbf{h}}$
             \Comment{Average results}
 \end{algorithmic}
-\caption{Calculates $H_{\x} = -\int p(\x) \log p(\x) \, d\x$
+\caption{Calculates $H(\x) = -\int p(\x) \log p(\x) \, d\x$
          without evaluating $\log p(\x)$. Technically, what it actually
          estimates is $\int f(\x) \int f(\x')
             \log \left[ P(d(\x', \x) < L | \x) \right]
@@ -442,7 +442,7 @@ for some tolerance $L$.
 If we actually want the differential
 entropy
 \begin{align}
-h_{\x} &= -\int f(x) \log f(x) \, dx
+H(\x) &= -\int f(x) \log f(x) \, dx
 \end{align}
 we can use the fact that density equals mass divided
 by volume. Assume $L$ is small, so that
@@ -488,7 +488,7 @@ If the prior for $\mu$ is Normal$(0, 10^2)$, then the posterior is
                                        \left[\frac{10}{\sqrt{10001}}\right]^2
                                        \right).
 \end{align}
-The true value of the differential entropy $h_{\d}$ is available analytically
+The true value of the differential entropy $H(\d)$ is available analytically
 in this case, and its value is $146.499$. However, in most situations, the
 entropy of a marginal distribution is not available in closed form. 
 
@@ -503,7 +503,7 @@ The log-volume of a 100-dimensional ball of radius
 $L=10^{-3}\sqrt{100}$ is
 $-551.76$. Therefore, the differential entropy is estimated to be
 \begin{align}
-H_{\d} &\approx 146.49 \pm 0.34.
+H(\d) &\approx 146.49 \pm 0.34.
 \end{align}
 which is very close to the true value (suspiciously close, but this
 was just a fluke).
@@ -592,20 +592,20 @@ for 1, 101, and 102 dimensions, which are
 $-6.215$, $-557.252$, and $-562.746$ respectively. This gives
 the following values for the differential entropies:
 \begin{align}
-H'_{\tau}     &=  0.001 \pm 0.025 \label{eqn:h_tau}\\
-H'_{\d}       &= -77.12 \pm 0.32   \\
-H'_{\tau, \d} &= -82.79 \pm 0.31   \label{eqn:h_joint}
+H(\tau)     &=  0.001 \pm 0.025 \label{eqn:h_tau}\\
+H(\d)       &= -77.12 \pm 0.32   \\
+H(\tau, \d) &= -82.79 \pm 0.31   \label{eqn:h_joint}
 \end{align}
-The mutual information is equal to $H_{\tau} + H_{\d} - H_{\tau, \d}$,
+The mutual information is equal to $H(\tau) + H(\d) - H(\tau, \d)$,
 and can be computed from the results listed
 in Equations~\ref{eqn:h_tau} to~\ref{eqn:h_joint}.
 However, each of these three runs were produced with an identical random
 seed for the reference points, so there is a way to reduce the uncertainty
-by calculating $H_{\tau} + H_{\d} - H_{\tau, \d}$ for each reference pair.
+by calculating $H(\tau) + H(\d) - H(\tau, \d)$ for each reference pair.
 This is an instance of the
 {\em common random numbers} technique of variance reduction.
 The resulting  mutual information is
-$I_{\tau, \d} = 5.67 \pm 0.30$ nats.
+$I(\tau; \d) = 5.67 \pm 0.30$ nats.
 
 The results for the uneven observing schedule, again in terms of log
 probabilities, are:
@@ -613,7 +613,7 @@ probabilities, are:
 \depth_{\tau}      &= 6.216  \pm 0.025 \\
 \depth_{\d}        &= 479.47 \pm 0.31  \\
 \depth_{\tau, \d}  &= 480.27 \pm 0.32  \\
-I_{\tau, \d}       &= 4.69 \pm 0.32
+I(\tau; \d)        &= 4.69 \pm 0.32
 \end{align}
 
 The difference in mutual informations between the two observation
@@ -650,7 +650,7 @@ has been done.
 In a Bayesian inference problem with parameters $\x$ and data $\d$, the
 mutual information is
 \begin{align}
-I_{\x, \d} &= \iint p(\x, \d)
+I(\x; \d) &= \iint p(\x, \d)
                         \ln \left[\frac{p(\x, \d)}{p(\x)p(\d)}\right]
                         \, d\x \, d\d \label{eqn:mutual_info2}
 \end{align}
@@ -670,9 +670,9 @@ However, if we want the mutual information between the data and
 we don't care about), things become even more tricky. Suppose we
 partition the parameters $\x$ into important parameters
 $\bphi$ and nuisance parameters $\boldeta$, such that we want to calculate
-the mutual information $I_{\bphi, \d}$. This is given by
+the mutual information $I(\bphi; \d)$. This is given by
 \begin{align}
-I_{\bphi, \d} &= \iint p(\bphi, \d)
+I(\bphi; \d) &= \iint p(\bphi, \d)
                         \ln \left[\frac{p(\bphi, \d)}{p(\bphi)p(\d)}\right]
                         \, d\bphi \, d\d \label{eqn:mutual_info3}
 \end{align}
@@ -686,7 +686,7 @@ Equation~\ref{eqn:mutual_info3} with every probability distribution
 written as an explicit integral over $\boldeta$:
 
 \begin{align}
-I_{\bphi, \d} &= \iint
+I(\bphi; \d) &= \iint
   \left(\int p(\bphi, \boldeta)p(\d | \bphi, \boldeta) \, d\boldeta\right)
                         \ln \left[
   \frac{\int p(\bphi, \boldeta)p(\d | \bphi, \boldeta) \, d\boldeta}
