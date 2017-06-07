@@ -310,15 +310,29 @@ Z &= \int \pi(\x) L(\x) \, d\x
 where $\x$ is the unknown parameter(s), $\pi$ is the prior distribution,
 and $L$ is the likelihood function. It does this evolving a population of
 $N$ particles in the parameter space.
+The $N$ particles are initially initialised from the prior $\pi(\x)$, and the
+particle with the lowest likelihood, $L^*_1$, is found and its details are
+recorded in the output. This worst particle is then discarded
+and replaced by a new particle
+drawn from the prior $\pi$ but subject to the constraint that its likelihood
+must be above $L^*_1$. This process is repeated, resulting in an
+increasing sequence of likelihoods
+\begin{align}
+L^*_1, L^*_2, L^*_3..., 
+\end{align}
+
 Defining $X(\ell)$ as the amount of prior mass with likelihood greater than
 some threshold $\ell$,
 \begin{align}
 X(\ell) &= \int \pi(\x) \mathds{1}\left(L(\x) > \ell\right) \, d\x,
-\end{align} 
-
-The $N$ particles are initially initialised from the prior $\pi(\x)$, and the
-particle with the lowest likelihood is found.
-{\todo Write more here}
+\end{align}
+\citet{skilling}'s key insight was that we can estimate the corresponding
+$X$-values of the discarded points can be estimated from the nature of the
+algorithm. Specifically, each iteration reduces the prior mass by approximately
+a factor $e^{-1/N}$. More accurately, the conditional distribution of
+$X_{i}$ given $X_{i-1}$ (and the definition of the algorithm)
+is obtainable by letting
+$t_i \sim \textnormal{Beta}(N,1)$ and setting $X_{i+1} := t_iX_{i-1}$.
 
 \subsection{The sequence of $X$ values}
 
@@ -760,7 +774,8 @@ In practice, we may
 want to ask a question that is different from the central issue.
 For example, suppose $x \in \{1, ..., 10\}$ and
 we want to know the value of $x$ to within a tolerance
-of $\pm 1$. Any of the following statements would resolve the issue:
+of $\pm 1$. Any of the following statements would
+resolve the issue:
 \begin{itemize}
 \item $x \in \{1, 2, 3\}$ and anything that implies it
 \item $x \in \{2, 3, 4\}$ and anything that implies it
@@ -777,12 +792,13 @@ Q &= \left[\downarrow (x \in \{1, 2, 3\})\right] \cup
 
 The entropy of this question is
 \begin{align}
-H(Q) &= f_{1,2,3}\\
-     & \quad \quad + \left(f_{2,3,4} - f_{2,3}\right) \\
-     & \quad \quad + \left(f_{3,4,5} - f_{3,4}\right) \\
+H(Q) &= h_{1,2,3}\\
+     & \quad \quad + \left(h_{2,3,4} - h_{2,3}\right) \\
+     & \quad \quad + \left(h_{3,4,5} - h_{3,4}\right) \\
      & \quad \quad + ... \\
-     & \quad \quad + \left(f_{8,9,10} - f_{8,9}\right).
+     & \quad \quad + \left(h_{8,9,10} - h_{8,9}\right).
 \end{align}
+where $h_{x} = -P(x)\log P(x)$.
 
 
 \subsection*{Continuous case}
