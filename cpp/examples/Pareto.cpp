@@ -106,7 +106,7 @@ double Pareto::parameter_distance(const Pareto& pareto1,
 double Pareto::data_distance(const Pareto& pareto1,
                              const Pareto& pareto2)
 {
-    return std::abs(log(pareto2.sum_second_half() - pareto1.sum_second_half()));
+    return std::abs(log(pareto2.sum_second_half()/pareto1.sum_second_half()));
 }
 
 double Pareto::joint_distance(const Pareto& pareto1, const Pareto& pareto2)
