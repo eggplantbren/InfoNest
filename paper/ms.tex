@@ -336,10 +336,10 @@ $t_i \sim \textnormal{Beta}(N,1)$ and setting $X_{i+1} := t_iX_{i-1}$.
 
 \subsection{The sequence of $X$ values}
 
-The sequence of $\ln X$ values produced by a Nested Sampling run can be
+The sequence of $-\ln X$ values produced by a Nested Sampling run can be
 considered as a Poisson process with rate equal to $N$, the number of
-particles. For example, when $N=1$, the distribution for $\ln X_{i+1}$
-given $\ln X_i$ is a shifted (and reflected) exponential with rate 1.
+particles. For example, when $N=1$, the distribution for $-\ln X_{i+1}$
+given $-\ln X_i$ is a shifted (and reflected) exponential with rate 1.
 \citet{Walter2015} showed how this view of the NS sequence of points
 can be used to construct a
 version of NS that produces unbiased (in the frequentist sense)
@@ -349,23 +349,23 @@ a log-probability, which is more relevant to information theoretic
 quantities.
 
 Consider a particular likelihood value $\ell$ whose corresponding $X$-value
-we would like to know. Since the $\ln X_i$ values have the same distribution
+we would like to know. Since the $-\ln X_i$ values have the same distribution
 as the arrival times of a Poisson process with rate $N$, the probability
 distribution for the number of points in an interval of length $t$ is
 Poisson with expected value $\lambda t$. Therefore the expected number of
-NS discarded points with likelihood below $\ell$ is $-\ln X(\ell)$:
+NS discarded points with likelihood below $\ell$ is $-N\ln X(\ell)$:
 \begin{align}
-\big< n(L(\x_i) \leq \ell) \big> &= -\ln X(\ell).
+\big< n(L(\x_i) \leq \ell) \big> &= -N\ln X(\ell).
 \end{align}
-We can therefore take $n(L(\x_i) \leq \ell)$, the number of points in the
-sequence with likelihood below $\ell$, as an unbiased estimator of
-$-\ln X(\ell)$.
+We can therefore take $n(L(\x_i) \leq \ell)/N$, the number of points in the
+sequence with likelihood below $\ell$ divided by the number of NS particles,
+as an unbiased estimator of $-\ln X(\ell)$.
 
 \section{The algorithm}
 
 The above insight, that the number of NS discarded points with likelihood
-below $\ell$ has expected value $-\ln X(\ell)$, is the basis of the algorithm.
-If we wish to measure a log-probability $\ln X(\ell)$, we can use NS to do it.
+below $\ell$ has expected value $-N\ln X(\ell)$, is the basis of the algorithm.
+If we wish to measure a log-probability $-\ln X(\ell)$, we can use NS to do it.
 See Algorithm~\ref{alg:algorithm} for a step-by-step description of the
 algorithm. The algorithm is written in terms of an unknown quantity $\x$
 whose entropy is required. In applications, $\x$ may be parameters,
