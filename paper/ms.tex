@@ -491,7 +491,7 @@ with the question `what is $x$, to within a tolerance of $\pm L$?'.
 This is not quite correct. See the Appendix for a discussion of this
 type of question.
 
-\section{Example 1: Measuring the mean of a gaussian}
+\section{Example 1: Entropy of a prior for the data}
 
 This example demonstrates how the algorithm may be used to determine the
 entropy for a quantity whose distribution can only be sampled.
@@ -509,7 +509,7 @@ If the prior for $\mu$ is Normal$(0, 10^2)$, then the posterior is
                                        \right).
 \end{align}
 The true value of the differential entropy $H(\d)$ is available analytically
-in this case, and its value is $146.499$. However, in most situations, the
+in this case, and its value is $146.499$ nats. However, in most situations, the
 entropy of a marginal distribution is not available in closed form. 
 
 I ran the algorithm and computed the depth using a tolerance of
@@ -527,9 +527,6 @@ H(\d) &\approx 146.49 \pm 0.34.
 \end{align}
 which is very close to the true value (suspiciously close, but this
 was just a fluke).
-
-
-
 
 \section{Example 2: Measuring the period of an oscillating signal}
 
