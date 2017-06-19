@@ -363,17 +363,21 @@ $-\ln X(\ell)$.
 
 \section{The algorithm}
 
-We would like to calculate the expected value of a log-probability:
-
+The above insight, that the number of NS discarded points with likelihood
+below $\ell$ has expected value $-\ln X(\ell)$, is the basis of the algorithm.
+If we wish to measure a log-probability $\ln X(\ell)$, we can use NS to do it.
 See Algorithm~\ref{alg:algorithm} for a step-by-step description of the
-algorithm. The idea is to generate a reference particle from the distribution
-whose entropy is required, and then use Nested Sampling to measure the
-log-probability of a small region near that particle.
-
-The algorithm is written in terms of an unknown quantity $\x$
+algorithm. The algorithm is written in terms of an unknown quantity $\x$
 whose entropy is required. In applications, $\x$ may be parameters,
-a subset of the parameters, data, parameters and data jointly, or
-whatever.
+a subset of the parameters, data, some function of the data,
+parameters and data jointly, or whatever.
+
+The idea is to generate a reference particle $\x_{\rm ref}$
+from the distribution $p(\x)$
+whose entropy is required. Then, a Nested Sampling run evolves a set of
+particles $\{\x\}_{i=1}^N$, initially representing $p(\x)$, is evolved
+towards $\x_{\rm ref}$ in order to measure the log-probability near
+$\x_{\rm ref}$.
 
 \begin{algorithm}
 \begin{algorithmic}
@@ -427,7 +431,9 @@ whatever.
             \log \left[ P(d(\x', \x) < L | \x) \right]
                         \, d\x' \, d\x$, the expected value of the
         log-probability of a small region near $\x$.
-        The part highlighted in green is standard Nested Sampling.
+        The part highlighted in green is standard Nested Sampling
+        with quasi-prior $p(\x)$ and quasi-likelihood given by minus a
+        distance function $d(\x', \x)$.
         \label{alg:algorithm}}
 \end{algorithm}
 
