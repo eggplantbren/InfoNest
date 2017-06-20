@@ -67,6 +67,7 @@
 \newcommand{\boldeta}{\boldsymbol{\eta}}
 \newcommand{\n}{\boldsymbol{\eta}}
 \newcommand{\depth}{(\textnormal{depth})}
+\newcommand{\xref}{\x_{\rm ref}}
 
 \newcommand{\apj}{The Astrophysical Journal}
 \newcommand{\mnras}{Monthly Notices of the Royal Astronomical Society}
@@ -372,12 +373,19 @@ whose entropy is required. In applications, $\x$ may be parameters,
 a subset of the parameters, data, some function of the data,
 parameters and data jointly, or whatever.
 
-The idea is to generate a reference particle $\x_{\rm ref}$
+The idea is to generate a reference particle $\xref$
 from the distribution $p(\x)$
 whose entropy is required. Then, a Nested Sampling run evolves a set of
 particles $\{\x\}_{i=1}^N$, initially representing $p(\x)$, is evolved
-towards $\x_{\rm ref}$ in order to measure the log-probability near
-$\x_{\rm ref}$.
+towards $\xref$ in order to measure the log-probability near
+$\xref$. Nearness is defined using a distance function
+$d(\x; \xref)$, and the number of NS iterations taken to reduce
+the distance to below some threshold $L$ provides an unbiased estimate of
+\begin{align}
+   -\log \left[ P(d(\x; \xref) < L) \right].
+\end{align}
+
+
 
 \begin{algorithm}
 \begin{algorithmic}
@@ -393,12 +401,12 @@ $\x_{\rm ref}$.
 \While{more iterations desired}
     \State $k \leftarrow 0$
             \Comment{Initialise counter}
-    \State Generate $\x_{\rm ref}$ from $p(\x)$
+    \State Generate $\xref$ from $p(\x)$
             \Comment{Generate a reference point}
 \color{green}
     \State Generate $\left\{\x_i\right\}_{i=1}^N$ from $p(\x)$
             \Comment{Generate initial NS particles}
-    \State Calculate $d_i \leftarrow d(\x_i; \x_{\rm ref})$ for all $i$
+    \State Calculate $d_i \leftarrow d(\x_i; \xref)$ for all $i$
             \Comment{Calculate distance of each particle from the reference
                      point}
     \State $i^* \leftarrow \textnormal{argmin}(\lambda i \rightarrow d_i)$
@@ -409,7 +417,7 @@ $\x_{\rm ref}$.
         \State Replace $\x_{i^*}$ with $\x_{\rm new}$ from
                $p\left(\x | (d(\x) < d_{\rm max})\right)$
             \Comment{Replace worst particle}
-        \State Calculate $d_{i^*} \leftarrow d(\x_{\rm new}; \x_{\rm ref})$
+        \State Calculate $d_{i^*} \leftarrow d(\x_{\rm new}; \xref)$
             \Comment{Calculate distance of new particle from reference point}
         \State $i^* \leftarrow \textnormal{argmin}(\lambda i \rightarrow d_i)$
                 \Comment{Find the worst particle (greatest distance)}
@@ -427,13 +435,13 @@ $\x_{\rm ref}$.
 \end{algorithmic}
 \caption{Calculates $H(\x) = -\int p(\x) \log p(\x) \, d\x$
          without evaluating $\log p(\x)$. Technically, what it actually
-         estimates is $\int f(\x) \int f(\x')
-            \log \left[ P(d(\x', \x) < L | \x) \right]
-                        \, d\x' \, d\x$, the expected value of the
+         estimates is $\int f(\x) \int f(\xref)
+            \log \left[ P(d(\xref, \x) < L | \x) \right]
+                        \, d\xref \, d\x$, the expected value of the
         log-probability of a small region near $\x$.
         The part highlighted in green is standard Nested Sampling
         with quasi-prior $p(\x)$ and quasi-likelihood given by minus a
-        distance function $d(\x', \x)$.
+        distance function $d(\xref, \x)$.
         \label{alg:algorithm}}
 \end{algorithm}
 
@@ -453,9 +461,9 @@ Continuous hypothesis spaces are commonly used in practice. Suppose
 $\x$ has probability density $f(\x)$. The algorithm actually estimates
 the `depth', or minus the expected value of the log-probability near $x$:
 \begin{align}
-h &= -\int f(\x) \int f(\x')
-            \log \left[ P(d(\x', \x) < L | \x) \right]
-                        \, d\x' \, d\x.
+h &= -\int f(\x) \int f(\xref)
+            \log \left[ P(d(\xref, \x) < L | \x) \right]
+                        \, d\xref \, d\x.
 \end{align}
 for some tolerance $L$.
 
@@ -467,16 +475,16 @@ H(\x) &= -\int f(x) \log f(x) \, dx
 we can use the fact that density equals mass divided
 by volume. Assume $L$ is small, so that
 \begin{align}
-P(d(\x', \x) < \epsilon | \x)
+P(d(\xref, \x) < \epsilon | \x)
     &\approx
-    f(\x) \int_{d(\x', \x) < L} \, d\x'\\
+    f(\x) \int_{d(\xref, \x) < L} \, d\xref\\
     &= f(\x) \, V
 \end{align}
-where $V$ is the volume of the region where $d(\x', \x) < L$.
+where $V$ is the volume of the region where $d(\xref, \x) < L$.
 
-If the distance function $d(\x', \x)$ is chosen to be Euclidean,
-the constraint $d(\x', \x) < L$ corresponds to a ball in the space
-of possible $\x'$ values.
+If the distance function $d(\xref, \x)$ is chosen to be Euclidean,
+the constraint $d(\xref, \x) < L$ corresponds to a ball in the space
+of possible $\xref$ values.
 The log-volume of a ball of radius $L$ in $n$ dimensions is
 \begin{align}
 \log V(\epsilon; n) &= \frac{n}{2}\log \pi
