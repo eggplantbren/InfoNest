@@ -141,8 +141,25 @@ void Rep<Particle>::initialise(RNG& temp_rng)
     reference_particle.generate(temp_rng);
 
     // Generate the other particles
-    for(auto& p: particles)
-        p.generate(rng);
+    for(size_t k=0; k<particles.size(); ++k)
+    {
+        if(k == 0)
+            particles[k] = reference_particle;
+        else
+            particles[k] = particles[k-1];
+
+        // Do Metropolis
+        std::cout << "Generating initial particle..." << std::flush;
+        for(int i=0; i<100000; ++i)
+        {
+            auto proposal = particles[k];
+            double logA = proposal.perturb(rng);
+
+            if(rng.rand() <= exp(logA))
+                particles[k] = proposal;
+        }
+        std::cout << "done." << std::endl;
+    }
 
     // Compute all the distances
     compute_distances();

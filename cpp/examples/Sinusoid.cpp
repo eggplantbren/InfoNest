@@ -87,7 +87,7 @@ double Sinusoid::perturb(RNG& rng)
 {
     double logH = 0.0;
 
-    int proposal_type = rng.rand_int(4);
+    int proposal_type = 1;//rng.rand_int(4);
 
     if(proposal_type == 0)
     {
