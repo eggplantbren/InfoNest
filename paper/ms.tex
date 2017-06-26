@@ -547,6 +547,18 @@ observed in order to obtain as much information as possible about the
 period? To answer this, we need to be able to calculate the mutual
 information between the unknown period and the data.
 
+As the algorithm lets us calculate the entropy of any distribution which can
+be sampled by MCMC, there are several options. The mutual information
+can be written in the following three ways
+\begin{align}
+I(x; y) &= H(x) + H(y) - H(x, y) \\
+I(x; y) &= H(y) - H(y|x) \\
+I(x; y) &= H(x) - H(x|y).
+\end{align}
+In a Bayesian problem where $x$ is an unknown parameter and $y$ is data, the
+first and second formulas would be very costly to compute, because of the
+high dimensional probability distribution for the dataset. 
+
 I consider two possible observing strategies, both involving
 $n=101$ measurements. The `even' strategy has observations at times
 \begin{align}
