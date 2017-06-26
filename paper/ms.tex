@@ -298,8 +298,8 @@ For experimental design purposes, if we want to maximise the expected amount
 of information obtained from data, maximising either $I(\x; \d)$ or
 $H(\x | \d)$ will produce the same result because the prior $p(\x)$ does not
 vary with the experimental design. Reference priors
-\citep{bernardo2005reference} also make use of the mutual information but in a
-different way.
+\citep{bernardo2005reference} also maximise $I(\x; \d)$ but vary the prior
+in the maximisation process.
 
 \section{Nested Sampling}
 
@@ -309,14 +309,20 @@ to calculate the evidence
 Z &= \int \pi(\x) L(\x) \, d\x
 \end{align}
 where $\x$ is the unknown parameter(s), $\pi$ is the prior distribution,
-and $L$ is the likelihood function. It does this evolving a population of
+and $L$ is the likelihood function. While $Z$ is a simple expectation, the
+implied distribution of $L$-values tends to be very heavy-tailed, which is
+why simple Monte Carlo does not work. Equivalently, the integral is dominated
+by very small regions where $L(\x)$ is high.
+
+NS evolves a population of
 $N$ particles in the parameter space.
-The $N$ particles are initially initialised from the prior $\pi(\x)$, and the
+The particles are initially initialised from the prior $\pi(\x)$, and the
 particle with the lowest likelihood, $L^*_1$, is found and its details are
-recorded in the output. This worst particle is then discarded
+recorded as output. This worst particle is then discarded
 and replaced by a new particle
 drawn from the prior $\pi$ but subject to the constraint that its likelihood
-must be above $L^*_1$. This process is repeated, resulting in an
+must be above $L^*_1$ (this is usually achieved by cloning a surviving particle
+and evolving it with MCMC). This process is repeated, resulting in an
 increasing sequence of likelihoods
 \begin{align}
 L^*_1, L^*_2, L^*_3..., 
@@ -367,6 +373,10 @@ as an unbiased estimator of $-\ln X(\ell)$.
 The above insight, that the number of NS discarded points with likelihood
 below $\ell$ has expected value $-N\ln X(\ell)$, is the basis of the algorithm.
 If we wish to measure a log-probability $-\ln X(\ell)$, we can use NS to do it.
+$\pi(\x)$ and $L(\x)$ need not be the prior and likelihood respectively, but
+can be any probability distribution (over any space) and any function whose
+expected value is needed for a particular application.
+
 See Algorithm~\ref{alg:algorithm} for a step-by-step description of the
 algorithm. The algorithm is written in terms of an unknown quantity $\x$
 whose entropy is required. In applications, $\x$ may be parameters,
@@ -553,7 +563,8 @@ can be written in the following three ways
 \begin{align}
 I(x; y) &= H(x) + H(y) - H(x, y) \\
 I(x; y) &= H(y) - H(y|x) \\
-I(x; y) &= H(x) - H(x|y).
+I(x; y) &= H(x) - H(x|y) \\
+I(x; y) &= \int D_{\rm KL}\left(p(x|y) || p(x)\right) \, dy.
 \end{align}
 In a Bayesian problem where $x$ is an unknown parameter and $y$ is data, the
 first and second formulas would be very costly to compute, because of the
