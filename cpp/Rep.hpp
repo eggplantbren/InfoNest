@@ -165,7 +165,7 @@ void Rep<Particle>::initialise(RNG& temp_rng, Mode mode)
                 if(rng.rand() <= exp(logA))
                     particles[k] = proposal;
             }
-            std::cout << "done." << std::endl;
+            std::cout << "done (1E5 Metropolis steps)." << std::endl;
         }
     }
 
