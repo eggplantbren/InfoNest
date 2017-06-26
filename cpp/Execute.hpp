@@ -20,9 +20,8 @@ void execute(RNG& rng0,
              size_t num_reps,
              size_t num_particles,
              size_t mcmc_steps,
-             const DistFunc<Particle>& dist_func);
-
-
+             const DistFunc<Particle>& dist_func,
+             Mode mode = Mode::standard);
 
 
 /* Implementations below */
@@ -35,7 +34,8 @@ void execute(RNG& rng0,
              size_t num_reps,
              size_t num_particles,
              size_t mcmc_steps,
-             const DistFunc<Particle>& dist_func)
+             const DistFunc<Particle>& dist_func,
+             Mode mode)
 {
     // Clear output file
     std::fstream fout("output.txt", std::ios::out);
@@ -58,7 +58,7 @@ void execute(RNG& rng0,
                                         dist_func);
 
         // Initialise and execute it.
-        rep.initialise(rng0);
+        rep.initialise(rng0, mode);
         rep.execute();
 
         // Print a message.
