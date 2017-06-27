@@ -325,7 +325,7 @@ must be above $L^*_1$ (this is usually achieved by cloning a surviving particle
 and evolving it with MCMC). This process is repeated, resulting in an
 increasing sequence of likelihoods
 \begin{align}
-L^*_1, L^*_2, L^*_3..., 
+L^*_1, L^*_2, L^*_3,..., 
 \end{align}
 
 Defining $X(\ell)$ as the amount of prior mass with likelihood greater than
@@ -512,7 +512,9 @@ type of question.
 \section{Example 1: Entropy of a prior for the data}
 
 This example demonstrates how the algorithm may be used to determine the
-entropy for a quantity whose distribution can only be sampled.
+entropy for a quantity whose distribution can only be sampled, in this case,
+a prior distribution over datasets.
+
 Consider the basic statistics problem of inferring a quantity $\mu$ from
 100 observations $\d = \{d_1, ..., d_{100}\}$ whose
 probability distribution (conditional on $\mu$) is
@@ -564,7 +566,7 @@ can be written in the following three ways
 I(x; y) &= H(x) + H(y) - H(x, y) \\
 I(x; y) &= H(y) - H(y|x) \\
 I(x; y) &= H(x) - H(x|y) \\
-I(x; y) &= \int D_{\rm KL}\left(p(x|y) || p(x)\right) \, dy.
+I(x; y) &= \int p(y) \, D_{\rm KL}\left(p(x|y) \,||\, p(x)\right) \, dy.
 \end{align}
 In a Bayesian problem where $x$ is an unknown parameter and $y$ is data, the
 first and second formulas would be very costly to compute, because of the
@@ -756,7 +758,7 @@ conversations about this topic: Ruth Angus (Flatiron Institute),
 Ewan Cameron (Oxford), James Curran (Auckland),
 David Hogg (NYU), Kevin Knuth (SUNY Albany),
 Thomas Lumley (Auckland),
-Iain Murray (Edinburgh), Jared Tobin (jtobin.io).
+Iain Murray (Edinburgh), Jared Tobin ({\tt jtobin.io}).
 This work was supported by Centre for eResearch
 at the University of Auckland.
 
