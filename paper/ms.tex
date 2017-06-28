@@ -589,6 +589,8 @@ initial particles from the posterior by doing standard MCMC (targeting the
 posterior) using the $\x$-value that produced the simulated dataset $\d'$ as
 the initial condition for the MCMC.
 
+\subsection{Assumptions}
+
 I consider two possible observing strategies, both involving
 $n=101$ measurements. The `even' strategy has observations at times
 \begin{align}
@@ -604,8 +606,6 @@ t_i = \left(\frac{i - \frac{1}{2}}{n}\right)^3
 \end{align}
 which schedules observations close together initially, and further apart
 as time goes on.
-
-\subsection{Assumptions}
 
 A purely sinusoidal signal has the form
 \begin{align}
@@ -643,36 +643,20 @@ even (gold points) and uneven (green points) observing strategies.
 \subsection{Results}
 
 Letting $\tau = \log_{10} T$, and treating
-$A$ and $\phi$ are nuisance parameters, I calculated the depths
-for $\tau$, $\d$, and $(\tau, \d)$.
-These results were computed using a tolerance of $L=0.001$
-for $\tau$, $0.001\sqrt{101}$ for $\d$, and $0.001\sqrt{102}$ for
-the joint run. The results were:
+$A$ and $\phi$ are nuisance parameters, I calculated the conditional entropy
+$H(\tau | \d)$ using the algorithm with a tolerance of $L = 10^{-5}$.
+The result was
 \begin{align}
-\depth_{\tau}    &= 6.216  \pm 0.025 \\
-\depth_{\d}      &= 480.13 \pm 0.32   \\
-\depth_{\tau,\d} &= 479.96 \pm 0.31
+\depth &= 5.379 \pm 0.038
 \end{align}
-
-To convert these to differential entropies, I added the log-volumes
-for 1, 101, and 102 dimensions, which are
-$-6.215$, $-557.252$, and $-562.746$ respectively. This gives
-the following values for the differential entropies:
+Converting to a differential entropy by adding $\ln (10^{-5})$, the conditional
+entropy is
 \begin{align}
-H(\tau)     &=  0.001 \pm 0.025 \label{eqn:h_tau}\\
-H(\d)       &= -77.12 \pm 0.32   \\
-H(\tau, \d) &= -82.79 \pm 0.31   \label{eqn:h_joint}
+H(\tau | \d) &= -5.441 \pm 0.038 \textnormal{ nats}.
 \end{align}
-The mutual information is equal to $H(\tau) + H(\d) - H(\tau, \d)$,
-and can be computed from the results listed
-in Equations~\ref{eqn:h_tau} to~\ref{eqn:h_joint}.
-However, each of these three runs were produced with an identical random
-seed for the reference points, so there is a way to reduce the uncertainty
-by calculating $H(\tau) + H(\d) - H(\tau, \d)$ for each reference pair.
-This is an instance of the
-{\em common random numbers} technique of variance reduction.
-The resulting  mutual information is
-$I(\tau; \d) = 5.67 \pm 0.30$ nats.
+Since the Uniform(0,1) prior has a differential entropy of zero, the
+mutual information is $I(\tau; \d) = H(\tau) - H(\tau | \d) = 5.441 \pm 0.038$
+nats.
 
 The results for the uneven observing schedule, again in terms of log
 probabilities, are:
