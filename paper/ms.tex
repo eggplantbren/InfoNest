@@ -579,7 +579,15 @@ may be biased. This method also would not work if we want $I(\x; \d)$ for
 a single parameter or a subset of them, rather than for all of the parameters.
 Therefore, I adopted the third formula as the best way to compute $I(\x; \d)$.
 In the example, $H(\x)$ is available analytically, and I use the algorithm to
-obtain $H(\x | \d)$.
+obtain $H(\x | \d)$ as follows:
+\begin{align}
+H(\x | \d) &= \int p(\d') H(\x | \d=\d') \, d\d'.
+\end{align}
+This is an expected value over datasets, of the entropy of the posterior given
+each dataset. To do the Nested Sampling to estimate $H(\x | \d=\d')$, I generate
+initial particles from the posterior by doing standard MCMC (targeting the
+posterior) using the $\x$-value that produced the simulated dataset $\d'$ as
+the initial condition for the MCMC.
 
 I consider two possible observing strategies, both involving
 $n=101$ measurements. The `even' strategy has observations at times
