@@ -132,9 +132,8 @@ information, can be used to quantify uncertainty and relevance.
 However, in practice, it can be difficult to compute these quantities
 for arbitrary probability distributions, particularly if the probability
 mass functions or densities cannot be evaluated. This paper introduces a
-computational approach to evaluating entropies of probability distributions
-that can only be sampled. The method is based on Nested Sampling,
-and is related to Approximate Bayesian Computation. I demonstrate the method
+computational approach, based on Nested Sampling, to evaluate entropies of
+probability distributions that can only be sampled. I demonstrate the method
 on a simple gaussian example where the key quantities are known analytically,
 and an experimental design example about scheduling observations in order
 to measure the period of an oscillating signal.}
@@ -175,8 +174,9 @@ The entropy quantifies the degree to which the issue
 ``what is the value of $x$, precisely?'' remains unresolved
 \citep{knuth_questions}. For example,
 if there is only one possible value which has probability 1, $H(x)$ is
-zero\footnote{Conventionally, $0 \times \log 0$ is defined to be equal
-to $\lim_{x \to 0^+} (x\log x)$, which is zero.}.
+zero. Conventionally, $0 \times \log 0$ is defined to be equal
+to $\lim_{x \to 0^+} (x\log x)$, which is zero; i.e., `possibilities' with
+probability zero do not contribute to the sum.
 If there are $N$ possibilities with equal probabilities $1/N$ each,
 then the entropy is $H(x) = \log(N)$.
 If the space of possible $x$-values is continuous so that $p(x)$ is a
@@ -191,11 +191,12 @@ of the plausible region, when volume is defined with respect to $dx$.
 
 Throughout this paper, I use the compact
 `overloaded' notation for probability distributions favoured by many
-Bayesian writers, writing $p(x)$ (for either a probability mass function
-or a probability density function) instead
-of the more cumbersome $P(X=x)$ or $f_X(x)$ where one must always
-distinguish the `random variable' itself ($X$) from a similarly-named
-dummy variable ($x$).
+Bayesian writers \citep{jaynes2003probability, mackay2003information},
+writing $p(x)$ for either a probability mass function
+or a probability density function, instead
+of the more cumbersome $P(X=x)$ or $f_X(x)$.
+In the compact notation, there is no distinction between the
+`random variable' itself ($X$) and a similarly-named dummy variable ($x$).
 Probability distributions are implicitly conditional on some prior
 information, which is omitted from the notation unless necessary.
 All logarithms are written $\log$ and any base can be used, unless otherwise
@@ -205,7 +206,10 @@ the natural logarithm was used.
 
 Even though the entropy is written as $H(x)$, it is imperative that we
 remember it is not a property of the value of $x$ itself, but a property
-of the probability distribution we use to describe our ignorance of $x$.
+of the probability distribution used to describe a state of ignorance about $x$.
+Throughout this paper, $H(x)$ is used as notation for both Shannon entropies
+(in discrete cases) and differential entropies (in continuous cases). Which
+one it is should be clear from the context of the problem at hand.
 
 \section{Entropies in Bayesian inference}
 
@@ -215,7 +219,7 @@ describe uncertainty, often about unknown quantities
 thought to be relevant to $\x$, is obtained.
 The prior information leads the
 user to specify a prior distribution $p(\x)$ for the unknown parameters,
-along with a ``sampling distribution'' $p(\d | \x)$ describing prior knowledge
+along with a conditional distribution $p(\d | \x)$ describing prior knowledge
 of how the data is related to the parameters
 (i.e., if the parameters where known, what data would likely be observed?).
 By the product rule, this yields a {\em joint prior}
