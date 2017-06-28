@@ -561,16 +561,25 @@ information between the unknown period and the data.
 
 As the algorithm lets us calculate the entropy of any distribution which can
 be sampled by MCMC, there are several options. The mutual information
-can be written in the following three ways
+can be written in various ways, such as the following.
 \begin{align}
-I(x; y) &= H(x) + H(y) - H(x, y) \\
-I(x; y) &= H(y) - H(y|x) \\
-I(x; y) &= H(x) - H(x|y) \\
-I(x; y) &= \int p(y) \, D_{\rm KL}\left(p(x|y) \,||\, p(x)\right) \, dy.
+I(\x; \d) &= H(\x) + H(\d) - H(\x, \d) \\
+I(\x; \d) &= H(\d) - H(\d|\x) \\
+I(\x; \d) &= H(\x) - H(\x|\d) \\
+I(\x; \d) &= \int p(\d) \, D_{\rm KL}\left(p(\x|\d) \,||\, p(\x)\right) \, d\d.
 \end{align}
-In a Bayesian problem where $x$ is an unknown parameter and $y$ is data, the
-first and second formulas would be very costly to compute, because of the
-high dimensional probability distribution for the dataset. 
+In a Bayesian problem where $\x$ is an unknown parameter and $\d$ is data, the
+first and second formulas would be costly to compute, because the
+high dimensional probability distribution for the dataset would require a
+large number of NS iterations to compute $H(\d)$ and $H(\x, \d)$.
+The fourth involves the Kullback-Leibler divergence from the prior to the
+posterior, averaged over all possible datasets. This is straightforward to
+approximate with standard Nested Sampling, but the estimate for a given dataset
+may be biased. This method also would not work if we want $I(\x; \d)$ for
+a single parameter or a subset of them, rather than for all of the parameters.
+Therefore, I adopted the third formula as the best way to compute $I(\x; \d)$.
+In the example, $H(\x)$ is available analytically, and I use the algorithm to
+obtain $H(\x | \d)$.
 
 I consider two possible observing strategies, both involving
 $n=101$ measurements. The `even' strategy has observations at times
