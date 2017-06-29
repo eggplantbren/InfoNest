@@ -227,7 +227,7 @@ By the product rule, this yields a {\em joint prior}
 p(\x, \d) &= p(\x)p(\d | \x)
 \end{align}
 which is the starting point for
-Bayesian inference \citep{caticha2008lectures}.
+Bayesian inference \citep{caticha2008lectures, caticha2006updating}.
 In practical applications, the following operations
 are usually feasible and have a low computational cost:
 \begin{enumerate}
@@ -235,7 +235,8 @@ are usually feasible and have a low computational cost:
   \item Simulated datasets can be generated from $p(\d | \x)$ for any
         given value of $\x$;
   \item The likelihood, $p(\d | \x)$, can be evaluated cheaply for any
-        $\d$ and $\x$.
+        $\d$ and $\x$. Usually it is the log-likelihood that is actually
+        implemented, for numerical reasons.
 \end{enumerate}
 Throughout this paper I assume these operations are available and inexpensive.
 
@@ -272,11 +273,12 @@ It is important to distinguish between $H(\x | \d)$ and the
 entropy of $\x$ given a particular value of $\d$, which might be written
 $H(\x | \d=\d_0)$.
 The former measures the degree to which one question answers
-another (ex ante), so is a function of two questions. The latter measures the
-degree to which a {\em statement} answered a question (ex post),
-and is a function of a question and a statement.
+another {\em ex ante}, and is a function of two questions.
+The latter measures the degree to which a {\em statement} answered a question
+{\em ex post}, and is a function of a question and a statement.
 
 \subsection{Mutual information}
+
 The mutual information is another way of describing the relevance of the
 data to the parameters. Its definition, and relation to other quantities, is
 \begin{align}
@@ -286,16 +288,22 @@ I(\x; \d) &= \sum_{\x} \sum_{\d} p(\x, \d)
            &= H(\d) - H(\d | \x)\\
            &= H(\x) - H(\x | \d).
 \end{align}
-It can also be written in terms of the prior, likelihood, and evidence,
-as
+The mutual information can also be written as the expected value
+(with respect to the prior over datasets $p(\d)$) of the Kullback-Leibler
+divergence from prior to posterior:
+\begin{align}
+I(\x ; \d) &= \sum_{\d} p(d) D_{\rm KL}\big(p(\x|\d) \, || \, p(\x)\big).
+\end{align}
+In terms of the prior, likelihood, and evidence,
+it is
 \begin{align}
 I(\x; \d) &= \sum_{\x} \sum_{\d} p(\x)p(\d | \x)
               \left[\log p(\d | \x) - \log p(\d)\right],
 \end{align}
 i.e., the mutual information is the prior expected value of the
 log likelihood minus the log evidence.
-As with the conditional entropy, we see that the difficulty appears in the
-form of the log evidence,
+As with the conditional entropy, we see that the computational
+difficulty appears in the form of the log evidence,
 $\log p(\d) = \log \sum_{\x} p(\x)p(\d | \x)$.
 
 For experimental design purposes, if we want to maximise the expected amount
@@ -303,23 +311,24 @@ of information obtained from data, maximising either $I(\x; \d)$ or
 $H(\x | \d)$ will produce the same result because the prior $p(\x)$ does not
 vary with the experimental design. Reference priors
 \citep{bernardo2005reference} also maximise $I(\x; \d)$ but vary the prior
-in the maximisation process.
+in the maximisation process while keeping the experimental design fixed.
 
 \section{Nested Sampling}
 
-Nested Sampling \citep[NS][]{skilling2006nested} is an algorithm whose aim is
+Nested Sampling \citep{skilling2006nested} is an algorithm whose aim is
 to calculate the evidence
 \begin{align}
 Z &= \int \pi(\x) L(\x) \, d\x
 \end{align}
 where $\x$ is the unknown parameter(s), $\pi$ is the prior distribution,
-and $L$ is the likelihood function. While $Z$ is a simple expectation, the
+and $L$ is the likelihood function. While $Z$ is a simple expectation with
+respect to $\pi$, the
 implied distribution of $L$-values tends to be very heavy-tailed, which is
 why simple Monte Carlo does not work. Equivalently, the integral is dominated
 by very small regions where $L(\x)$ is high.
 
-NS evolves a population of
-$N$ particles in the parameter space.
+To overcome this, NS evolves a population of $N$ particles in the parameter
+space.
 The particles are initially initialised from the prior $\pi(\x)$, and the
 particle with the lowest likelihood, $L^*_1$, is found and its details are
 recorded as output. This worst particle is then discarded
@@ -329,7 +338,7 @@ must be above $L^*_1$ (this is usually achieved by cloning a surviving particle
 and evolving it with MCMC). This process is repeated, resulting in an
 increasing sequence of likelihoods
 \begin{align}
-L^*_1, L^*_2, L^*_3,..., 
+L^*_1, L^*_2, L^*_3,..., \label{eqn:likelihood_sequence}
 \end{align}
 
 Defining $X(\ell)$ as the amount of prior mass with likelihood greater than
@@ -337,33 +346,47 @@ some threshold $\ell$,
 \begin{align}
 X(\ell) &= \int \pi(\x) \mathds{1}\left(L(\x) > \ell\right) \, d\x,
 \end{align}
+we can assign corresponding $X$-values to each discarded point in the sequence,
+and transform $Z$ to a one-dimensional integral.
 \citet{skilling2006nested}'s key insight was that we can estimate the corresponding
-$X$-values of the discarded points can be estimated from the nature of the
+$X$-values of the discarded points from the nature of the
 algorithm. Specifically, each iteration reduces the prior mass by approximately
 a factor $e^{-1/N}$. More accurately, the conditional distribution of
 $X_{i}$ given $X_{i-1}$ (and the definition of the algorithm)
 is obtainable by letting
 $t_i \sim \textnormal{Beta}(N,1)$ and setting $X_{i+1} := t_iX_{i-1}$.
+The $t_i$ variables represent the proportion of the remaining prior mass
+that is {\em retained} at each iteration, after imposing the constraint of the
+latest $L^*$ value.
 
 \subsection{The sequence of $X$ values}
 
-The sequence of $-\ln X$ values produced by a Nested Sampling run can be
+Consider $1-t_i$, the fraction of the remaining prior mass that is {\em removed}
+at each iteration.
+The distribution for the compression factors $t_i \sim $Beta$(N,1)$
+corresponds to an exponential distribution for $\ln(1-t_i)$:
+\begin{align}
+\ln (1 - t_i) &\sim \textnormal{Exponential}(N).
+\end{align}
+
+Therefore,
+the sequence of $-\ln X$ values produced by a Nested Sampling run can be
 considered as a Poisson process with rate equal to $N$, the number of
-particles. For example, when $N=1$, the distribution for $-\ln X_{i+1}$
-given $-\ln X_i$ is a shifted (and reflected) exponential with rate 1.
+particles. This is why separate NS runs can be simply merged
+\citep{skilling2006nested}.
 \citet{Walter2015} showed how this view of the NS sequence of points
 can be used to construct a
 version of NS that produces unbiased (in the frequentist sense)
 estimates of the evidence.
 However, it can also be used to construct an unbiased estimator of
 a log-probability, which is more relevant to information theoretic
-quantities.
+quantities discussed in the present paper.
 
 Consider a particular likelihood value $\ell$ whose corresponding $X$-value
 we would like to know. Since the $-\ln X_i$ values have the same distribution
 as the arrival times of a Poisson process with rate $N$, the probability
-distribution for the number of points in an interval of length $t$ is
-Poisson with expected value $\lambda t$. Therefore the expected number of
+distribution for the number of points in an interval of length $w$ is
+Poisson with expected value $Nw$. Therefore the expected number of
 NS discarded points with likelihood below $\ell$ is $-N\ln X(\ell)$:
 \begin{align}
 \big< n(L(\x_i) \leq \ell) \big> &= -N\ln X(\ell).
@@ -390,16 +413,33 @@ parameters and data jointly, or whatever.
 The idea is to generate a reference particle $\xref$
 from the distribution $p(\x)$
 whose entropy is required. Then, a Nested Sampling run evolves a set of
-particles $\{\x\}_{i=1}^N$, initially representing $p(\x)$, is evolved
+particles $\{\x\}_{i=1}^N$, initially representing $p(\x)$,
 towards $\xref$ in order to measure the log-probability near
-$\xref$. Nearness is defined using a distance function
+$\xref$ (see Figure~\ref{fig:fig:algorithm}).
+Nearness is defined using a distance function
 $d(\x; \xref)$, and the number of NS iterations taken to reduce
 the distance to below some threshold $L$ provides an unbiased estimate of
 \begin{align}
-   -\log \left[ P(d(\x; \xref) < L) \right].
+   \depth = -\log \left[ P(d(\x; \xref) < L) \right]
 \end{align}
+which I call the `depth'. E.g., if $N=10$ Nested Sampling particles are used,
+and it takes 100 iterations to reduce the distance to below $L$, then the
+depth is 10 nats.
 
-
+If we actually want the differential entropy
+\begin{align}
+H(\x) &= -\int p(\x) \log p(\x) \, d\x
+\end{align}
+we can use the fact that density equals mass divided
+by volume. Assume $L$ is small, so that
+\begin{align}
+P(d(\xref, \x) < \epsilon | \x)
+    &\approx
+    p(\x) \int_{d(\xref, \x) < L} \, d\xref\\
+    &= f(\x) \, V
+\end{align}
+where $V$ is the volume of the region where $d(\xref, \x) < L$.
+Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(L)$.
 
 \begin{algorithm}
 \begin{algorithmic}
@@ -447,12 +487,12 @@ the distance to below some threshold $L$ provides an unbiased estimate of
 \State $\widehat{h_{\rm final}} \leftarrow \frac{1}{\rm num\_iterations} \sum \widehat{\mathbf{h}}$
             \Comment{Average results}
 \end{algorithmic}
-\caption{Calculates $H(\x) = -\int p(\x) \log p(\x) \, d\x$
-         without evaluating $\log p(\x)$. Technically, what it actually
-         estimates is $\int f(\x) \int f(\xref)
+\caption{The algorithm which estimates the `depth',\\
+           \quad\quad$-\int p(\x) \int p(\xref)
             \log \left[ P(d(\xref, \x) < L | \x) \right]
-                        \, d\xref \, d\x$, the expected value of the
-        log-probability of a small region near $\x$.
+                        \, d\xref \, d\x$,\\ minus the expected value of the
+        log-probability of a small region near $\x$, which can be converted
+        to an estimate of an entropy or differential entropy.
         The part highlighted in green is standard Nested Sampling
         with quasi-prior $p(\x)$ and quasi-likelihood given by minus a
         distance function $d(\xref, \x)$.
@@ -469,33 +509,6 @@ Euclidian distance from the red point (illustrated with red contours)
 is the ``likelihood''.\label{fig:algorithm}}
 \end{figure}
 
-\subsection{Discrete vs. differential entropies}
-
-Continuous hypothesis spaces are commonly used in practice. Suppose
-$\x$ has probability density $f(\x)$. The algorithm actually estimates
-the `depth', or minus the expected value of the log-probability near $x$:
-\begin{align}
-h &= -\int f(\x) \int f(\xref)
-            \log \left[ P(d(\xref, \x) < L | \x) \right]
-                        \, d\xref \, d\x.
-\end{align}
-for some tolerance $L$.
-
-If we actually want the differential
-entropy
-\begin{align}
-H(\x) &= -\int f(x) \log f(x) \, dx
-\end{align}
-we can use the fact that density equals mass divided
-by volume. Assume $L$ is small, so that
-\begin{align}
-P(d(\xref, \x) < \epsilon | \x)
-    &\approx
-    f(\x) \int_{d(\xref, \x) < L} \, d\xref\\
-    &= f(\x) \, V
-\end{align}
-where $V$ is the volume of the region where $d(\xref, \x) < L$.
-
 If the distance function $d(\xref, \x)$ is chosen to be Euclidean,
 the constraint $d(\xref, \x) < L$ corresponds to a ball in the space
 of possible $\xref$ values.
@@ -505,13 +518,13 @@ The log-volume of a ball of radius $L$ in $n$ dimensions is
                         - \log \Gamma\left(\frac{n}{2} + 1\right)
                         + n \log L,
 \end{align}
-and provides the conversion factor between the differential entropy and
-the entropy actually computed from the algorithm.
 
-If $L$ is not small, we might think we are calculating the entropy associated
+If the threshold $L$ is not small, we might think we are calculating the entropy associated
 with the question `what is $x$, to within a tolerance of $\pm L$?'.
 This is not quite correct. See the Appendix for a discussion of this
 type of question.
+
+In the following sections I demonstrate the algorithm on two problems.
 
 \section{Example 1: Entropy of a prior for the data}
 
