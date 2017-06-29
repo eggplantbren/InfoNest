@@ -831,14 +831,16 @@ resolve the issue:
 \item $x \in \{3, 4, 5\}$ and anything that implies it
 \item and so on.
 \end{itemize}
-To quantify the degree to which this question is unanswered by
-$\top$, we can write the question as a union of ideal questions:
+According to \citet{knuth_questions}, the entropy of a question is
+computed by applying the sum rule over all statements that would answer the
+question.
+
+We can write the question of interest, $Q$, as a union of ideal questions:
 \begin{align}
 Q &= \left[\downarrow (x \in \{1, 2, 3\})\right] \cup
      \left[\downarrow (x \in \{2, 3, 4\})\right] \cup
      \left[\downarrow (x \in \{3, 4, 5\})\right] \cup ...
 \end{align}
-
 The entropy of this question is
 \begin{align}
 H(Q) &= h_{1,2,3}\\
@@ -848,7 +850,6 @@ H(Q) &= h_{1,2,3}\\
      & \quad \quad + \left(h_{8,9,10} - h_{8,9}\right).
 \end{align}
 where $h_{x} = -P(x)\log P(x)$.
-
 
 \subsection*{Continuous case}
 
