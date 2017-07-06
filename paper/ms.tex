@@ -187,6 +187,20 @@ H(x) &= -\int p(x) \log p(x) \, dx
 quantifies uncertainty by generalising the log-volume
 of the plausible region, when volume is defined with respect to $dx$.
 
+Entropies, and related quantities, tend to be analytically available only for
+a few families of probability distributions. On the numerical side, if
+$\log p(x)$ can be evaluated for any $x$, then simple Monte Carlo will suffice
+for approximating $H(x)$. On the other hand, if $p(x)$ can only be
+{\em sampled} but not evaluated (for example, if $p(x)$ is a marginal
+distribution), then this will not work. Kernel density estimation or the like
+\citep[e.g.][]{JMLR:v15:szabo14a}
+may be effective in this case, but is unlikely to generalise well to high
+dimensions.
+
+This paper introduces a computational approach to evaluating the entropy 
+$H(x)$ of probability distributions that can only be sampled
+(using Markov Chain Monte Carlo).
+
 \subsection{Notation and conventions}
 
 Throughout this paper, I use the compact
