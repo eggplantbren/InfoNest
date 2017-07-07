@@ -928,7 +928,10 @@ H' &=  -\int_{-\infty}^\infty
 \end{align}
 This is not quite the same as the expected log-probability calculated by
 the version of the algorithm proposed in this paper (when the tolerance is not
-small).
+small). However, the algorithm can be made to estimate the entropy of the
+precisional question by redefining the distance function such that
+$d(\x; \xref)$ can only ever be below $L$ if $\x < \xref$ (or alternatively,
+if $\x > \xref$).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
