@@ -717,7 +717,26 @@ In a serious experimental design situation, the relevance is not the only
 consideration (or the answer to every experimental design problem would
 be to obtain more data without limit), but it is a very important one.
 
-\subsection{Computational cost}
+\section{Example 3: Data with Pareto distribution}
+
+Consider a situation where the probability distribution for some data values
+$\x = \{x_1, x_2, ..., x_n\}$ is a Pareto distribution, conditional on
+a minimum value $x_{\rm min}=1$ and a slope $\alpha$:
+\begin{align}
+p(\x | \alpha) &= \prod_{i=1}^n \frac{1}{x_i^{\alpha + 1}}
+\end{align}
+where all of the $x_i$ are greater than $x_{\rm min} = 1$.
+If $\alpha$ is relatively low (close to zero) then this distribution is
+very heavy-tailed, and as $\alpha$ increases the probability density
+for the $x$s concentrates just above $x=1$.
+
+With heavy-tailed distributions, it can be difficult to predict future
+observations from past ones, for two reasons. First, the observations may not
+provide much information about the parameters (in this case, $\alpha$), and
+second, even conditional on the parameters, the predictive distribution for
+future data can be heavy-tailed, implying a lot of uncertainty.
+
+\section{Computational cost}
 
 The computational resources needed to compute these quantities was quite large,
 as Nested Sampling appears in the inner loop of the algorithm.
