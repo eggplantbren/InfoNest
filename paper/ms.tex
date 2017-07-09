@@ -961,6 +961,11 @@ the depth:
 python postprocess.py
 \end{verbatim}
 
+By default, {\tt postprocess.py} estimates the depth with a tolerance of
+$L=10^{-3}$. This value can be changed by calling the {\tt postprocess}
+function with a different value of its argument {\tt tol}. E.g.,
+{\tt postprocess.py} can be edited so that its last line is
+{\tt postprocess(tol=0.01)} instead of {\tt postprocess()}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
