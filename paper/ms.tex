@@ -933,6 +933,36 @@ precisional question by redefining the distance function such that
 $d(\x; \xref)$ can only ever be below $L$ if $\x < \xref$ (or alternatively,
 if $\x > \xref$).
 
+\appendix
+\section{Software}
+
+A {\tt C++} implementation of the algorithm is available in a {\tt git}
+repository located at
+\begin{verbatim}
+https://github.com/eggplantbren/InfoNest
+\end{verbatim}
+and can be obtained using the following {\tt git} command, executed in a
+terminal:
+\begin{verbatim}
+git clone https://github.com/eggplantbren/InfoNest
+\end{verbatim}
+The following will compile the code and execute the first example from the
+paper:
+\begin{verbatim}
+cd InfoNest/cpp
+make
+./main
+\end{verbatim}
+The algorithm will run for 1000 `reps', i.e., 1000 samples of $\xref$, which is
+time consuming. Output is saved to {\tt output.txt}. At any time,
+you can execute the Python script {\tt postprocess.py} to get an estimate of
+the depth:
+\begin{verbatim}
+python postprocess.py
+\end{verbatim}
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %\abbreviations{Abbreviations/Nomenclature}
