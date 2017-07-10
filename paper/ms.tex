@@ -547,34 +547,42 @@ entropy for a quantity whose distribution can only be sampled, in this case,
 a prior distribution over datasets.
 
 Consider the basic statistics problem of inferring a quantity $\mu$ from
-100 observations $\d = \{d_1, ..., d_{100}\}$ whose
+100 observations $\boldsymbol{x} = \{x_1, ..., x_{100}\}$ whose
 probability distribution (conditional on $\mu$) is
 \begin{align}
-p(d_i | \mu) &\sim \textnormal{Normal}(\mu, 1).
+p(x_i | \mu) &\sim \textnormal{Normal}(\mu, 1).
 \end{align}
 If the prior for $\mu$ is Normal$(0, 10^2)$, then the posterior is
 \begin{align}
-\mu | \d &\sim \textnormal{Normal}\left(
-                                       \frac{1}{100}\sum_{i=1}^{100} d_i,
+\mu | \boldsymbol{x} &\sim \textnormal{Normal}\left(
+                                       \frac{1}{100}\sum_{i=1}^{100} x_i,
                                        \left[\frac{10}{\sqrt{10001}}\right]^2
                                        \right).
 \end{align}
-The true value of the differential entropy $H(\d)$ is available analytically
+The true value of the differential entropy $H(\boldsymbol{x})$ is
+available analytically
 in this case, and its value is $146.499$ nats. However, in most situations, the
 entropy of a marginal distribution is not available in closed form. 
+
+To use the algorithm, a distance function $d(,)$ must be defined, to quantify
+how far the NS particles are from the reference particle. To calculate
+the entropy of the data, I used the following distance function:
+\begin{align}
+d\left(\x; \xref\right) &= \sum_{i=1}^{100}\left(x_i - x_{{\rm ref}, i}\right)^2
+\end{align}
 
 I ran the algorithm and computed the depth using a tolerance of
 $L=10^{-3}\sqrt{100}$, so that the RMS difference between
 points in the two datasets was about $10^{-3}$.
 From the algorithm, the average depth was
 \begin{align}
-\depth_{\d} &= 698.25 \pm 0.34.
+\depth_{\boldsymbol{x}} &= 698.25 \pm 0.34.
 \end{align}
 The log-volume of a 100-dimensional ball of radius
 $L=10^{-3}\sqrt{100}$ is
 $-551.76$. Therefore, the differential entropy is estimated to be
 \begin{align}
-H(\d) &\approx 146.49 \pm 0.34.
+H(\boldsymbol{x}) &\approx 146.49 \pm 0.34.
 \end{align}
 which is very close to the true value (suspiciously close, but this
 was just a fluke).
