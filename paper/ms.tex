@@ -753,7 +753,16 @@ iii) How informative is $\bar{y}$ about $\bar{z}$? These are quantified by
 $H(\bar{y})$, $H(\bar{z})$, and $I(\bar{y}; \bar{z})$ respectively. This can
 be done despite the fact that $\alpha$ is unknown.
 
-\subsection{}
+The prior for $\alpha$ was chosen to be lognormal such that the prior median
+of $\alpha$ is 1 and the prior standard deviation of $\ln \alpha$ is also 1.
+Due to the heavy-tailed nature of the Pareto distribution, I ran the
+algorithm in terms of $\ln \bar{y}$ and $\ln \bar{z}$. This affects the
+differential entropies but not the mutual information (which is invariant 
+under changes of parameterisation).
+
+To compute the entropy of $\ln \bar{y}$, the distance function was just the
+absolute value of the distance between the NS particles and the
+reference particle in terms of $\ln \bar{y}$.
 
 \section{Computational cost}
 
