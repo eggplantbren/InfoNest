@@ -584,8 +584,16 @@ $-551.76$. Therefore, the differential entropy is estimated to be
 \begin{align}
 H(\boldsymbol{x}) &\approx 146.49 \pm 0.34.
 \end{align}
-which is very close to the true value (suspiciously close, but this
+which is very close to the true value (perhaps suspiciously close, but this
 was just a fluke).
+
+To carry out the sampling for this problem, Metropolis-Hastings moves that
+explore the joint prior distribution $p(\mu, \boldsymbol{x})$ had to be
+implemented. Four basic kinds of proposals were used: i) those which change
+$\mu$ while leaving $\boldsymbol{x}$ fixed; ii) those which change $\mu$ and
+shift $\boldsymbol{x}$ correspondingly; iii) those which resample a subset
+of the $x$s from $p(\boldsymbol{x}|\mu)$; and iv) those which move a single
+$x$ slightly.
 
 \section{Example 2: Measuring the period of an oscillating signal}
 
@@ -678,6 +686,17 @@ even (gold points) and uneven (green points) observing strategies.
 \label{fig:sinewave}}
 \end{figure}
 
+To carry out the sampling for this problem, Metropolis-Hastings moves that
+explore the joint prior distribution $p(A, \tau, \phi, \boldsymbol{d})$
+had to be
+implemented. As with the first example, there were four basic kinds of
+proposals. Four basic kinds of proposals were used: i) those which change
+one of the parameters
+$A$, $\tau$ or $\phi$ while leaving $\boldsymbol{x}$ fixed
+(these are standard Metropolis moves targeting the posterior distribution);
+ii) those which change the parameters and modify the data accordingly;
+iii) those which resample a subset
+of the data; and iv) those which move a single datum slightly.
 
 \subsection{Results}
 
