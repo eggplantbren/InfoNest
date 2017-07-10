@@ -734,7 +734,26 @@ With heavy-tailed distributions, it can be difficult to predict future
 observations from past ones, for two reasons. First, the observations may not
 provide much information about the parameters (in this case, $\alpha$), and
 second, even conditional on the parameters, the predictive distribution for
-future data can be heavy-tailed, implying a lot of uncertainty.
+future data can be heavy-tailed, implying a lot of uncertainty. However, there
+data clearly provides {\em some} information about the future.
+
+Consider $n=100$ data values, partitioned into two halves, so
+$\boldsymbol{y} = \{x_1, ..., x_{50}\} = \{y_1, ..., y_{50}\}$
+is the first half of the data and
+$\boldsymbol{z} = \{x_{51}, ..., x_{100}\} = \{z_1, ..., z_{50}\}$
+is the second half. Let $\bar{y}$ and $\bar{z}$ be the averages of the two
+subsets of the data:
+\begin{align}
+\bar{y} &= \frac{1}{50} \sum_{i=1}^{50} y_i \\
+\bar{z} &= \frac{1}{50} \sum_{i=1}^{50} z_i.
+\end{align}
+In this section we use the algorithm to answer the questions:
+i) How uncertain is $\bar{y}$?; ii) How uncertain is $\bar{z}$; and
+iii) How informative is $\bar{y}$ about $\bar{z}$? These are quantified by
+$H(\bar{y})$, $H(\bar{z})$, and $I(\bar{y}; \bar{z})$ respectively. This can
+be done despite the fact that $\alpha$ is unknown.
+
+\subsection{}
 
 \section{Computational cost}
 
