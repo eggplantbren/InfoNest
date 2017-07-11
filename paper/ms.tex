@@ -428,7 +428,8 @@ NS discarded points with likelihood below $\ell$ is $-N\ln X(\ell)$:
 \end{align}
 We can therefore take $n(L(\x_i) \leq \ell)/N$, the number of points in the
 sequence with likelihood below $\ell$ divided by the number of NS particles,
-as an unbiased estimator of $-\ln X(\ell)$.
+as an unbiased estimator of $-\ln X(\ell)$. The standard deviation of the
+estimator is $\sqrt{-\ln X(\ell)/N}$.
 
 \section{The algorithm}
 
@@ -522,10 +523,10 @@ Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(L)$.
 \State $\widehat{h_{\rm final}} \leftarrow \frac{1}{\rm num\_iterations} \sum \widehat{\mathbf{h}}$
             \Comment{Average results}
 \end{algorithmic}
-\caption{The algorithm which estimates the `depth',\\
+\caption{The algorithm which estimates the expected value of the `depth',\\
            \quad\quad$-\int p(\x) \int p(\xref)
             \log \left[ P(d(\xref, \x) < L | \x) \right]
-                        \, d\xref \, d\x$,\\ minus the expected value of the
+                        \, d\xref \, d\x$,\\ that is, minus the expected value of the
         log-probability of a small region near $\x$, which can be converted
         to an estimate of an entropy or differential entropy.
         The part highlighted in green is standard Nested Sampling
@@ -562,7 +563,8 @@ This is not quite correct. See appendix~\ref{sec:precisional}
 for a discussion of this
 type of question.
 
-In the following sections I demonstrate the algorithm on two problems.
+In the following sections I demonstrate the algorithm on three
+example problems.
 
 \section{Example 1: Entropy of a prior for the data}
 
@@ -595,13 +597,17 @@ the entropy of the data, I used the following distance function:
 d\left(\x; \xref\right) &= \sum_{i=1}^{100}\left(x_i - x_{{\rm ref}, i}\right)^2
 \end{align}
 
-I ran the algorithm and computed the depth using a tolerance of
+I ran the algorithm and computed the average depth using a tolerance of
 $L=10^{-3}\sqrt{100}$, so that the RMS difference between
 points in the two datasets was about $10^{-3}$.
-From the algorithm, the average depth was
+From the algorithm, the estimate of the expected depth was
 \begin{align}
-\depth_{\boldsymbol{x}} &= 698.25 \pm 0.34.
+\left<\depth_{\boldsymbol{x}}\right> &= 698.25 \pm 0.34.
 \end{align}
+The uncertainty here is the standard error of the mean, i.e., the
+standard deviation of the depth estimates divided by square root of
+the number of NS repetitions.
+
 The log-volume of a 100-dimensional ball of radius
 $L=10^{-3}\sqrt{100}$ is
 $-551.76$. Therefore, the differential entropy is estimated to be
@@ -729,7 +735,7 @@ $A$ and $\phi$ are nuisance parameters, I calculated the conditional entropy
 $H(\tau | \d)$ using the algorithm with a tolerance of $L = 10^{-5}$.
 The result was
 \begin{align}
-\depth &= 5.379 \pm 0.038
+\left<\depth\right> &= 5.379 \pm 0.038
 \end{align}
 Converting to a differential entropy by adding $\ln (2 \times 10^{-5})$, the conditional
 entropy is
@@ -742,7 +748,7 @@ nats.
 
 The results for the uneven observing schedule were
 \begin{align}
-\depth       &=  5.422 \pm 0.038 \\
+\left<\depth\right>       &=  5.422 \pm 0.038 \\
 H(\tau | \d) &= -5.398 \pm 0.038 \\
 I(\tau; \d)   &=  5.398 \pm 0.038 \textnormal{ nats}.
 \end{align}
@@ -841,7 +847,7 @@ absolute value of the distance between the NS particles and the
 reference particle in terms of $\ln \ytot$. The result, using a tolerance
 of $L = 10^{-3}$, was:
 \begin{align}
-\depth_{\ln \ytot} &= 8.851 \pm 0.057.
+\left<\depth_{\ln \ytot}\right> &= 8.851 \pm 0.057.
 \end{align}
 Correcting for the volume factor yields a differential entropy estimate
 of $H(\ytot) = 2.366\pm 0.057$ nats.
@@ -850,7 +856,7 @@ By the symmetry of the problem specification, $H(\ztot) = H(\ytot)$.
 The joint entropy $H(\ln \ytot, \ln \ztot)$ was also estimated by using
 a Euclidean distance function and a tolerance of $10^{-3}$. The result was
 \begin{align}
-\depth_{(\ln \ytot, \ln \ztot)} &= 16.03 \pm 0.11.
+\left<\depth_{(\ln \ytot, \ln \ztot)}\right> &= 16.03 \pm 0.11.
 \end{align}
 Applying the log-volume correction yields a differential entropy estimate of
 $H(\ln \ytot, \ln \ztot) = 3.40 \pm 0.11$ nats.
