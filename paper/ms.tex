@@ -523,15 +523,15 @@ Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(L)$.
 \State $\widehat{h_{\rm final}} \leftarrow \frac{1}{\rm num\_iterations} \sum \widehat{\mathbf{h}}$
             \Comment{Average results}
 \end{algorithmic}
-\caption{The algorithm which estimates the expected value of the `depth',\\
-           \quad\quad$-\int p(\x) \int p(\xref)
-            \log \left[ P(d(\xref, \x) < L | \x) \right]
-                        \, d\xref \, d\x$,\\ that is, minus the expected value of the
-        log-probability of a small region near $\x$, which can be converted
+\caption{The algorithm which estimates the expected value of the depth:\\
+           \quad\quad$-\int p(\xref) \int p(\x)
+            \log \left[ P(d(\x; \xref) < L | \xref) \right]
+                        \, d\x \, d\xref$,\\ that is, minus the expected value of the
+        log-probability of a small region near $\xref$, which can be converted
         to an estimate of an entropy or differential entropy.
         The part highlighted in green is standard Nested Sampling
         with quasi-prior $p(\x)$ and quasi-likelihood given by minus a
-        distance function $d(\xref, \x)$. The final result, $\widehat{h_{\rm final}}$, is an estimate of the expected depth.
+        distance function $d(\x; \xref)$. The final result, $\widehat{h_{\rm final}}$, is an estimate of the expected depth.
         \label{alg:algorithm}}
 \end{algorithm}
 
