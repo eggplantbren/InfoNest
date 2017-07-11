@@ -944,7 +944,10 @@ distributions required by NS has not been discussed in detail. For the examples,
 I used the original \citet{skilling2006nested} suggestion of using a short MCMC run
 initialised at a surviving point. In some problems, this will not be effective,
 and this will cause the resulting estimates to be incorrect, as in standard
-Nested Sampling applications. Despite this, the algorithm should be
+Nested Sampling applications. Testing the sensitivity of the results to
+changes in the number of MCMC steps used is a simple way to increase one's
+confidence in the results, but is not a guarantee.
+Despite this weakness, I hope the algorithm will be
 useful in a wide range of applications.
 
 \acknowledgments{Acknowledgements}
