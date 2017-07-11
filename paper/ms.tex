@@ -1143,7 +1143,10 @@ function with a different value of its argument {\tt tol}. E.g.,
 
 The numerical parameters, and the choice of which problem is being solved,
 are specified in {\tt main.cpp}. The default problem is the first example
-from the paper.
+from the paper. For Example 2, since it is a conditional entropy which is
+being estimated (which requires a slight modification to the algorithm),
+an additional argument {\tt InfoNest::Mode::conditional\_entropy}
+must be passed to the {\tt InfoNest::execute} function.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
