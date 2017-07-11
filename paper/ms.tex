@@ -780,7 +780,9 @@ In this section we use the algorithm to answer the questions:
 i) How uncertain is $\ytot$?; ii) How uncertain is $\ztot$; and
 iii) How informative is $\ytot$ about $\ztot$? These are quantified by
 $H(\ytot)$, $H(\ztot)$, and $I(\ytot; \ztot)$ respectively. This can
-be done despite the fact that $\alpha$ is unknown.
+be done despite the fact that $\alpha$ is unknown. The joint distribution
+for $\ln \ytot$ and $\ln \ztot$, whose properties I am to obtain,
+is shown in Figure~\ref{fig:pareto}.
 
 The prior for $\alpha$ was chosen to be lognormal such that the prior median
 of $\alpha$ is 1 and the prior standard deviation of $\ln \alpha$ is also 1.
@@ -795,12 +797,28 @@ under changes of parameterisation).
 \caption{The joint distribution for the log-sum of the first half of the
 `Pareto data' and the second half. The goal is to calculate the entropy of
 the marginal distributions, the entropy of the joint distribution, and
-hence the mutual information.\label{fig:pareto}}
+hence the mutual information. The distribution is quite heavy tailed despite
+the logarithms, and extends beyond the domain shown in this plot.
+\label{fig:pareto}}
 \end{figure}
+
+Three types of Metropolis-Hastings proposals were used for this example:
+i) A proposal which changes $\alpha$ and modifies all of the $x$s accordingly;
+ii) A proposal which resamples a subset of the $x$s from the Pareto
+distribution; and iii) A proposal which moves a single $x$-value slightly.
+A fourth proposal which moves $\alpha$ while keeping $\boldsymbol{x}$ fixed,
+i.e., a posterior-sampling move, was not implemented.
 
 To compute the entropy of $\ln \ytot$, the distance function was just the
 absolute value of the distance between the NS particles and the
-reference particle in terms of $\ln \ytot$.
+reference particle in terms of $\ln \ytot$. The result, using a tolerance
+of $L = 10^{-3}$, was:
+\begin{align}
+\depth_{\ln \ytot} &= 8.851 \pm 0.057.
+\end{align}
+Correcting for the volume factor yields a differential entropy estimate
+of $H(\ytot) = 2.366\pm 0.057$ nats.
+By the symmetry of the problem specification, $H(\ztot) = H(\ytot)$.
 
 \section{Computational cost}
 
