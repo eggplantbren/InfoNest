@@ -924,6 +924,21 @@ appears in an inner loop, since entropies are sums of terms, each of which
 relates to the downset of a given statement --- the downset of a statement
 $S$ being the set of all statements that imply S \citep{knuth_questions}.
 
+The algorithm as presented will tend to become less accurate on high dimensional
+problems, as the required depth of the runs will increase correspondingly,
+since many NS iterations will be required to get a high dimensional vector
+of quantities to be close to the reference vector.
+The accuracy of the $\ln\depth$ estimates should degrade in proportion to
+$\sqrt{\depth}$, due to the Poisson-process nature of the $-\ln X$ sequence.
+
+Throughout this paper, the question of how to sample from the constrained
+distributions required by NS has not been discussed in detail. For the examples,
+I used the original \citet{skilling} suggestion of using a short MCMC run
+initialised at a surviving point. In some problems, this will not be effective,
+and this will cause the resulting estimates to be incorrect, as in standard
+Nested Sampling applications. Despite this, the algorithm should still be
+useful in a wide range of applications.
+
 \acknowledgments{Acknowledgements}
 It is a pleasure to thank the following people for interesting and helpful
 conversations about this topic, and/or comments on a draft:
