@@ -698,7 +698,7 @@ $\tau = \log_{10} T$. I assumed the following priors:
 \end{align}
 and the following conditional prior for the data:
 \begin{align}
-d_i | A, T, \phi &\sim \textnormal{Normal}\left(y(t_i), 0.1^2\right).
+Y_i | A, T, \phi &\sim \textnormal{Normal}\left(y(t_i), 0.1^2\right).
 \end{align}
 That is, the data is just the signal $y(t)$ observed at particular times
 $\{t_1, ..., t_n\}$, with gaussian noise of standard deviation 0.1.
@@ -717,12 +717,12 @@ even (gold points) and uneven (green points) observing strategies.
 \end{figure}
 
 To carry out the sampling for this problem, Metropolis-Hastings moves that
-explore the joint prior distribution $p(A, \tau, \phi, \boldsymbol{d})$
+explore the joint prior distribution $p(A, \tau, \phi, \boldsymbol{Y})$
 had to be
 implemented. As with the first example, there were four basic kinds of
 proposals. Four basic kinds of proposals were used: i) those which change
 one of the parameters
-$A$, $\tau$ or $\phi$ while leaving $\boldsymbol{x}$ fixed
+$A$, $\tau$ or $\phi$ while leaving the data $\boldsymbol{Y}$ fixed
 (these are standard Metropolis moves targeting the posterior distribution);
 ii) those which change the parameters and modify the data accordingly;
 iii) those which resample a subset
@@ -732,7 +732,7 @@ of the data; and iv) those which move a single datum slightly.
 
 Letting $\tau = \log_{10} T$, and treating
 $A$ and $\phi$ are nuisance parameters, I calculated the conditional entropy
-$H(\tau | \d)$ using the algorithm with a tolerance of $L = 10^{-5}$.
+$H(\tau | \boldsymbol{Y})$ using the algorithm with a tolerance of $L = 10^{-5}$.
 The result was
 \begin{align}
 \left<\depth\right> &= 5.379 \pm 0.038
@@ -740,17 +740,17 @@ The result was
 Converting to a differential entropy by adding $\ln (2 \times 10^{-5})$, the conditional
 entropy is
 \begin{align}
-H(\tau | \d) &= -5.441 \pm 0.038 \textnormal{ nats}.
+H(\tau | \boldsymbol{Y}) &= -5.441 \pm 0.038 \textnormal{ nats}.
 \end{align}
 Since the Uniform(0,1) prior has a differential entropy of zero, the
-mutual information is $I(\tau; \d) = H(\tau) - H(\tau | \d) = 5.441 \pm 0.038$
+mutual information is $I(\tau; \boldsymbol{Y}) = H(\tau) - H(\tau | \boldsymbol{Y}) = 5.441 \pm 0.038$
 nats.
 
 The results for the uneven observing schedule were
 \begin{align}
 \left<\depth\right>       &=  5.422 \pm 0.038 \\
-H(\tau | \d) &= -5.398 \pm 0.038 \\
-I(\tau; \d)   &=  5.398 \pm 0.038 \textnormal{ nats}.
+H(\tau | \boldsymbol{Y}) &= -5.398 \pm 0.038 \\
+I(\tau; \boldsymbol{Y})   &=  5.398 \pm 0.038 \textnormal{ nats}.
 \end{align}
 
 The difference in mutual informations between the two observation
