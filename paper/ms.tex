@@ -68,6 +68,8 @@
 \newcommand{\n}{\boldsymbol{\eta}}
 \newcommand{\depth}{(\textnormal{depth})}
 \newcommand{\xref}{\x_{\rm ref}}
+\newcommand{\ytot}{y_{\rm tot}}
+\newcommand{\ztot}{z_{\rm tot}}
 
 \newcommand{\apj}{The Astrophysical Journal}
 \newcommand{\mnras}{Monthly Notices of the Royal Astronomical Society}
@@ -768,28 +770,37 @@ Consider $n=100$ data values, partitioned into two halves, so
 $\boldsymbol{y} = \{x_1, ..., x_{50}\} = \{y_1, ..., y_{50}\}$
 is the first half of the data and
 $\boldsymbol{z} = \{x_{51}, ..., x_{100}\} = \{z_1, ..., z_{50}\}$
-is the second half. Let $\bar{y}$ and $\bar{z}$ be the averages of the two
+is the second half. Let $\ytot$ and $\ztot$ be the averages of the two
 subsets of the data:
 \begin{align}
-\bar{y} &= \frac{1}{50} \sum_{i=1}^{50} y_i \\
-\bar{z} &= \frac{1}{50} \sum_{i=1}^{50} z_i.
+\ytot &= \sum_{i=1}^{50} y_i \\
+\ztot &= \sum_{i=1}^{50} z_i.
 \end{align}
 In this section we use the algorithm to answer the questions:
-i) How uncertain is $\bar{y}$?; ii) How uncertain is $\bar{z}$; and
-iii) How informative is $\bar{y}$ about $\bar{z}$? These are quantified by
-$H(\bar{y})$, $H(\bar{z})$, and $I(\bar{y}; \bar{z})$ respectively. This can
+i) How uncertain is $\ytot$?; ii) How uncertain is $\ztot$; and
+iii) How informative is $\ytot$ about $\ztot$? These are quantified by
+$H(\ytot)$, $H(\ztot)$, and $I(\ytot; \ztot)$ respectively. This can
 be done despite the fact that $\alpha$ is unknown.
 
 The prior for $\alpha$ was chosen to be lognormal such that the prior median
 of $\alpha$ is 1 and the prior standard deviation of $\ln \alpha$ is also 1.
 Due to the heavy-tailed nature of the Pareto distribution, I ran the
-algorithm in terms of $\ln \bar{y}$ and $\ln \bar{z}$. This affects the
+algorithm in terms of $\ln \ytot$ and $\ln \ztot$. This affects the
 differential entropies but not the mutual information (which is invariant 
 under changes of parameterisation).
 
-To compute the entropy of $\ln \bar{y}$, the distance function was just the
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.6\textwidth]{figures/pareto.pdf}
+\caption{The joint distribution for the log-sum of the first half of the
+`Pareto data' and the second half. The goal is to calculate the entropy of
+the marginal distributions, the entropy of the joint distribution, and
+hence the mutual information.\label{fig:pareto}}
+\end{figure}
+
+To compute the entropy of $\ln \ytot$, the distance function was just the
 absolute value of the distance between the NS particles and the
-reference particle in terms of $\ln \bar{y}$.
+reference particle in terms of $\ln \ytot$.
 
 \section{Computational cost}
 
