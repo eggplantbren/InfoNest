@@ -749,10 +749,10 @@ be to obtain more data without limit), but it is a very important one.
 \section{Example 3: Data with Pareto distribution}
 
 Consider a situation where the probability distribution for some data values
-$\x = \{x_1, x_2, ..., x_n\}$ is a Pareto distribution, conditional on
+$\boldsymbol{x} = \{x_1, x_2, ..., x_n\}$ is a Pareto distribution, conditional on
 a minimum value $x_{\rm min}=1$ and a slope $\alpha$:
 \begin{align}
-p(\x | \alpha) &= \prod_{i=1}^n \frac{1}{x_i^{\alpha + 1}}
+p(\boldsymbol{x} | \alpha) &= \prod_{i=1}^n \frac{1}{x_i^{\alpha + 1}}
 \end{align}
 where all of the $x_i$ are greater than $x_{\rm min} = 1$.
 If $\alpha$ is relatively low (close to zero) then this distribution is
@@ -760,11 +760,15 @@ very heavy-tailed, and as $\alpha$ increases the probability density
 for the $x$s concentrates just above $x=1$.
 
 With heavy-tailed distributions, it can be difficult to predict future
-observations from past ones, for two reasons. First, the observations may not
-provide much information about the parameters (in this case, $\alpha$), and
-second, even conditional on the parameters, the predictive distribution for
-future data can be heavy-tailed, implying a lot of uncertainty. However, there
-data clearly provides {\em some} information about the future.
+observations from past ones, a notion popularised by
+\citet{taleb2007black}. This occurs for three main reasons.
+First, the observations may not
+provide much information about the parameters (in this case, $\alpha$).
+Second, even conditional on the parameters, the predictive distribution for
+future data can be heavy-tailed, implying a lot of uncertainty.
+Finally, one may always doubt the probability assignment on which such a
+calculation is based.
+However, the data clearly provides {\em some} information about the future.
 
 Consider $n=100$ data values, partitioned into two halves, so
 $\boldsymbol{y} = \{x_1, ..., x_{50}\} = \{y_1, ..., y_{50}\}$
@@ -819,6 +823,23 @@ of $L = 10^{-3}$, was:
 Correcting for the volume factor yields a differential entropy estimate
 of $H(\ytot) = 2.366\pm 0.057$ nats.
 By the symmetry of the problem specification, $H(\ztot) = H(\ytot)$.
+
+The joint entropy $H(\ln \ytot, \ln \ztot)$ was also estimated by using
+a Euclidean distance function and a tolerance of $10^{-3}$. The result was
+\begin{align}
+\depth_{(\ln \ytot, \ln \ztot)} &= 16.03 \pm 0.11.
+\end{align}
+Applying the log-volume correction yields a differential entropy estimate of
+$H(\ln \ytot, \ln \ztot) = 3.40 \pm 0.11$ nats.
+Therefore, the mutual information is
+\begin{align}
+I(\ytot; \ztot) &= H(\ytot) + H(\ztot) - H(\ytot, \ztot)\\
+                &= 1.130 \pm 0.082 \textnormal{ nats}.
+\end{align}
+The variance of this mutual information estimate was reduced by
+using a common sequence of reference points for the marginal and joint entropy
+runs, an instance of the `common random numbers'
+technique\footnote{\tt http://demonstrations.wolfram.com/TheMethodOfCommonRandomNumbersAnExample/}.
 
 \section{Computational cost}
 
@@ -879,8 +900,6 @@ In the sinusoidal signal example, I calculated the difference in
 mutual information between two observing strategies. It is possible
 that there exists a more direct method of obtaining this which
 is more efficient than running the two strategies separately.
-
-\section{Example 3: TBD}
 
 \acknowledgments{Acknowledgements}
 It is a pleasure to thank the following people for interesting and helpful
