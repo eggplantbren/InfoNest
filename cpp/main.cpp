@@ -14,6 +14,7 @@ int main()
 
     // Create random number generators
     // The first one is used to generate reference points
+    // and the second is used for the Nested Sampling
     unsigned long seed0 = 0;
     unsigned long seed1 = time(0);
     InfoNest::RNG rng0(seed0);
