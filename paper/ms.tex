@@ -431,7 +431,7 @@ from the distribution $p(\x)$
 whose entropy is required. Then, a Nested Sampling run evolves a set of
 particles $\{\x\}_{i=1}^N$, initially representing $p(\x)$,
 towards $\xref$ in order to measure the log-probability near
-$\xref$ (see Figure~\ref{fig:fig:algorithm}).
+$\xref$ (see Figure~\ref{fig:algorithm}).
 Nearness is defined using a distance function
 $d(\x; \xref)$, and the number of NS iterations taken to reduce
 the distance to below some threshold $L$ provides an unbiased estimate of
@@ -537,7 +537,8 @@ The log-volume of a ball of radius $L$ in $n$ dimensions is
 
 If the threshold $L$ is not small, we might think we are calculating the entropy associated
 with the question `what is $x$, to within a tolerance of $\pm L$?'.
-This is not quite correct. See the Appendix for a discussion of this
+This is not quite correct. See appendix~\ref{sec:precisional}
+for a discussion of this
 type of question.
 
 In the following sections I demonstrate the algorithm on two problems.
@@ -740,7 +741,8 @@ that the vast majority of possibilities had been ruled out, if the
 posterior still consisted of several widely separated modes!
 Perhaps, in some applications, a more appropriate question is
 ``what is the value of $T$ to within $\pm$ 10\%'', or something along these
-lines.
+lines. See Appendix~\ref{sec:precisional} for more information about this
+issue.
 
 In a serious experimental design situation, the relevance is not the only
 consideration (or the answer to every experimental design problem would
@@ -941,6 +943,7 @@ The authors declare no conflicts of interest.
 
 \appendix
 \section{Precisional questions}
+\label{sec:precisional}
 
 The central issue about the value of a parameter $\x$ asks
 ``what is the value of $\x$, precisely?''. However, in practice we often
@@ -1057,6 +1060,7 @@ if $\x > \xref$).
 
 \appendix
 \section{Software}
+\label{sec:software}
 
 A {\tt C++} implementation of the algorithm is available in a {\tt git}
 repository located at
