@@ -564,7 +564,9 @@ for a discussion of this
 type of question.
 
 In the following sections I demonstrate the algorithm on three
-example problems.
+example problems. For each of the examples, I did 1000 repetitions of NS
+(i.e., 1000 reference particles), and used 10 NS particles and 10000 MCMC
+steps per NS iteration.
 
 \section{Example 1: Entropy of a prior for the data}
 
@@ -939,7 +941,7 @@ $\sqrt{\depth}$, due to the Poisson-process nature of the $-\ln X$ sequence.
 
 Throughout this paper, the question of how to sample from the constrained
 distributions required by NS has not been discussed in detail. For the examples,
-I used the original \citet{skilling} suggestion of using a short MCMC run
+I used the original \citet{skilling2006nested} suggestion of using a short MCMC run
 initialised at a surviving point. In some problems, this will not be effective,
 and this will cause the resulting estimates to be incorrect, as in standard
 Nested Sampling applications. Despite this, the algorithm should still be
