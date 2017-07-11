@@ -136,9 +136,11 @@ for arbitrary probability distributions, particularly if the probability
 mass functions or densities cannot be evaluated. This paper introduces a
 computational approach, based on Nested Sampling, to evaluate entropies of
 probability distributions that can only be sampled. I demonstrate the method
-on a simple gaussian example where the key quantities are known analytically,
-and an experimental design example about scheduling observations in order
-to measure the period of an oscillating signal.}
+on three examples: a simple gaussian example where the key quantities are
+available analytically; (ii)
+an experimental design example about scheduling observations in order
+to measure the period of an oscillating signal; and (iii) an example based
+on a heavy-tailed prior distribution.}
 
 % Keywords: add 3 to 10 keywords
 \keyword{information theory; entropy; mutual information; monte carlo;
@@ -226,6 +228,9 @@ of the probability distribution used to describe a state of ignorance about $x$.
 Throughout this paper, $H(x)$ is used as notation for both Shannon entropies
 (in discrete cases) and differential entropies (in continuous cases). Which
 one it is should be clear from the context of the problem at hand.
+I sometimes write general formulae are written in terms of sums (i.e., as they would
+appear in a discrete problem), and sometimes as integrals, as they would
+appear in a continuous problem.
 
 \section{Entropies in Bayesian inference}
 
@@ -272,18 +277,20 @@ H(\x | \d) &= - \sum_{\d} p(\d) \sum_{\x} p(\x | \d) \log p(\x | \d)
 which is the expected value of the entropy of the posterior, averaged over
 all possible datasets which might be observed. 
 
-Suppose we wanted to compute $H(\x | \d)$, perhaps to compare it to
+One might wish to compute $H(\x | \d)$, perhaps to compare it to
 $H(\x)$ and quantify how much might be learned about $\x$.
 This would be difficult because the expression
 for the posterior distribution
 \begin{align}
 p(\x | \d) &= \frac{p(\x)p(\d | \x)}{p(\d)}
 \end{align}
-contains the marginal likelihood integral:
+contains the marginal likelihood:
 \begin{align}
-p(\d) &= \int p(\x) p(\d | \x) \, d\x
+p(\d) &= \sum_{\x} p(\x) p(\d | \x) \, d\x
 \end{align}
-also known as the `evidence', which tends to be computable but costly.
+also known as the `evidence', which tends to be computable but costly,
+especially when the summation is replaced by an integration over a
+high-dimensional parameter space.
 
 It is important to distinguish between $H(\x | \d)$ and the
 entropy of $\x$ given a particular value of $\d$, which might be written
@@ -318,26 +325,38 @@ I(\x; \d) &= \sum_{\x} \sum_{\d} p(\x)p(\d | \x)
 \end{align}
 i.e., the mutual information is the prior expected value of the
 log likelihood minus the log evidence.
-As with the conditional entropy, we see that the computational
+As with the conditional entropy, the computational
 difficulty appears in the form of the log evidence,
-$\log p(\d) = \log \sum_{\x} p(\x)p(\d | \x)$.
+$\log p(\d) = \log \sum_{\x} p(\x)p(\d | \x)$, which must be evaluated
+or estimated for many possible datasets.
 
-For experimental design purposes, if we want to maximise the expected amount
-of information obtained from data, maximising either $I(\x; \d)$ or
-$H(\x | \d)$ will produce the same result because the prior $p(\x)$ does not
+For experimental design purposes, maximising the expected amount
+of information obtained from data is a sensible goal.
+Formally, either maximising $I(\x; \d)$ or
+minimising $H(\x | \d)$ will produce the same result because the prior $p(\x)$
+does not
 vary with the experimental design. Reference priors
 \citep{bernardo2005reference} also maximise $I(\x; \d)$ but vary the prior
 in the maximisation process while keeping the experimental design fixed.
 
 \section{Nested Sampling}
 
-Nested Sampling \citep{skilling2006nested} is an algorithm whose aim is
+Nested Sampling (NS), introduced by
+\citet{skilling2006nested} is an algorithm whose aim is
 to calculate the evidence
 \begin{align}
 Z &= \int \pi(\x) L(\x) \, d\x
 \end{align}
 where $\x$ is the unknown parameter(s), $\pi$ is the prior distribution,
-and $L$ is the likelihood function. While $Z$ is a simple expectation with
+and $L$ is the likelihood function. The original NS algorithm, and variations
+within the same family, \citep{feroz2009multinest, dns, handley2015polychord},
+have become popular tools in Bayesian data analysis
+\citep{pullen2014bayesian, exoplanet} and have also
+found use in statistical physics \citep{partay2010efficient,
+baldock2016determining, martiniani2014superposition}, which was another of
+its aims.
+
+While $Z$ is a simple expectation with
 respect to $\pi$, the
 implied distribution of $L$-values tends to be very heavy-tailed, which is
 why simple Monte Carlo does not work. Equivalently, the integral is dominated
@@ -362,10 +381,10 @@ some threshold $\ell$,
 \begin{align}
 X(\ell) &= \int \pi(\x) \mathds{1}\left(L(\x) > \ell\right) \, d\x,
 \end{align}
-we can assign corresponding $X$-values to each discarded point in the sequence,
-and transform $Z$ to a one-dimensional integral.
-\citet{skilling2006nested}'s key insight was that we can estimate the corresponding
-$X$-values of the discarded points from the nature of the
+each discarded point in the sequence can be assigned an $X$-value,
+which transforms $Z$ to a one-dimensional integral.
+\citet{skilling2006nested}'s key insight was that the
+$X$-values of the discarded points are approximately known from the nature of the
 algorithm. Specifically, each iteration reduces the prior mass by approximately
 a factor $e^{-1/N}$. More accurately, the conditional distribution of
 $X_{i}$ given $X_{i-1}$ (and the definition of the algorithm)
@@ -520,9 +539,11 @@ Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(L)$.
 \includegraphics[width=0.5\linewidth]{figures/algorithm.pdf}
 \caption{To evaluate the log-probability (or density) of the blue
 probability distribution at the red point, Nested Sampling can be used,
-with the blue distribution plays the role of the ``prior'' in NS, and the
+with the blue distribution playing the role of the ``prior'' in NS, and the
 Euclidian distance from the red point (illustrated with red contours)
-is the ``likelihood''.\label{fig:algorithm}}
+playing the role of the negative log-likelihood. Averaging over selections
+of the red point gives an estimate of the entropy of the blue distribution.
+\label{fig:algorithm}}
 \end{figure}
 
 If the distance function $d(\xref, \x)$ is chosen to be Euclidean,
@@ -782,7 +803,7 @@ subsets of the data:
 \ytot &= \sum_{i=1}^{50} y_i \\
 \ztot &= \sum_{i=1}^{50} z_i.
 \end{align}
-In this section we use the algorithm to answer the questions:
+In this section I use the algorithm to answer the questions:
 i) How uncertain is $\ytot$?; ii) How uncertain is $\ztot$; and
 iii) How informative is $\ytot$ about $\ztot$? These are quantified by
 $H(\ytot)$, $H(\ztot)$, and $I(\ytot; \ztot)$ respectively. This can
@@ -843,7 +864,7 @@ using a common sequence of reference points for the marginal and joint entropy
 runs, an instance of the `common random numbers'
 technique\footnote{\tt http://demonstrations.wolfram.com/TheMethodOfCommonRandomNumbersAnExample/}.
 
-\section{Computational cost}
+\section{Computational cost, limitations, and conclusion}
 
 The computational resources needed to compute these quantities was quite large,
 as Nested Sampling appears in the inner loop of the algorithm.
@@ -896,17 +917,18 @@ I(\bphi; \d) &= \iint
 {p(\bphi)\int p(\bphi, \boldeta)p(\d | \bphi, \boldeta) \, d\bphi \, \d\boldeta}\right]
                         \, d\bphi \, d\d
 \end{align}
-It should not be surprising that this is costly.
-
-In the sinusoidal signal example, I calculated the difference in
-mutual information between two observing strategies. It is possible
-that there exists a more direct method of obtaining this which
-is more efficient than running the two strategies separately.
+It should not be surprising that this is costly. Indeed, it seems possible
+to me that any {\em general} algorithm for computing entropies will have the
+property that NS (or a similar algorithm capable of measuring small volumes)
+appears in an inner loop, since entropies are sums of terms, each of which
+relates to the downset of a given statement --- the downset of a statement
+$S$ being the set of all statements that imply S \citep{knuth_questions}.
 
 \acknowledgments{Acknowledgements}
 It is a pleasure to thank the following people for interesting and helpful
-conversations about this topic: Ruth Angus (Flatiron Institute),
-Ewan Cameron (Oxford), James Curran (Auckland),
+conversations about this topic, and/or comments on a draft:
+Ruth Angus (Flatiron Institute),
+Ewan Cameron (Oxford), James Curran (Auckland), Tom Elliott (Auckland),
 David Hogg (NYU), Kevin Knuth (SUNY Albany),
 Thomas Lumley (Auckland),
 Iain Murray (Edinburgh), Jared Tobin ({\tt jtobin.io}).
