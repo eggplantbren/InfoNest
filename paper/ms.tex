@@ -390,22 +390,38 @@ algorithm. Specifically, each iteration reduces the prior mass by approximately
 a factor $e^{-1/N}$. More accurately, the conditional distribution of
 $X_{i}$ given $X_{i-1}$ (and the definition of the algorithm)
 is obtainable by letting
-$t_i \sim \textnormal{Beta}(N,1)$ and setting $X_{i+1} := t_iX_{i-1}$.
+$t_i \sim \textnormal{Beta}(N,1)$ and setting $X_{i+1} := t_iX_{i-1}$ (where
+$X_1 = t_1$.
 The $t_i$ variables represent the proportion of the remaining prior mass
 that is {\em retained} at each iteration, after imposing the constraint of the
 latest $L^*$ value.
 
 \subsection{The sequence of $X$ values}
 
-Consider $1-t_i$, the fraction of the remaining prior mass that is {\em removed}
-in each NS iteration.
-The distribution for the compression factors $t_i \sim $Beta$(N,1)$
-corresponds to an exponential distribution for $-\ln(1-t_i)$:
+The sequence of $X$ values is defined by
 \begin{align}
--\ln (1 - t_i) &\sim \textnormal{Exponential}(N).
+X_1 &= t_1 \\
+X_2 &= t_2X_1 \\
+X_3 &= t_3X_2
+\end{align}
+and so on, i.e. $X_i$ can be written as
+\begin{align}
+X_i = \prod_{k=1}^i t_k.
+\end{align}
+Taking the log and multiplying both sides by -1, we get
+\begin{align}
+-\ln X_i = \sum_{k=1}^i \left(-\ln t_k\right).\label{eqn:minuslogX}
 \end{align}
 
-Therefore,
+Consider $t_i$, the fraction of the remaining prior mass that is retained
+in each NS iteration. By a change of variables,
+the distribution for these compression factors $t_i \sim $Beta$(N,1)$
+corresponds to an exponential distribution for $-\ln(t_i)$:
+\begin{align}
+-\ln t_i &\sim \textnormal{Exponential}(N).\label{eqn:exp}
+\end{align}
+
+From Equations~\ref{eqn:minuslogX} and~\ref{eqn:exp}, we see that
 the sequence of $-\ln X$ values produced by a Nested Sampling run can be
 considered as a Poisson process with rate equal to $N$, the number of
 particles. This is why separate NS runs can be simply merged
