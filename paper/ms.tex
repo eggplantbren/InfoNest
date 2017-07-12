@@ -139,8 +139,8 @@ probability distributions that can only be sampled. I demonstrate the method
 on three examples: a simple gaussian example where the key quantities are
 available analytically; (ii)
 an experimental design example about scheduling observations in order
-to measure the period of an oscillating signal; and (iii) an example based
-on a heavy-tailed prior distribution.}
+to measure the period of an oscillating signal; and (iii) predicting the
+future from the past in a heavy-tailed scenario.}
 
 % Keywords: add 3 to 10 keywords
 \keyword{information theory; entropy; mutual information; monte carlo;
@@ -203,7 +203,7 @@ dimensions.
 
 This paper introduces a computational approach to evaluating the entropy 
 $H(x)$ of probability distributions that can only be sampled
-(using Markov Chain Monte Carlo).
+using Markov Chain Monte Carlo (MCMC).
 
 \subsection{Notation and conventions}
 
@@ -286,7 +286,7 @@ p(\x | \d) &= \frac{p(\x)p(\d | \x)}{p(\d)}
 \end{align}
 contains the marginal likelihood:
 \begin{align}
-p(\d) &= \sum_{\x} p(\x) p(\d | \x) \, d\x
+p(\d) &= \sum_{\x} p(\x) p(\d | \x)
 \end{align}
 also known as the `evidence', which tends to be computable but costly,
 especially when the summation is replaced by an integration over a
@@ -315,7 +315,7 @@ The mutual information can also be written as the expected value
 (with respect to the prior over datasets $p(\d)$) of the Kullback-Leibler
 divergence from prior to posterior:
 \begin{align}
-I(\x ; \d) &= \sum_{\d} p(d) D_{\rm KL}\big(p(\x|\d) \, || \, p(\x)\big).
+I(\x ; \d) &= \sum_{\d} p(\d) D_{\rm KL}\big(p(\x|\d) \, || \, p(\x)\big).
 \end{align}
 In terms of the prior, likelihood, and evidence,
 it is
@@ -327,29 +327,30 @@ i.e., the mutual information is the prior expected value of the
 log likelihood minus the log evidence.
 As with the conditional entropy, the computational
 difficulty appears in the form of the log evidence,
-$\log p(\d) = \log \sum_{\x} p(\x)p(\d | \x)$, which must be evaluated
+$\log p(\d) = \log \left(\sum_{\x} p(\x)p(\d | \x)\right)$, which must be evaluated
 or estimated for many possible datasets.
 
 For experimental design purposes, maximising the expected amount
-of information obtained from data is a sensible goal.
+of information obtained from the data is a sensible goal.
 Formally, either maximising $I(\x; \d)$ or
 minimising $H(\x | \d)$ will produce the same result because the prior $p(\x)$
 does not
 vary with the experimental design. Reference priors
 \citep{bernardo2005reference} also maximise $I(\x; \d)$ but vary the prior
+$p(\x)$
 in the maximisation process while keeping the experimental design fixed.
 
 \section{Nested Sampling}
 
 Nested Sampling (NS), introduced by
-\citet{skilling2006nested} is an algorithm whose aim is
+\citet{skilling2006nested}, is an algorithm whose aim is
 to calculate the evidence
 \begin{align}
 Z &= \int \pi(\x) L(\x) \, d\x
 \end{align}
 where $\x$ is the unknown parameter(s), $\pi$ is the prior distribution,
 and $L$ is the likelihood function. The original NS algorithm, and variations
-within the same family, \citep{feroz2009multinest, dns, handley2015polychord},
+within the same family \citep{feroz2009multinest, dns, handley2015polychord},
 have become popular tools in Bayesian data analysis
 \citep{knuth2015bayesian, pullen2014bayesian, exoplanet} and have also
 found use in statistical physics \citep{partay2010efficient,
@@ -363,19 +364,20 @@ why simple Monte Carlo does not work. Equivalently, the integral is dominated
 by very small regions where $L(\x)$ is high.
 
 To overcome this, NS evolves a population of $N$ particles in the parameter
-space.
+space towards higher likelihood regions.
 The particles are initially initialised from the prior $\pi(\x)$, and the
 particle with the lowest likelihood, $L^*_1$, is found and its details are
 recorded as output. This worst particle is then discarded
 and replaced by a new particle
 drawn from the prior $\pi$ but subject to the constraint that its likelihood
 must be above $L^*_1$ (this is usually achieved by cloning a surviving particle
-and evolving it with MCMC). This process is repeated, resulting in an
+and evolving it with MCMC to explore
+$\pi(\x)\mathds{1}\left(L(\x) > L^*_1\right)$).
+This process is repeated, resulting in an
 increasing sequence of likelihoods
 \begin{align}
-L^*_1, L^*_2, L^*_3,..., \label{eqn:likelihood_sequence}
+L^*_1, L^*_2, L^*_3,... \label{eqn:likelihood_sequence}
 \end{align}
-
 Defining $X(\ell)$ as the amount of prior mass with likelihood greater than
 some threshold $\ell$,
 \begin{align}
@@ -397,7 +399,7 @@ latest $L^*$ value.
 \subsection{The sequence of $X$ values}
 
 Consider $1-t_i$, the fraction of the remaining prior mass that is {\em removed}
-at each iteration.
+in each NS iteration.
 The distribution for the compression factors $t_i \sim $Beta$(N,1)$
 corresponds to an exponential distribution for $\ln(1-t_i)$:
 \begin{align}
@@ -469,12 +471,12 @@ H(\x) &= -\int p(\x) \log p(\x) \, d\x
 we can use the fact that density equals mass divided
 by volume. Assume $L$ is small, so that
 \begin{align}
-P(d(\xref, \x) < \epsilon | \x)
+P(d(\x; \xref) < L \,|\, \xref)
     &\approx
-    p(\x) \int_{d(\xref, \x) < L} \, d\xref\\
-    &= f(\x) \, V
+    p(\xref) \int_{d(\x; \xref) < L} \, d\x\\
+    &= p(\xref) \, V
 \end{align}
-where $V$ is the volume of the region where $d(\xref, \x) < L$.
+where $V$ is the volume of the region where $d(\x; \xref) < L$.
 Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(L)$.
 
 \begin{algorithm}
@@ -505,7 +507,7 @@ Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(L)$.
             \Comment{Find the greatest distance}
     \While{$d_{\rm max} > L$}
         \State Replace $\x_{i^*}$ with $\x_{\rm new}$ from
-               $p\left(\x | (d(\x) < d_{\rm max})\right)$
+               $p\left(\x \,|\, d(\x) < d_{\rm max}\right)$
             \Comment{Replace worst particle}
         \State Calculate $d_{i^*} \leftarrow d(\x_{\rm new}; \xref)$
             \Comment{Calculate distance of new particle from reference point}
@@ -517,7 +519,7 @@ Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(L)$.
             \Comment{Increment counter $k$}
     \EndWhile
 \color{black}
-    \State $\widehat{\mathbf{h}} \leftarrow \widehat{\mathbf{h}} + [k/N]$
+    \State $\widehat{\mathbf{h}} \leftarrow \widehat{\mathbf{h}} ++ [k/N]$
             \Comment{Append latest estimate to results}
 \EndWhile
 \State $\widehat{h_{\rm final}} \leftarrow \frac{1}{\rm num\_iterations} \sum \widehat{\mathbf{h}}$
@@ -525,7 +527,7 @@ Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(L)$.
 \end{algorithmic}
 \caption{The algorithm which estimates the expected value of the depth:\\
            \quad\quad$-\int p(\xref) \int p(\x)
-            \log \left[ P(d(\x; \xref) < L | \xref) \right]
+            \log \left[ P(d(\x; \xref) < L \,|\, \xref) \right]
                         \, d\x \, d\xref$,\\ that is, minus the expected value of the
         log-probability of a small region near $\xref$, which can be converted
         to an estimate of an entropy or differential entropy.
@@ -557,15 +559,16 @@ The log-volume of a ball of radius $L$ in $n$ dimensions is
                         + n \log L,
 \end{align}
 
-If the threshold $L$ is not small, we might think we are calculating the entropy associated
-with the question `what is $x$, to within a tolerance of $\pm L$?'.
-This is not quite correct. See appendix~\ref{sec:precisional}
+In one dimension,
+if the threshold $L$ is not small, we might think we are calculating the entropy associated
+with the question `what is $\theta$, to within a tolerance of $\pm L$?'.
+This is not quite correct. See Appendix~\ref{sec:precisional}
 for a discussion of this
 type of question.
 
 In the following sections I demonstrate the algorithm on three
-example problems. For each of the examples, I did 1000 repetitions of NS
-(i.e., 1000 reference particles), and used 10 NS particles and 10000 MCMC
+example problems. For each of the examples, I used 1000 repetitions of NS
+(i.e., 1000 reference particles), and used 10 NS particles and 10,000 MCMC
 steps per NS iteration.
 
 \section{Example 1: Entropy of a prior for the data}
