@@ -634,7 +634,7 @@ $x$ slightly.
 
 In physics and astronomy, it is common to measure an oscillating signal
 at a set of times $\{t_1, ..., t_n\}$, in order to infer the amplitude,
-period, and phase of the signal.
+period, and phase of the signal \citep{bretthorst}.
 Here, I demonstrate the algorithm on a toy version
 of Bayesian experimental design: at what times should the signal be
 observed in order to obtain as much information as possible about the
@@ -663,13 +663,22 @@ Therefore, I adopted the third formula as the best way to compute $I(\x; \d)$.
 In the example, $H(\x)$ is available analytically, and I use the algorithm to
 obtain $H(\x | \d)$ as follows:
 \begin{align}
-H(\x | \d) &= \int p(\d') H(\x | \d=\d') \, d\d'.
+H(\x | \d) &= \int p(\d_{\rm ref}) H(\x | \d=\d_{\rm ref}) \, d\d_{\rm ref}.
 \end{align}
 This is an expected value over datasets, of the entropy of the posterior given
-each dataset. To do the Nested Sampling to estimate $H(\x | \d=\d')$, I generate
-initial particles from the posterior by doing standard MCMC (targeting the
-posterior) using the $\x$-value that produced the simulated dataset $\d'$ as
-the initial condition for the MCMC.
+each dataset. I ran the algorithm by generating reference particles from
+$p(\x, \d)$, i.e., generating parameter values from the prior, along with
+corresponding simulated datasets. Given each simulated dataset, I used NS
+to compute an unbiased estimate of $H(\x | \d=\d_{\rm ref})$, by evolving
+a set of particles (initially from the posterior) towards the reference particle.
+The role of the ``prior'' in the NS is actually taken by the posterior, and the
+``likelihood'' was minus a distance function defined in terms of the
+parameter(s).
+
+To generate the initial
+NS particles from the posterior, I used standard MCMC (targeting the
+posterior), initialised at the $\x$-value that produced the simulated dataset
+$\d_{\rm ref}$, which is a perfect sample from the posterior.
 
 \subsection{Assumptions}
 
@@ -722,16 +731,9 @@ even (gold points) and uneven (green points) observing strategies.
 \end{figure}
 
 To carry out the sampling for this problem, Metropolis-Hastings moves that
-explore the joint prior distribution $p(A, \tau, \phi, \boldsymbol{Y})$
-had to be
-implemented. As with the first example, there were four basic kinds of
-proposals. Four basic kinds of proposals were used: i) those which change
-one of the parameters
-$A$, $\tau$ or $\phi$ while leaving the data $\boldsymbol{Y}$ fixed
-(these are standard Metropolis moves targeting the posterior distribution);
-ii) those which change the parameters and modify the data accordingly;
-iii) those which resample a subset
-of the data; and iv) those which move a single datum slightly.
+explore the posterior distribution $p(A, \tau, \phi | \boldsymbol{Y})$
+had to be implemented. I used heavy-tailed proposals (as in
+Section 8.3 of \citet{dnest4}) which modified one parameter at a time.
 
 \subsection{Results}
 
@@ -747,7 +749,7 @@ entropy is
 \begin{align}
 H(\tau | \boldsymbol{Y}) &= -5.441 \pm 0.038 \textnormal{ nats}.
 \end{align}
-Since the Uniform(0,1) prior has a differential entropy of zero, the
+Since the Uniform(0,1) prior for $\tau$ has a differential entropy of zero, the
 mutual information is $I(\tau; \boldsymbol{Y}) = H(\tau) - H(\tau | \boldsymbol{Y}) = 5.441 \pm 0.038$
 nats.
 
@@ -762,7 +764,8 @@ The difference in mutual informations between the two observation
 schedules is trivial.
 The situation may be different if we
 had allowed for shorter periods to be possible, as irregular observing
-schedules are known to reduce aliasing and ambiguity in the inferred period.
+schedules are known to reduce aliasing and ambiguity in the inferred period
+\citep{bretthorst2001nonuniform}.
 When inferring the period of an oscillating signal, multimodal posterior
 distributions for the period are common \citep{gregoryTrimodal, exoplanet}.
 The multimodality of the posterior here raises an interesting issue. Is
@@ -773,7 +776,7 @@ that the vast majority of possibilities had been ruled out, if the
 posterior still consisted of several widely separated modes!
 Perhaps, in some applications, a more appropriate question is
 ``what is the value of $T$ to within $\pm$ 10\%'', or something along these
-lines. See Appendix~\ref{sec:precisional} for more information about this
+lines. See Appendix~\ref{sec:precisional} for more about this
 issue.
 
 In a serious experimental design situation, the relevance is not the only
@@ -786,7 +789,7 @@ Consider a situation where the probability distribution for some data values
 $\boldsymbol{x} = \{x_1, x_2, ..., x_n\}$ is a Pareto distribution, conditional on
 a minimum value $x_{\rm min}=1$ and a slope $\alpha$:
 \begin{align}
-p(\boldsymbol{x} | \alpha) &= \prod_{i=1}^n \frac{1}{x_i^{\alpha + 1}}
+p(\boldsymbol{x} | \alpha) &= \prod_{i=1}^n \frac{\alpha}{x_i^{\alpha + 1}}
 \end{align}
 where all of the $x_i$ are greater than $x_{\rm min} = 1$.
 If $\alpha$ is relatively low (close to zero) then this distribution is
@@ -802,7 +805,8 @@ Second, even conditional on the parameters, the predictive distribution for
 future data can be heavy-tailed, implying a lot of uncertainty.
 Finally, one may always doubt the probability assignment on which such a
 calculation is based.
-However, the data clearly provides {\em some} information about the future.
+However, the data clearly provides {\em some} nonzero
+amount of information about the future.
 
 Consider $n=100$ data values, partitioned into two halves, so
 $\boldsymbol{y} = \{x_1, ..., x_{50}\} = \{y_1, ..., y_{50}\}$
@@ -818,9 +822,7 @@ In this section I use the algorithm to answer the questions:
 i) How uncertain is $\ytot$?; ii) How uncertain is $\ztot$; and
 iii) How informative is $\ytot$ about $\ztot$? These are quantified by
 $H(\ytot)$, $H(\ztot)$, and $I(\ytot; \ztot)$ respectively. This can
-be done despite the fact that $\alpha$ is unknown. The joint distribution
-for $\ln \ytot$ and $\ln \ztot$, whose properties I am to obtain,
-is shown in Figure~\ref{fig:pareto}.
+be done despite the fact that $\alpha$ is unknown.
 
 The prior for $\alpha$ was chosen to be lognormal such that the prior median
 of $\alpha$ is 1 and the prior standard deviation of $\ln \alpha$ is also 1.
@@ -828,6 +830,9 @@ Due to the heavy-tailed nature of the Pareto distribution, I ran the
 algorithm in terms of $\ln \ytot$ and $\ln \ztot$. This affects the
 differential entropies but not the mutual information (which is invariant 
 under changes of parameterisation).
+The joint distribution
+for $\ln \ytot$ and $\ln \ztot$, whose properties I aimed to obtain,
+is shown in Figure~\ref{fig:pareto}.
 
 \begin{figure}[!ht]
 \centering
@@ -855,8 +860,8 @@ of $L = 10^{-3}$, was:
 \left<\depth_{\ln \ytot}\right> &= 8.851 \pm 0.057.
 \end{align}
 Correcting for the volume factor yields a differential entropy estimate
-of $H(\ytot) = 2.366\pm 0.057$ nats.
-By the symmetry of the problem specification, $H(\ztot) = H(\ytot)$.
+of $H(\ln\ytot) = 2.366\pm 0.057$ nats.
+By the symmetry of the problem specification, $H(\ln\ztot) = H(\ln\ytot)$.
 
 The joint entropy $H(\ln \ytot, \ln \ztot)$ was also estimated by using
 a Euclidean distance function and a tolerance of $10^{-3}$. The result was
@@ -867,7 +872,7 @@ Applying the log-volume correction yields a differential entropy estimate of
 $H(\ln \ytot, \ln \ztot) = 3.40 \pm 0.11$ nats.
 Therefore, the mutual information is
 \begin{align}
-I(\ytot; \ztot) &= H(\ytot) + H(\ztot) - H(\ytot, \ztot)\\
+I(\ytot; \ztot) &= H(\ln\ytot) + H(\ln\ztot) - H(\ln\ytot, \ln\ztot)\\
                 &= 1.130 \pm 0.082 \textnormal{ nats}.
 \end{align}
 The variance of this mutual information estimate was reduced by
@@ -933,7 +938,7 @@ to me that any {\em general} algorithm for computing entropies will have the
 property that NS (or a similar algorithm capable of measuring small volumes)
 appears in an inner loop, since entropies are sums of terms, each of which
 relates to the downset of a given statement --- the downset of a statement
-$S$ being the set of all statements that imply S \citep{knuth_questions}.
+$S$ being the set of all statements that imply $S$ \citep{knuth_questions}.
 
 The algorithm as presented will tend to become less accurate on high dimensional
 problems, as the required depth of the runs will increase correspondingly,
@@ -1025,7 +1030,9 @@ According to \citet{knuth_questions}, the entropy of a question is
 computed by applying the sum rule over all statements that would answer the
 question.
 
-We can write the question of interest, $Q$, as a union of ideal questions:
+We can write the question of interest, $Q$, as a union of ideal questions
+(the ideal questions are downsets of statements: the set of all statements
+that imply $S$ is the downset of $S$ and is denoted $\downarrow S$):
 \begin{align}
 Q &= \left[\downarrow (x \in \{1, 2, 3\})\right] \cup
      \left[\downarrow (x \in \{2, 3, 4\})\right] \cup
