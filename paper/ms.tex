@@ -175,7 +175,21 @@ H(x) &= -\sum_{x} p(x) \log p(x)
 where the sum is over all of the possible values of $x$ under consideration.
 The entropy quantifies the degree to which the issue
 ``what is the value of $x$, precisely?'' remains unresolved
-\citep{knuth_questions}. For example,
+\citep{knuth_questions}. More generally, the `Kullback-Leibler divergence'
+quantifies the degree to which a probability distribution $p(x)$ departs
+from a `base' or `prior' probability distribution $q(x)$:
+\begin{align}
+D_{\rm KL}\big(p \,||\, q\big) &=
+    \sum_{x} p(x) \log\left[\frac{p(x)}{q(x)}\right]
+\end{align}
+\citep{knuth2012foundations, caticha2006updating}.
+If $q(x)$ is taken to be uniform, this is equivalent (up to an additive
+constant and a change of sign) to the Shannon entropy $H(x)$.
+With the negative sign reinstated, Kullback-Leibler divergence is sometimes
+called relative entropy.
+
+The Shannon entropy can be interpreted straightforwardly as a measure of
+uncertainty. For example,
 if there is only one possible value which has probability 1, $H(x)$ is
 zero. Conventionally, $0 \times \log 0$ is defined to be equal
 to $\lim_{x \to 0^+} (x\log x)$, which is zero; i.e., `possibilities' with
@@ -188,9 +202,14 @@ probability density function, the differential entropy
 H(x) &= -\int p(x) \log p(x) \, dx
 \end{align}
 quantifies uncertainty by generalising the log-volume
-of the plausible region, when volume is defined with respect to $dx$.
+of the plausible region, where volume is defined with respect to $dx$.
+Crucially, in continuous spaces, the differential entropy is not
+invariant under changes of coordinates, so any value given for a
+differential entropy must be understood with respect to the coordinate
+system that was used.
 
-Entropies, and related quantities, tend to be analytically available only for
+Entropies, relative entropies, and related quantities,
+tend to be analytically available only for
 a few families of probability distributions. On the numerical side, if
 $\log p(x)$ can be evaluated for any $x$, then simple Monte Carlo will suffice
 for approximating $H(x)$. On the other hand, if $p(x)$ can only be
@@ -200,9 +219,10 @@ distribution), then this will not work. Kernel density estimation or the like
 may be effective in this case, but is unlikely to generalise well to high
 dimensions.
 
-This paper introduces a computational approach to evaluating the entropy 
-$H(x)$ of probability distributions that can only be sampled
-using Markov Chain Monte Carlo (MCMC).
+This paper introduces a computational approach to evaluating the Shannon
+entropy $H(x)$ of probability distributions that can only be sampled
+using Markov Chain Monte Carlo (MCMC). With minor modifications,
+Kullback-Leibler divergences may also be obtained.
 
 \subsection{Notation and conventions}
 
