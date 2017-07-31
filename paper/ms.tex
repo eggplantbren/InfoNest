@@ -208,8 +208,9 @@ of the plausible region, where volume is defined with respect to $dx$.
 Crucially, in continuous spaces, the differential entropy is not
 invariant under changes of coordinates, so any value given for a
 differential entropy must be understood with respect to the coordinate
-system that was used. Even in discrete cases, the Shannon entropy assumes
-that each possibility counts equally.
+system that was used. Even in discrete cases, using the Shannon entropy assumes
+that each possibility contributes equally when counting possibilities ---
+if this is inappropriate, the relative entropy should be used.
 
 Entropies, relative entropies, and related quantities,
 tend to be analytically available only for
@@ -225,7 +226,9 @@ dimensions.
 
 This paper introduces a computational approach to evaluating the Shannon
 entropy $H(x)$ of probability distributions that can only be sampled
-using Markov Chain Monte Carlo (MCMC).
+using Markov Chain Monte Carlo (MCMC). The key idea is that Nested Sampling
+can create an unbiased estimate of a {\em log}-probability, and entropies
+are averages of log-probabilities.
 
 \subsection{Notation and conventions}
 
@@ -494,12 +497,13 @@ towards $\xref$ in order to measure the log-probability near
 $\xref$ (see Figure~\ref{fig:algorithm}).
 Nearness is defined using a distance function
 $d(\x; \xref)$, and the number of NS iterations taken to reduce
-the distance to below some threshold $L$ provides an unbiased estimate of
+the distance to below some threshold $r$ (for `radius')
+provides an unbiased estimate of
 \begin{align}
-   \depth = -\log \left[ P(d(\x; \xref) < L) \right]
+   \depth = -\log \left[ P(d(\x; \xref) < r) \right]
 \end{align}
 which I call the `depth'. E.g., if $N=10$ Nested Sampling particles are used,
-and it takes 100 iterations to reduce the distance to below $L$, then the
+and it takes 100 iterations to reduce the distance to below $r$, then the
 depth is 10 nats.
 
 If we actually want the differential entropy
@@ -507,22 +511,22 @@ If we actually want the differential entropy
 H(\x) &= -\int p(\x) \log p(\x) \, d\x
 \end{align}
 we can use the fact that density equals mass divided
-by volume. Assume $L$ is small, so that
+by volume. Assume $r$ is small, so that
 \begin{align}
-P(d(\x; \xref) < L \,|\, \xref)
+P(d(\x; \xref) < r \,|\, \xref)
     &\approx
-    p(\xref) \int_{d(\x; \xref) < L} \, d\x\\
+    p(\xref) \int_{d(\x; \xref) < r} \, d\x\\
     &= p(\xref) \, V
 \end{align}
-where $V$ is the volume of the region where $d(\x; \xref) < L$.
-Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(L)$.
+where $V$ is the volume of the region where $d(\x; \xref) < r$.
+Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(r)$.
 
 \begin{algorithm}
 \begin{algorithmic}
 \State {\em Set the numerical parameters:}
 \State $N \in \{1, 2, 3, ... \}$
             \Comment{the number of Nested Sampling particles to use}
-\State $L \geq 0$
+\State $r \geq 0$
             \Comment{the tolerance} \\
 \hrulefill
 \State $\widehat{\mathbf{h}} \leftarrow \{\}$
@@ -543,7 +547,7 @@ Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(L)$.
             \Comment{Find the worst particle (greatest distance)}
     \State $d_{\rm max} \leftarrow d_{i^*}$
             \Comment{Find the greatest distance}
-    \While{$d_{\rm max} > L$}
+    \While{$d_{\rm max} > r$}
         \State Replace $\x_{i^*}$ with $\x_{\rm new}$ from
                $p\left(\x \,|\, d(\x) < d_{\rm max}\right)$
             \Comment{Replace worst particle}
@@ -565,7 +569,7 @@ Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(L)$.
 \end{algorithmic}
 \caption{The algorithm which estimates the expected value of the depth:\\
            \quad\quad$-\int p(\xref) \int p(\x)
-            \log \left[ P(d(\x; \xref) < L \,|\, \xref) \right]
+            \log \left[ P(d(\x; \xref) < r \,|\, \xref) \right]
                         \, d\x \, d\xref$,\\ that is, minus the expected value of the
         log-probability of a small region near $\xref$, which can be converted
         to an estimate of an entropy or differential entropy.
@@ -579,7 +583,7 @@ Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(L)$.
 \centering
 \includegraphics[width=0.5\linewidth]{figures/algorithm.pdf}
 \caption{To evaluate the log-probability (or density) of the blue
-probability distribution at the red point, Nested Sampling can be used,
+probability distribution near the red point, Nested Sampling can be used,
 with the blue distribution playing the role of the ``prior'' in NS, and the
 Euclidian distance from the red point (illustrated with red contours)
 playing the role of the negative log-likelihood. Averaging over selections
@@ -588,18 +592,15 @@ of the red point gives an estimate of the entropy of the blue distribution.
 \end{figure}
 
 If the distance function $d(\xref, \x)$ is chosen to be Euclidean,
-the constraint $d(\xref, \x) < L$ corresponds to a ball in the space
+the constraint $d(\xref, \x) < r$ corresponds to a ball in the space
 of possible $\xref$ values.
-The log-volume of a ball of radius $L$ in $n$ dimensions is
+The volume of such a ball, of radius $r$ in $n$ dimensions, is
 \begin{align}
-\log V(L; n) &= \frac{n}{2}\log \pi
-                        - \log \Gamma\left(\frac{n}{2} + 1\right)
-                        + n \log L,
+V &= \frac{(\pi r^2)^{n/2}}{(\frac{n}{2})!}.
 \end{align}
-
 In one dimension,
-if the threshold $L$ is not small, we might think we are calculating the entropy associated
-with the question `what is $\theta$, to within a tolerance of $\pm L$?'.
+if the threshold $r$ is not small, we might think we are calculating the entropy associated
+with the question `what is $\theta$, to within a tolerance of $\pm r$?'.
 This is not quite correct. See Appendix~\ref{sec:precisional}
 for a discussion of this
 type of question.
@@ -641,7 +642,7 @@ d\left(\x; \xref\right) &= \sum_{i=1}^{100}\left(x_i - x_{{\rm ref}, i}\right)^2
 \end{align}
 
 I ran the algorithm and computed the average depth using a tolerance of
-$L=10^{-3}\sqrt{100}$, so that the RMS difference between
+$r=10^{-3}\sqrt{100}$, so that the RMS difference between
 points in the two datasets was about $10^{-3}$.
 From the algorithm, the estimate of the expected depth was
 \begin{align}
@@ -652,7 +653,7 @@ standard deviation of the depth estimates divided by square root of
 the number of NS repetitions.
 
 The log-volume of a 100-dimensional ball of radius
-$L=10^{-3}\sqrt{100}$ is
+$r=10^{-3}\sqrt{100}$ is
 $-551.76$. Therefore, the differential entropy is estimated to be
 \begin{align}
 H(\boldsymbol{x}) &\approx 146.49 \pm 0.34.
@@ -777,7 +778,7 @@ Section 8.3 of \citet{dnest4}) which modified one parameter at a time.
 
 Letting $\tau = \log_{10} T$, and treating
 $A$ and $\phi$ are nuisance parameters, I calculated the conditional entropy
-$H(\tau | \boldsymbol{Y})$ using the algorithm with a tolerance of $L = 10^{-5}$.
+$H(\tau | \boldsymbol{Y})$ using the algorithm with a tolerance of $r = 10^{-5}$.
 The result was
 \begin{align}
 \left<\depth\right> &= 5.379 \pm 0.038
@@ -893,7 +894,7 @@ i.e., a posterior-sampling move, was not implemented.
 To compute the entropy of $\ln \ytot$, the distance function was just the
 absolute value of the distance between the NS particles and the
 reference particle in terms of $\ln \ytot$. The result, using a tolerance
-of $L = 10^{-3}$, was:
+of $r = 10^{-3}$, was:
 \begin{align}
 \left<\depth_{\ln \ytot}\right> &= 8.851 \pm 0.057.
 \end{align}
@@ -1090,69 +1091,70 @@ where $h_{x} = -P(x)\log P(x)$.
 
 Consider a probability density function $f(x)$, defined on the real
 line. The probability contained in an interval
-$[x_0, x_0 + L]$, which has length $L$, is
+$[x_0, x_0 + r]$, which has length $r$, is
 \begin{align}
-\int_{x_0}^{x_0 + L} f(x) \, dx &= F(x_0 + L) - F(x_0)
+\int_{x_0}^{x_0 + r} f(x) \, dx &= F(x_0 + r) - F(x_0)
 \end{align}
 where $F(x)$ is the cumulative distribution function (CDF).
 This probability can be considered as a function of two variables,
-$x_0$ and $L$, which I will denote by $P(,)$:
+$x_0$ and $r$, which I will denote by $P(,)$:
 \begin{align}
-P(x_0, L) &= F(x_0 + L) - F(x_0).
+P(x_0, r) &= F(x_0 + r) - F(x_0).
 \end{align}
 The contribution of such an interval to an entropy expression
 is $-P\log P$, i.e.,
 \begin{align}
-Q(x_0, L) &= -P(x_0, L) \log P(x_0, L).
+Q(x_0, r) &= -P(x_0, r) \log P(x_0, r).
 \end{align}
 Consider the rate of change of $Q$ as the interval is shifted to
-the right, but with its width $L$ held constant:
+the right, but with its width $r$ held constant:
 \begin{align}
 \frac{\partial Q}{\partial x_0} &= \frac{\partial}{\partial x_0}
     \left[-P\log P\right] \\
-    &= -\left[1 + \log P(x_0, L)\right]\frac{\partial P}{\partial x_0} \\
-    &= -\left[1 + \log P(x_0, L)\right]\left[f(x_0 + L) - f(x_0)\right].
+    &= -\left[1 + \log P(x_0, r)\right]\frac{\partial P}{\partial x_0} \\
+    &= -\left[1 + \log P(x_0, r)\right]\left[f(x_0 + r) - f(x_0)\right].
 \end{align}
 Consider also the rate of change of $Q$ as the interval is
 expanded to the right, while keeping its left edge fixed:
 \begin{align}
-\frac{\partial Q}{\partial L} &= \frac{\partial}{\partial L}
-    \left[-P(x_0, L) \log P(x_0, L)\right] \\
-    &= -\left[1 + \log P(x_0, L)\right]\frac{\partial P}{\partial L} \\
-    &= -\left[1 + \log P(x_0, L)\right]f(x_0 + L).
+\frac{\partial Q}{\partial r} &= \frac{\partial}{\partial r}
+    \left[-P(x_0, r) \log P(x_0, r)\right] \\
+    &= -\left[1 + \log P(x_0, r)\right]\frac{\partial P}{\partial r} \\
+    &= -\left[1 + \log P(x_0, r)\right]f(x_0 + r).
 \end{align}
 
 The entropy of the precisional question is built up from
 $Q$ terms. The extra entropy from adding the interval
-$[x_0, x_0 + L]$ and removing the overlap $[x_0, x_0 + L - h]$, for small $h$, is
+$[x_0, x_0 + r]$ and removing the overlap $[x_0, x_0 + r - h]$, for small $h$, is
 \begin{align}
-\delta H &= Q(x_0, L) - Q(x_0, L - h)\\
-         &= h\frac{\partial Q}{\partial L} \\
-         &= -h\left[1 + \log P(x_0, L)\right]f(x_0 + L).
+\delta H &= Q(x_0, r) - Q(x_0, r - h)\\
+         &= h\frac{\partial Q}{\partial r} \\
+         &= -h\left[1 + \log P(x_0, r)\right]f(x_0 + r).
 \end{align}
 Therefore, the overall entropy is
 \begin{align}
 H &= -\int_{-\infty}^\infty
-        \left[1 + \log P(x-L, L)\right]f(x)
+        \left[1 + \log P(x-r, r)\right]f(x)
       \, dx \\
   &= -\int_{-\infty}^\infty
-        \left(1 + \log\left[F(x) - F(x-L)\right]\right)f(x)
+        \left(1 + \log\left[F(x) - F(x-r)\right]\right)f(x)
       \, dx.
 \end{align}
 Interestingly, calculating the log-probability of an interval
 to the right of $x$ gives an equivalent result:
 \begin{align}
 H' &=  -\int_{-\infty}^\infty
-        \left(1 + \log\left[F(x+L) - F(x)\right]\right)f(x)
+        \left(1 + \log\left[F(x+r) - F(x)\right]\right)f(x)
       \, dx \\
    &= H.
 \end{align}
 This is not quite the same as the expected log-probability calculated by
 the version of the algorithm proposed in this paper (when the tolerance is not
 small). However, the algorithm can be made to estimate the entropy of the
-precisional question by redefining the distance function such that
-$d(\x; \xref)$ can only ever be below $L$ if $\x < \xref$ (or alternatively,
-if $\x > \xref$).
+precisional question, by redefining the distance function. For a one-dimensional
+quantity of interest, the distance function can be defined such that
+$d(x; x_{\rm ref})$ can only ever be below $r$ if $x < x_{\rm ref}$ (or alternatively,
+if $x > x_{\rm ref}$).
 
 \appendix
 \section{Software}
@@ -1184,7 +1186,7 @@ python postprocess.py
 \end{verbatim}
 
 By default, {\tt postprocess.py} estimates the depth with a tolerance of
-$L=10^{-3}$. This value can be changed by calling the {\tt postprocess}
+$r=10^{-3}$. This value can be changed by calling the {\tt postprocess}
 function with a different value of its argument {\tt tol}. E.g.,
 {\tt postprocess.py} can be edited so that its last line is
 {\tt postprocess(tol=0.01)} instead of {\tt postprocess()}.
