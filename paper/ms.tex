@@ -418,7 +418,7 @@ $X_{i}$ given $X_{i-1}$ (and the definition of the algorithm)
 is obtainable by letting
 $t_i \sim \textnormal{Beta}(N,1)$ and setting $X_{i+1} := t_iX_{i-1}$ (where
 $X_1 = t_1$).
-The $t_i$ variables represent the proportion of the remaining prior mass
+The $t_i$ quantities are the proportion of the remaining prior mass
 that is {\em retained} at each iteration, after imposing the constraint of the
 latest $L^*$ value.
 
@@ -625,7 +625,7 @@ p(x_i | \mu) &\sim \textnormal{Normal}(\mu, 1).
 If the prior for $\mu$ is Normal$(0, 10^2)$, then the posterior is
 \begin{align}
 \mu | \boldsymbol{x} &\sim \textnormal{Normal}\left(
-                                       \frac{1}{100}\sum_{i=1}^{100} x_i,
+                                       \frac{1}{100.01}\sum_{i=1}^{100} x_i,
                                        \left[\frac{10}{\sqrt{10001}}\right]^2
                                        \right).
 \end{align}
@@ -783,7 +783,7 @@ The result was
 \begin{align}
 \left<\depth\right> &= 5.379 \pm 0.038
 \end{align}
-Converting to a differential entropy by adding $\ln (2 \times 10^{-5})$, the conditional
+Converting to a differential entropy by adding $\ln (2r) = -10.820$, the conditional
 entropy is
 \begin{align}
 H(\tau | \boldsymbol{Y}) &= -5.441 \pm 0.038 \textnormal{ nats}.
@@ -993,7 +993,9 @@ initialised at a surviving point. In some problems, this will not be effective,
 and this will cause the resulting estimates to be incorrect, as in standard
 Nested Sampling applications. Testing the sensitivity of the results to
 changes in the number of MCMC steps used is a simple way to increase one's
-confidence in the results, but is not a guarantee.
+confidence in the results, but is not a guarantee (no general guarantee can
+exist, because any algorithm based on sampling a subset of a space might miss
+a crucial by hard-to-locate dominant spike).
 Despite this weakness, I hope the algorithm will be
 useful in a wide range of applications.
 
