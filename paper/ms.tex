@@ -520,6 +520,14 @@ P(d(\x; \xref) < r \,|\, \xref)
 \end{align}
 where $V$ is the volume of the region where $d(\x; \xref) < r$.
 Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(r)$.
+Reducing $r$ towards zero ought to lead to
+a more accurate result because the probability density at a point will
+be more accurately approximated by the probability of a small region containing
+the point, divided by the volume of that region.
+On the other hand, smaller values of $r$ will lead to more Nested Sampling
+iterations required, and hence less accuracy in the depth estimates.
+Thus, there is a an awkward trade-off involved in choosing the value of $r$,
+which will need to be investigated more thoroughly in the future.
 
 \begin{algorithm}
 \begin{algorithmic}
