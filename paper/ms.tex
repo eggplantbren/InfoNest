@@ -186,7 +186,9 @@ D_{\rm KL}\big(p \,||\, q\big) &=
 If $q(x)$ is taken to be uniform, this is equivalent (up to an additive
 constant and a change of sign) to the Shannon entropy $H(x)$.
 With the negative sign reinstated, Kullback-Leibler divergence is sometimes
-called relative entropy.
+called relative entropy, and is more fundamental than the Shannon entropy
+\citep{knuth2012foundations}. However, this paper focuses on the Shannon
+entropy for simplicity.
 
 The Shannon entropy can be interpreted straightforwardly as a measure of
 uncertainty. For example,
@@ -206,25 +208,24 @@ of the plausible region, where volume is defined with respect to $dx$.
 Crucially, in continuous spaces, the differential entropy is not
 invariant under changes of coordinates, so any value given for a
 differential entropy must be understood with respect to the coordinate
-system that was used.
+system that was used. Even in discrete cases, the Shannon entropy assumes
+that each possibility counts equally.
 
 Entropies, relative entropies, and related quantities,
 tend to be analytically available only for
 a few families of probability distributions. On the numerical side, if
 $\log p(x)$ can be evaluated for any $x$, then simple Monte Carlo will suffice
 for approximating $H(x)$. On the other hand, if $p(x)$ can only be
-{\em sampled} but not evaluated (for example, if $p(x)$ is a marginal
-distribution), then this will not work. Kernel density estimation or the like
+{\em sampled} but not evaluated (for example, if $p(x)$ is a marginal or
+conditional distribution, or the distribution of a quantity derived from $x$),
+then this will not work. Kernel density estimation or the like
 \citep[e.g.][]{JMLR:v15:szabo14a}
 may be effective in this case, but is unlikely to generalise well to high
 dimensions.
 
 This paper introduces a computational approach to evaluating the Shannon
 entropy $H(x)$ of probability distributions that can only be sampled
-using Markov Chain Monte Carlo (MCMC). This is often the case when we are
-interested in a marginal distribution or conditional distribution.
-With minor modifications,
-Kullback-Leibler divergences can also be obtained.
+using Markov Chain Monte Carlo (MCMC).
 
 \subsection{Notation and conventions}
 
@@ -249,7 +250,7 @@ of the probability distribution used to describe a state of ignorance about $x$.
 Throughout this paper, $H(x)$ is used as notation for both Shannon entropies
 (in discrete cases) and differential entropies (in continuous cases). Which
 one it is should be clear from the context of the problem at hand.
-I sometimes write general formulae are written in terms of sums (i.e., as they would
+I sometimes write general formulae in terms of sums (i.e., as they would
 appear in a discrete problem), and sometimes as integrals, as they would
 appear in a continuous problem.
 
@@ -263,7 +264,7 @@ The prior information leads the
 user to specify a prior distribution $p(\x)$ for the unknown parameters,
 along with a conditional distribution $p(\d | \x)$ describing prior knowledge
 of how the data is related to the parameters
-(i.e., if the parameters where known, what data would likely be observed?).
+(i.e., if the parameters were known, what data would likely be observed?).
 By the product rule, this yields a {\em joint prior}
 \begin{align}
 p(\x, \d) &= p(\x)p(\d | \x)
@@ -524,7 +525,7 @@ Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(L)$.
 \State $L \geq 0$
             \Comment{the tolerance} \\
 \hrulefill
-\State $\widehat{\mathbf{h}} \leftarrow [\,]$
+\State $\widehat{\mathbf{h}} \leftarrow \{\}$
             \Comment{Initialise an empty list of results}
 
 \While{more iterations desired}
@@ -556,7 +557,7 @@ Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(L)$.
             \Comment{Increment counter $k$}
     \EndWhile
 \color{black}
-    \State $\widehat{\mathbf{h}} \leftarrow \widehat{\mathbf{h}} ++ [k/N]$
+    \State $\widehat{\mathbf{h}} \leftarrow \textnormal{concatenate}\big(\widehat{\mathbf{h}}, k/N\big)$
             \Comment{Append latest estimate to results}
 \EndWhile
 \State $\widehat{h_{\rm final}} \leftarrow \frac{1}{\rm num\_iterations} \sum \widehat{\mathbf{h}}$
@@ -591,7 +592,7 @@ the constraint $d(\xref, \x) < L$ corresponds to a ball in the space
 of possible $\xref$ values.
 The log-volume of a ball of radius $L$ in $n$ dimensions is
 \begin{align}
-\log V(\epsilon; n) &= \frac{n}{2}\log \pi
+\log V(L; n) &= \frac{n}{2}\log \pi
                         - \log \Gamma\left(\frac{n}{2} + 1\right)
                         + n \log L,
 \end{align}
