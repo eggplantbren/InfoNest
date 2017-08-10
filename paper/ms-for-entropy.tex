@@ -1,0 +1,1170 @@
+%  LaTeX support: latex@mdpi.com
+%  In case you need support, please attach any log files that you could have, and specify the details of your LaTeX setup (which operating system and LaTeX version / tools you are using).
+
+%=================================================================
+
+% LaTeX Class File and Rendering Mode (choose one)
+% You will need to save the "mdpi.cls" and "mdpi.bst" files into the same folder as this template file.
+
+%=================================================================
+
+\documentclass[entropy,article,accept,oneauthor,pdftex,10pt,a4paper]{mdpi}
+%--------------------
+% Class Options:
+%--------------------
+% journal
+%----------
+% Choose between the following MDPI journals:
+% actuators, administrativesciences, aerospace, agriculture, agronomy, algorithms, animals, antibiotics, antibodies, antioxidants, appliedsciences, arts, atmosphere, atoms, axioms, batteries, behavioralsciences, beverages, bioengineering, biology, biomedicines, biomimetics, biomolecules, biosensors, brainsciences, buildings, cancers, catalysts, cells, challenges, chemosensors, children, chromatography, climate, coatings, computation, computers, cosmetics, crystals, data, dentistryjournal, diagnostics, diseases, diversity, econometrics, economies, education, electronics, energies, entropy, environments, epigenomes, fermentation, fibers, foods, forests, futureinternet, galaxies, games, gels, genealogy, genes, geosciences, geriatrics, healthcare, horticulturae, humanities, hydrology, informatics, information, inorganics, insects, ijerph, ijfs, ijms, ijns, ijgi, jcdd, jcm, jdb, jfb, jfmk, jimaging, jof, joi, jlpea, jmse, jpm, jrfm, jsan, land, languages, laws, life, lubricants, machines, marinedrugs, materials, mathematics, medicalsciences, membranes, metabolites, metals, microarrays, micromachines, microorganisms, minerals, molbank, molecules, nanomaterials, ncrna, nutrients, pathogens, pharmaceuticals, pharmaceutics, pharmacy, philosophies, photonics, plants, polymers, processes, proteomes, publications, recycling, religions, remotesensing, resources, risks, robotics, safety, sensors, sinusitis, socialsciences, societies, sports, standards, sustainability, symmetry, systems, technologies, toxics, toxins, universe, vaccines, veterinarysciences, viruses, water
+%---------
+% article
+%---------
+% The default type of manuscript is article, but could be replaced by using one of the class options:
+% article, review, communication, commentary, bookreview, correction, addendum, editorial, changes, supfile, casereport, comment, conceptpaper, conferencereport, meetingreport, discussion, essay, letter, newbookreceived, opinion, projectreport, reply, retraction, shortnote, technicalnote, creative, datadescriptor (for journal Data), briefreport, hypothesis, interestingimage
+%----------
+% submit
+%----------
+% The class option "submit" will be changed to "accept" by the Editorial Office when the paper is accepted. This will only make changes to the frontpage (e.g. the logo of the journal will get visible), the headings, and the copyright information. Journal info and pagination for accepted papers will also be assigned by the Editorial Office.
+% Please insert a blank line is before and after all equation and eqnarray environments to ensure proper line numbering when option submit is chosen
+%------------------
+% moreauthors
+%------------------
+% If there is only one author the class option oneauthor should be used. Otherwise use the class option moreauthors.
+%---------
+% pdftex
+%---------
+% The option "pdftex" is for use with pdfLaTeX only. If eps figure are used, use the optioin "dvipdfm", with LaTeX and dvi2pdf only.
+
+%=================================================================
+\setcounter{page}{1}
+\lastpage{x}
+\doinum{}       %\doinum{10.3390/------}
+\pubvolume{}    % \pubvolume{xx}
+\pubyear{2017}
+%\externaleditor{Academic Editor: xx}
+\history{In preparation}%\history{Received: xx / Accepted: xx / Published: xx}
+
+\usepackage{dsfont}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm, mathtools}
+\usepackage[noend]{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{natbib}
+\usepackage{enumerate}
+\usepackage{microtype}
+
+\DeclareUnicodeCharacter{00A0}{ }
+
+\definecolor{orange}{rgb}{1, 0.5, 0}
+\definecolor{green}{rgb}{0, 0.5, 0}
+
+\renewcommand{\d}{\boldsymbol{d}}
+\newcommand{\todo}{\color{orange} \bf}
+\newcommand{\query}{\color{green} \bf}
+\newcommand{\x}{\boldsymbol{\theta}}
+\newcommand{\bphi}{\boldsymbol{\phi}}
+\newcommand{\boldeta}{\boldsymbol{\eta}}
+\newcommand{\n}{\boldsymbol{\eta}}
+\newcommand{\depth}{(\textnormal{depth})}
+\newcommand{\xref}{\x_{\rm ref}}
+\newcommand{\ytot}{y_{\rm tot}}
+\newcommand{\ztot}{z_{\rm tot}}
+
+\newcommand{\apj}{The Astrophysical Journal}
+\newcommand{\mnras}{Monthly Notices of the Royal Astronomical Society}
+
+%------------------------------------------------------------------
+% The following line should be uncommented if the LaTeX file is uploaded to arXiv.org
+%\pdfoutput=1
+
+%=================================================================
+
+% Add packages and commands to include here
+% The amsmath, amsthm, amssymb, hyperref, caption, float and color packages are loaded by the MDPI class.
+%\usepackage{graphicx}
+%\usepackage{subfigure,psfig}
+
+%=================================================================
+%% Please use the following mathematics environments:
+% \theoremstyle{mdpi}
+% \newcounter{thm}
+% \setcounter{thm}{0}
+% \newcounter{ex}
+% \setcounter{ex}{0}
+% \newcounter{re}
+% \setcounter{re}{0}
+%
+% \newtheorem{Theorem}[thm]{Theorem}
+% \newtheorem{Lemma}[thm]{Lemma}
+% \newtheorem{Corollary}[thm]{Corollary}
+% \newtheorem{Proposition}[thm]{Proposition}
+%
+% \theoremstyle{mdpidefinition}
+% \newtheorem{Characterization}[thm]{Characterization}
+% \newtheorem{Property}[thm]{Property}
+% \newtheorem{Problem}[thm]{Problem}
+% \newtheorem{Example}[ex]{Example}
+% \newtheorem{ExamplesandDefinitions}[ex]{Examples and Definitions}
+% \newtheorem{Remark}[re]{Remark}
+% \newtheorem{Definition}[thm]{Definition}
+%% For proofs, please use the proof environment (the amsthm package is loaded by the MDPI class).
+
+%=================================================================
+
+% Full title of the paper (Capitalized)
+\Title{Computing Entropies With Nested Sampling}
+
+% Authors (Add full first names)
+\Author{Brendon J. Brewer}
+
+% Affiliations / Addresses (Add [1] after \address if there is only one affiliation.)
+\address{Department of Statistics, The University of Auckland, Private Bag 92019,
+Auckland 1142, New Zealand}
+
+%\contributed{$^\dagger$ These authors contributed equally to this work.}
+
+% Contact information of the corresponding author (Add [2] after \corres if there are more than one corresponding author.)
+\corres{{\tt bj.brewer@auckland.ac.nz}}
+
+% Abstract (Do not use inserted blank lines, i.e. \\)
+\abstract{The Shannon entropy, and related quantities such as mutual
+information, can be used to quantify uncertainty and relevance.
+However, in practice, it can be difficult to compute these quantities
+for arbitrary probability distributions, particularly if the probability
+mass functions or densities cannot be evaluated. This paper introduces a
+computational approach, based on Nested Sampling, to evaluate entropies of
+probability distributions that can only be sampled. I demonstrate the method
+on three examples: a simple gaussian example where the key quantities are
+available analytically; (ii)
+an experimental design example about scheduling observations in order
+to measure the period of an oscillating signal; and (iii) predicting the
+future from the past in a heavy-tailed scenario.}
+
+% Keywords: add 3 to 10 keywords
+\keyword{information theory; entropy; mutual information; monte carlo;
+nested sampling; bayesian inference}
+
+% The fields PACS, MSC, and JEL may be left empty or commented out if not applicable
+%\PACS{}
+%\MSC{}
+%\JEL{}
+
+% If this is an expanded version of a conference paper, please cite it here: enter the full citation of your conference paper, and add $^\dagger$ in the end of the title of this article.
+%\conference{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% For journal Data:
+
+%\dataset{DOI number or link to the deposited data set in cases where the data set is published or set to be published separately. If the data set is submitted and will be published as a supplement to this paper in the journal Data, this field will be filled by the editors of the journal. In this case, please make sure to submit the data set as a supplement when entering your manuscript into our manuscript editorial system.}
+%\datasetlicense{license under which the data set is made available (CC0, CC-BY, CC-BY-SA, CC-BY-NC, etc.)}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+
+If an unknown quantity $x$ has a discrete probability distribution $p(x)$,
+the Shannon entropy \citep{shannon, cover2012elements} is defined as
+\begin{align}
+H(x) &= -\sum_{x} p(x) \log p(x)
+\end{align}
+where the sum is over all of the possible values of $x$ under consideration.
+The entropy quantifies the degree to which the issue
+``what is the value of $x$, precisely?'' remains unresolved
+\citep{knuth_questions}. For example,
+if there is only one possible value which has probability 1, $H(x)$ is
+zero. Conventionally, $0 \times \log 0$ is defined to be equal
+to $\lim_{x \to 0^+} (x\log x)$, which is zero; i.e., `possibilities' with
+probability zero do not contribute to the sum.
+If there are $N$ possibilities with equal probabilities $1/N$ each,
+then the entropy is $H(x) = \log(N)$.
+If the space of possible $x$-values is continuous so that $p(x)$ is a
+probability density function, the differential entropy
+\begin{align}
+H(x) &= -\int p(x) \log p(x) \, dx
+\end{align}
+quantifies uncertainty by generalising the log-volume
+of the plausible region, when volume is defined with respect to $dx$.
+
+Entropies, and related quantities, tend to be analytically available only for
+a few families of probability distributions. On the numerical side, if
+$\log p(x)$ can be evaluated for any $x$, then simple Monte Carlo will suffice
+for approximating $H(x)$. On the other hand, if $p(x)$ can only be
+{\em sampled} but not evaluated (for example, if $p(x)$ is a marginal
+distribution), then this will not work. Kernel density estimation or the like
+\citep[e.g.][]{JMLR:v15:szabo14a}
+may be effective in this case, but is unlikely to generalise well to high
+dimensions.
+
+This paper introduces a computational approach to evaluating the entropy 
+$H(x)$ of probability distributions that can only be sampled
+using Markov Chain Monte Carlo (MCMC).
+
+\subsection{Notation and conventions}
+
+Throughout this paper, I use the compact
+`overloaded' notation for probability distributions favoured by many
+Bayesian writers \citep{jaynes2003probability, mackay2003information},
+writing $p(x)$ for either a probability mass function
+or a probability density function, instead
+of the more cumbersome $P(X=x)$ or $f_X(x)$.
+In the compact notation, there is no distinction between the
+`random variable' itself ($X$) and a similarly-named dummy variable ($x$).
+Probability distributions are implicitly conditional on some prior
+information, which is omitted from the notation unless necessary.
+All logarithms are written $\log$ and any base can be used, unless otherwise
+specified (for example by writing $\ln$ or $\log_{10}$). Any numerical
+values given for the value of specific entropies are in {\em nats}, i.e.,
+the natural logarithm was used.
+
+Even though the entropy is written as $H(x)$, it is imperative that we
+remember it is not a property of the value of $x$ itself, but a property
+of the probability distribution used to describe a state of ignorance about $x$.
+Throughout this paper, $H(x)$ is used as notation for both Shannon entropies
+(in discrete cases) and differential entropies (in continuous cases). Which
+one it is should be clear from the context of the problem at hand.
+I sometimes write general formulae are written in terms of sums (i.e., as they would
+appear in a discrete problem), and sometimes as integrals, as they would
+appear in a continuous problem.
+
+\section{Entropies in Bayesian inference}
+
+Bayesian inference is the use of probability theory to
+describe uncertainty, often about unknown quantities
+(`parameters') $\x$. Some data $\d$, initially unknown but
+thought to be relevant to $\x$, is obtained.
+The prior information leads the
+user to specify a prior distribution $p(\x)$ for the unknown parameters,
+along with a conditional distribution $p(\d | \x)$ describing prior knowledge
+of how the data is related to the parameters
+(i.e., if the parameters where known, what data would likely be observed?).
+By the product rule, this yields a {\em joint prior}
+\begin{align}
+p(\x, \d) &= p(\x)p(\d | \x)
+\end{align}
+which is the starting point for
+Bayesian inference \citep{caticha2008lectures, caticha2006updating}.
+In practical applications, the following operations
+are usually feasible and have a low computational cost:
+\begin{enumerate}
+  \item Points can be generated from the prior $p(\x)$;
+  \item Simulated datasets can be generated from $p(\d | \x)$ for any
+        given value of $\x$;
+  \item The likelihood, $p(\d | \x)$, can be evaluated cheaply for any
+        $\d$ and $\x$. Usually it is the log-likelihood that is actually
+        implemented, for numerical reasons.
+\end{enumerate}
+Throughout this paper I assume these operations are available and inexpensive.
+
+\subsection{The relevance of data}
+
+The entropy of the prior $p(\x)$ describes the degree to which the question
+``what is the value of $\x$, precisely?'' remains unanswered, while the
+entropy of the joint prior $p(\x, \d)$
+describes the degree to which the question
+``what is the value of the pair $(\x, \d)$, precisely?'' remains unanswered.
+The degree to which the question ``what is the value of $\x$?'' would remain
+unresolved if $\d$ were resolved is given by the
+conditional entropy
+\begin{align}
+H(\x | \d) &= - \sum_{\d} p(\d) \sum_{\x} p(\x | \d) \log p(\x | \d)
+\end{align}
+which is the expected value of the entropy of the posterior, averaged over
+all possible datasets which might be observed. 
+
+One might wish to compute $H(\x | \d)$, perhaps to compare it to
+$H(\x)$ and quantify how much might be learned about $\x$.
+This would be difficult because the expression
+for the posterior distribution
+\begin{align}
+p(\x | \d) &= \frac{p(\x)p(\d | \x)}{p(\d)}
+\end{align}
+contains the marginal likelihood:
+\begin{align}
+p(\d) &= \sum_{\x} p(\x) p(\d | \x)
+\end{align}
+also known as the `evidence', which tends to be computable but costly,
+especially when the summation is replaced by an integration over a
+high-dimensional parameter space.
+
+It is important to distinguish between $H(\x | \d)$ and the
+entropy of $\x$ given a particular value of $\d$, which might be written
+$H(\x | \d=\d_0)$.
+The former measures the degree to which one question answers
+another {\em ex ante}, and is a function of two questions.
+The latter measures the degree to which a {\em statement} answered a question
+{\em ex post}, and is a function of a question and a statement.
+
+\subsection{Mutual information}
+
+The mutual information is another way of describing the relevance of the
+data to the parameters. Its definition, and relation to other quantities, is
+\begin{align}
+I(\x; \d) &= \sum_{\x} \sum_{\d} p(\x, \d)
+                       \log\left[\frac{p(\x, \d)}{p(\x)p(\d)}\right]\\
+           &= H(\x) + H(\d) - H(\x, \d)\\
+           &= H(\d) - H(\d | \x)\\
+           &= H(\x) - H(\x | \d).
+\end{align}
+The mutual information can also be written as the expected value
+(with respect to the prior over datasets $p(\d)$) of the Kullback-Leibler
+divergence from prior to posterior:
+\begin{align}
+I(\x ; \d) &= \sum_{\d} p(\d) D_{\rm KL}\big(p(\x|\d) \, || \, p(\x)\big).
+\end{align}
+In terms of the prior, likelihood, and evidence,
+it is
+\begin{align}
+I(\x; \d) &= \sum_{\x} \sum_{\d} p(\x)p(\d | \x)
+              \left[\log p(\d | \x) - \log p(\d)\right],
+\end{align}
+i.e., the mutual information is the prior expected value of the
+log likelihood minus the log evidence.
+As with the conditional entropy, the computational
+difficulty appears in the form of the log evidence,
+$\log p(\d) = \log \left(\sum_{\x} p(\x)p(\d | \x)\right)$, which must be evaluated
+or estimated for many possible datasets.
+
+For experimental design purposes, maximising the expected amount
+of information obtained from the data is a sensible goal.
+Formally, either maximising $I(\x; \d)$ or
+minimising $H(\x | \d)$ will produce the same result because the prior $p(\x)$
+does not
+vary with the experimental design. Reference priors
+\citep{bernardo2005reference} also maximise $I(\x; \d)$ but vary the prior
+$p(\x)$
+in the maximisation process while keeping the experimental design fixed.
+
+\section{Nested Sampling}
+
+Nested Sampling (NS), introduced by
+\citet{skilling2006nested}, is an algorithm whose aim is
+to calculate the evidence
+\begin{align}
+Z &= \int \pi(\x) L(\x) \, d\x
+\end{align}
+where $\x$ is the unknown parameter(s), $\pi$ is the prior distribution,
+and $L$ is the likelihood function. The original NS algorithm, and variations
+within the same family \citep{feroz2009multinest, dns, handley2015polychord},
+have become popular tools in Bayesian data analysis
+\citep{knuth2015bayesian, pullen2014bayesian, exoplanet} and have also
+found use in statistical physics \citep{partay2010efficient,
+baldock2016determining, martiniani2014superposition}, which was another of
+its aims.
+
+While $Z$ is a simple expectation with
+respect to $\pi$, the
+implied distribution of $L$-values tends to be very heavy-tailed, which is
+why simple Monte Carlo does not work. Equivalently, the integral is dominated
+by very small regions where $L(\x)$ is high.
+
+To overcome this, NS evolves a population of $N$ particles in the parameter
+space towards higher likelihood regions.
+The particles are initially initialised from the prior $\pi(\x)$, and the
+particle with the lowest likelihood, $L^*_1$, is found and its details are
+recorded as output. This worst particle is then discarded
+and replaced by a new particle
+drawn from the prior $\pi$ but subject to the constraint that its likelihood
+must be above $L^*_1$ (this is usually achieved by cloning a surviving particle
+and evolving it with MCMC to explore
+$\pi(\x)\mathds{1}\left(L(\x) > L^*_1\right)$).
+This process is repeated, resulting in an
+increasing sequence of likelihoods
+\begin{align}
+L^*_1, L^*_2, L^*_3,... \label{eqn:likelihood_sequence}
+\end{align}
+Defining $X(\ell)$ as the amount of prior mass with likelihood greater than
+some threshold $\ell$,
+\begin{align}
+X(\ell) &= \int \pi(\x) \mathds{1}\left(L(\x) > \ell\right) \, d\x,
+\end{align}
+each discarded point in the sequence can be assigned an $X$-value,
+which transforms $Z$ to a one-dimensional integral.
+\citet{skilling2006nested}'s key insight was that the
+$X$-values of the discarded points are approximately known from the nature of the
+algorithm. Specifically, each iteration reduces the prior mass by approximately
+a factor $e^{-1/N}$. More accurately, the conditional distribution of
+$X_{i}$ given $X_{i-1}$ (and the definition of the algorithm)
+is obtainable by letting
+$t_i \sim \textnormal{Beta}(N,1)$ and setting $X_{i+1} := t_iX_{i-1}$.
+The $t_i$ variables represent the proportion of the remaining prior mass
+that is {\em retained} at each iteration, after imposing the constraint of the
+latest $L^*$ value.
+
+\subsection{The sequence of $X$ values}
+
+Consider $1-t_i$, the fraction of the remaining prior mass that is {\em removed}
+in each NS iteration.
+The distribution for the compression factors $t_i \sim $Beta$(N,1)$
+corresponds to an exponential distribution for $\ln(1-t_i)$:
+\begin{align}
+\ln (1 - t_i) &\sim \textnormal{Exponential}(N).
+\end{align}
+
+Therefore,
+the sequence of $-\ln X$ values produced by a Nested Sampling run can be
+considered as a Poisson process with rate equal to $N$, the number of
+particles. This is why separate NS runs can be simply merged
+\citep{skilling2006nested}.
+\citet{Walter2015} showed how this view of the NS sequence of points
+can be used to construct a
+version of NS that produces unbiased (in the frequentist sense)
+estimates of the evidence.
+However, it can also be used to construct an unbiased estimator of
+a log-probability, which is more relevant to information theoretic
+quantities discussed in the present paper.
+
+Consider a particular likelihood value $\ell$ whose corresponding $X$-value
+we would like to know. Since the $-\ln X_i$ values have the same distribution
+as the arrival times of a Poisson process with rate $N$, the probability
+distribution for the number of points in an interval of length $w$ is
+Poisson with expected value $Nw$. Therefore the expected number of
+NS discarded points with likelihood below $\ell$ is $-N\ln X(\ell)$:
+\begin{align}
+\big< n(L(\x_i) \leq \ell) \big> &= -N\ln X(\ell).
+\end{align}
+We can therefore take $n(L(\x_i) \leq \ell)/N$, the number of points in the
+sequence with likelihood below $\ell$ divided by the number of NS particles,
+as an unbiased estimator of $-\ln X(\ell)$. The standard deviation of the
+estimator is $\sqrt{-\ln X(\ell)/N}$.
+
+\section{The algorithm}
+
+The above insight, that the number of NS discarded points with likelihood
+below $\ell$ has expected value $-N\ln X(\ell)$, is the basis of the algorithm.
+If we wish to measure a log-probability $-\ln X(\ell)$, we can use NS to do it.
+$\pi(\x)$ and $L(\x)$ need not be the prior and likelihood respectively, but
+can be any probability distribution (over any space) and any function whose
+expected value is needed for a particular application.
+
+See Algorithm~\ref{alg:algorithm} for a step-by-step description of the
+algorithm. The algorithm is written in terms of an unknown quantity $\x$
+whose entropy is required. In applications, $\x$ may be parameters,
+a subset of the parameters, data, some function of the data,
+parameters and data jointly, or whatever.
+
+The idea is to generate a reference particle $\xref$
+from the distribution $p(\x)$
+whose entropy is required. Then, a Nested Sampling run evolves a set of
+particles $\{\x\}_{i=1}^N$, initially representing $p(\x)$,
+towards $\xref$ in order to measure the log-probability near
+$\xref$ (see Figure~\ref{fig:algorithm}).
+Nearness is defined using a distance function
+$d(\x; \xref)$, and the number of NS iterations taken to reduce
+the distance to below some threshold $L$ provides an unbiased estimate of
+\begin{align}
+   \depth = -\log \left[ P(d(\x; \xref) < L) \right]
+\end{align}
+which I call the `depth'. E.g., if $N=10$ Nested Sampling particles are used,
+and it takes 100 iterations to reduce the distance to below $L$, then the
+depth is 10 nats.
+
+If we actually want the differential entropy
+\begin{align}
+H(\x) &= -\int p(\x) \log p(\x) \, d\x
+\end{align}
+we can use the fact that density equals mass divided
+by volume. Assume $L$ is small, so that
+\begin{align}
+P(d(\x; \xref) < L \,|\, \xref)
+    &\approx
+    p(\xref) \int_{d(\x; \xref) < L} \, d\x\\
+    &= p(\xref) \, V
+\end{align}
+where $V$ is the volume of the region where $d(\x; \xref) < L$.
+Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(L)$.
+
+\begin{algorithm}
+\begin{algorithmic}
+\State {\em Set the numerical parameters:}
+\State $N \in \{1, 2, 3, ... \}$
+            \Comment{the number of Nested Sampling particles to use}
+\State $L \geq 0$
+            \Comment{the tolerance} \\
+\hrulefill
+\State $\widehat{\mathbf{h}} \leftarrow [\,]$
+            \Comment{Initialise an empty list of results}
+
+\While{more iterations desired}
+    \State $k \leftarrow 0$
+            \Comment{Initialise counter}
+    \State Generate $\xref$ from $p(\x)$
+            \Comment{Generate a reference point}
+\color{green}
+    \State Generate $\left\{\x_i\right\}_{i=1}^N$ from $p(\x)$
+            \Comment{Generate initial NS particles}
+    \State Calculate $d_i \leftarrow d(\x_i; \xref)$ for all $i$
+            \Comment{Calculate distance of each particle from the reference
+                     point}
+    \State $i^* \leftarrow \textnormal{argmin}(\lambda i \rightarrow d_i)$
+            \Comment{Find the worst particle (greatest distance)}
+    \State $d_{\rm max} \leftarrow d_{i^*}$
+            \Comment{Find the greatest distance}
+    \While{$d_{\rm max} > L$}
+        \State Replace $\x_{i^*}$ with $\x_{\rm new}$ from
+               $p\left(\x \,|\, d(\x) < d_{\rm max}\right)$
+            \Comment{Replace worst particle}
+        \State Calculate $d_{i^*} \leftarrow d(\x_{\rm new}; \xref)$
+            \Comment{Calculate distance of new particle from reference point}
+        \State $i^* \leftarrow \textnormal{argmin}(\lambda i \rightarrow d_i)$
+                \Comment{Find the worst particle (greatest distance)}
+        \State $d_{\rm max} \leftarrow d_{i^*}$
+                \Comment{Find the greatest distance}
+        \State $k \leftarrow k+1$
+            \Comment{Increment counter $k$}
+    \EndWhile
+\color{black}
+    \State $\widehat{\mathbf{h}} \leftarrow \widehat{\mathbf{h}} ++ [k/N]$
+            \Comment{Append latest estimate to results}
+\EndWhile
+\State $\widehat{h_{\rm final}} \leftarrow \frac{1}{\rm num\_iterations} \sum \widehat{\mathbf{h}}$
+            \Comment{Average results}
+\end{algorithmic}
+\caption{The algorithm which estimates the expected value of the depth:\\
+           \quad\quad$-\int p(\xref) \int p(\x)
+            \log \left[ P(d(\x; \xref) < L \,|\, \xref) \right]
+                        \, d\x \, d\xref$,\\ that is, minus the expected value of the
+        log-probability of a small region near $\xref$, which can be converted
+        to an estimate of an entropy or differential entropy.
+        The part highlighted in green is standard Nested Sampling
+        with quasi-prior $p(\x)$ and quasi-likelihood given by minus a
+        distance function $d(\x; \xref)$. The final result, $\widehat{h_{\rm final}}$, is an estimate of the expected depth.
+        \label{alg:algorithm}}
+\end{algorithm}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.5\linewidth]{figures/algorithm.pdf}
+\caption{To evaluate the log-probability (or density) of the blue
+probability distribution at the red point, Nested Sampling can be used,
+with the blue distribution playing the role of the ``prior'' in NS, and the
+Euclidian distance from the red point (illustrated with red contours)
+playing the role of the negative log-likelihood. Averaging over selections
+of the red point gives an estimate of the entropy of the blue distribution.
+\label{fig:algorithm}}
+\end{figure}
+
+If the distance function $d(\xref, \x)$ is chosen to be Euclidean,
+the constraint $d(\xref, \x) < L$ corresponds to a ball in the space
+of possible $\xref$ values.
+The log-volume of a ball of radius $L$ in $n$ dimensions is
+\begin{align}
+\log V(\epsilon; n) &= \frac{n}{2}\log \pi
+                        - \log \Gamma\left(\frac{n}{2} + 1\right)
+                        + n \log L,
+\end{align}
+
+In one dimension,
+if the threshold $L$ is not small, we might think we are calculating the entropy associated
+with the question `what is $\theta$, to within a tolerance of $\pm L$?'.
+This is not quite correct. See Appendix~\ref{sec:precisional}
+for a discussion of this
+type of question.
+
+In the following sections I demonstrate the algorithm on three
+example problems. For each of the examples, I used 1000 repetitions of NS
+(i.e., 1000 reference particles), and used 10 NS particles and 10,000 MCMC
+steps per NS iteration.
+
+\section{Example 1: Entropy of a prior for the data}
+
+This example demonstrates how the algorithm may be used to determine the
+entropy for a quantity whose distribution can only be sampled, in this case,
+a prior distribution over datasets.
+
+Consider the basic statistics problem of inferring a quantity $\mu$ from
+100 observations $\boldsymbol{x} = \{x_1, ..., x_{100}\}$ whose
+probability distribution (conditional on $\mu$) is
+\begin{align}
+p(x_i | \mu) &\sim \textnormal{Normal}(\mu, 1).
+\end{align}
+If the prior for $\mu$ is Normal$(0, 10^2)$, then the posterior is
+\begin{align}
+\mu | \boldsymbol{x} &\sim \textnormal{Normal}\left(
+                                       \frac{1}{100}\sum_{i=1}^{100} x_i,
+                                       \left[\frac{10}{\sqrt{10001}}\right]^2
+                                       \right).
+\end{align}
+The true value of the differential entropy $H(\boldsymbol{x})$ is
+available analytically
+in this case, and its value is $146.499$ nats. However, in most situations, the
+entropy of a marginal distribution is not available in closed form. 
+
+To use the algorithm, a distance function $d(,)$ must be defined, to quantify
+how far the NS particles are from the reference particle. To calculate
+the entropy of the data, I used the following distance function:
+\begin{align}
+d\left(\x; \xref\right) &= \sum_{i=1}^{100}\left(x_i - x_{{\rm ref}, i}\right)^2
+\end{align}
+
+I ran the algorithm and computed the average depth using a tolerance of
+$L=10^{-3}\sqrt{100}$, so that the RMS difference between
+points in the two datasets was about $10^{-3}$.
+From the algorithm, the estimate of the expected depth was
+\begin{align}
+\left<\depth_{\boldsymbol{x}}\right> &= 698.25 \pm 0.34.
+\end{align}
+The uncertainty here is the standard error of the mean, i.e., the
+standard deviation of the depth estimates divided by square root of
+the number of NS repetitions.
+
+The log-volume of a 100-dimensional ball of radius
+$L=10^{-3}\sqrt{100}$ is
+$-551.76$. Therefore, the differential entropy is estimated to be
+\begin{align}
+H(\boldsymbol{x}) &\approx 146.49 \pm 0.34.
+\end{align}
+which is very close to the true value (perhaps suspiciously close, but this
+was just a fluke).
+
+To carry out the sampling for this problem, Metropolis-Hastings moves that
+explore the joint prior distribution $p(\mu, \boldsymbol{x})$ had to be
+implemented. Four basic kinds of proposals were used: i) those which change
+$\mu$ while leaving $\boldsymbol{x}$ fixed; ii) those which change $\mu$ and
+shift $\boldsymbol{x}$ correspondingly; iii) those which resample a subset
+of the $x$s from $p(\boldsymbol{x}|\mu)$; and iv) those which move a single
+$x$ slightly.
+
+\section{Example 2: Measuring the period of an oscillating signal}
+
+In physics and astronomy, it is common to measure an oscillating signal
+at a set of times $\{t_1, ..., t_n\}$, in order to infer the amplitude,
+period, and phase of the signal \citep{bretthorst}.
+Here, I demonstrate the algorithm on a toy version
+of Bayesian experimental design: at what times should the signal be
+observed in order to obtain as much information as possible about the
+period? To answer this, we need to be able to calculate the mutual
+information between the unknown period and the data.
+
+As the algorithm lets us calculate the entropy of any distribution which can
+be sampled by MCMC, there are several options. The mutual information
+can be written in various ways, such as the following.
+\begin{align}
+I(\x; \d) &= H(\x) + H(\d) - H(\x, \d) \\
+I(\x; \d) &= H(\d) - H(\d|\x) \\
+I(\x; \d) &= H(\x) - H(\x|\d) \\
+I(\x; \d) &= \int p(\d) \, D_{\rm KL}\left(p(\x|\d) \,||\, p(\x)\right) \, d\d.
+\end{align}
+In a Bayesian problem where $\x$ is an unknown parameter and $\d$ is data, the
+first and second formulas would be costly to compute, because the
+high dimensional probability distribution for the dataset would require a
+large number of NS iterations to compute $H(\d)$ and $H(\x, \d)$.
+The fourth involves the Kullback-Leibler divergence from the prior to the
+posterior, averaged over all possible datasets. This is straightforward to
+approximate with standard Nested Sampling, but the estimate for a given dataset
+may be biased. This method also would not work if we want $I(\x; \d)$ for
+a single parameter or a subset of them, rather than for all of the parameters.
+Therefore, I adopted the third formula as the best way to compute $I(\x; \d)$.
+In the example, $H(\x)$ is available analytically, and I use the algorithm to
+obtain $H(\x | \d)$ as follows:
+\begin{align}
+H(\x | \d) &= \int p(\d_{\rm ref}) H(\x | \d=\d_{\rm ref}) \, d\d_{\rm ref}.
+\end{align}
+This is an expected value over datasets, of the entropy of the posterior given
+each dataset. I ran the algorithm by generating reference particles from
+$p(\x, \d)$, i.e., generating parameter values from the prior, along with
+corresponding simulated datasets. Given each simulated dataset, I used NS
+to compute an unbiased estimate of $H(\x | \d=\d_{\rm ref})$, by evolving
+a set of particles (initially from the posterior) towards the reference particle.
+The role of the ``prior'' in the NS is actually taken by the posterior, and the
+``likelihood'' was minus a distance function defined in terms of the
+parameter(s).
+
+To generate the initial
+NS particles from the posterior, I used standard MCMC (targeting the
+posterior), initialised at the $\x$-value that produced the simulated dataset
+$\d_{\rm ref}$, which is a perfect sample from the posterior.
+
+\subsection{Assumptions}
+
+I consider two possible observing strategies, both involving
+$n=101$ measurements. The `even' strategy has observations at times
+\begin{align}
+t_i = \frac{i-1}{n-1}
+\end{align}
+for $i \in \{1, 2, ..., 101\}$, that is, the observation times are
+$0, 0.01, 0.02, ..., 0.99, 1$ ---
+evenly spaced from $t=0$ to $t=1$, including the endpoints.
+The second, `uneven' observing strategy schedules the observations
+according to
+\begin{align}
+t_i = \left(\frac{i - \frac{1}{2}}{n}\right)^3
+\end{align}
+which schedules observations close together initially, and further apart
+as time goes on.
+
+A purely sinusoidal signal has the form
+\begin{align}
+y(t) &= A \sin \left(\frac{2\pi t}{T} + \phi\right)
+\end{align}
+where $A$ is the amplitude, $T$ is the period, and $\phi$ is the phase.
+Throughout this section, I parameterise the period by its logarithm,
+$\tau = \log_{10} T$. I assumed the following priors:
+\begin{align}
+\ln A   &\sim \textnormal{Normal}\left(0, 0.1^2\right)  \\
+\tau    &\sim \textnormal{Uniform}(-1, 0)  \\
+\phi    &\sim \textnormal{Uniform}(0, 2\pi)
+\end{align}
+and the following conditional prior for the data:
+\begin{align}
+Y_i | A, T, \phi &\sim \textnormal{Normal}\left(y(t_i), 0.1^2\right).
+\end{align}
+That is, the data is just the signal $y(t)$ observed at particular times
+$\{t_1, ..., t_n\}$, with gaussian noise of standard deviation 0.1.
+The amplitude of the sinusoid is very likely to be around 10 times the
+noise level, and the period is between 0.1 and 1 times the duration of
+the data. An example signal observed with the even and uneven observing schedules
+is shown in Figure~\ref{fig:sinewave}.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.7\linewidth]{figures/sinewave.pdf}
+\caption{A signal with true parameters $A=1$, $\tau=-0.5$, and
+$\phi=0$, observed with noise standard deviation 0.1 with the
+even (gold points) and uneven (green points) observing strategies.
+\label{fig:sinewave}}
+\end{figure}
+
+To carry out the sampling for this problem, Metropolis-Hastings moves that
+explore the posterior distribution $p(A, \tau, \phi | \boldsymbol{Y})$
+had to be implemented. I used heavy-tailed proposals (as in
+Section 8.3 of \citet{dnest4}) which modified one parameter at a time.
+
+\subsection{Results}
+
+Letting $\tau = \log_{10} T$, and treating
+$A$ and $\phi$ are nuisance parameters, I calculated the conditional entropy
+$H(\tau | \boldsymbol{Y})$ using the algorithm with a tolerance of $L = 10^{-5}$.
+The result was
+\begin{align}
+\left<\depth\right> &= 5.379 \pm 0.038
+\end{align}
+Converting to a differential entropy by adding $\ln (2 \times 10^{-5})$, the conditional
+entropy is
+\begin{align}
+H(\tau | \boldsymbol{Y}) &= -5.441 \pm 0.038 \textnormal{ nats}.
+\end{align}
+Since the Uniform(0,1) prior for $\tau$ has a differential entropy of zero, the
+mutual information is $I(\tau; \boldsymbol{Y}) = H(\tau) - H(\tau | \boldsymbol{Y}) = 5.441 \pm 0.038$
+nats.
+
+The results for the uneven observing schedule were
+\begin{align}
+\left<\depth\right>       &=  5.422 \pm 0.038 \\
+H(\tau | \boldsymbol{Y}) &= -5.398 \pm 0.038 \\
+I(\tau; \boldsymbol{Y})   &=  5.398 \pm 0.038 \textnormal{ nats}.
+\end{align}
+
+The difference in mutual informations between the two observation
+schedules is trivial.
+The situation may be different if we
+had allowed for shorter periods to be possible, as irregular observing
+schedules are known to reduce aliasing and ambiguity in the inferred period
+\citep{bretthorst2001nonuniform}.
+When inferring the period of an oscillating signal, multimodal posterior
+distributions for the period are common \citep{gregoryTrimodal, exoplanet}.
+The multimodality of the posterior here raises an interesting issue. Is
+the question we really want answered ``what is the value of $T$
+{\bf precisely}?'', to which the mutual information relates?
+Most practicing scientists would not feel particularly informed to learn
+that the vast majority of possibilities had been ruled out, if the
+posterior still consisted of several widely separated modes!
+Perhaps, in some applications, a more appropriate question is
+``what is the value of $T$ to within $\pm$ 10\%'', or something along these
+lines. See Appendix~\ref{sec:precisional} for more about this
+issue.
+
+In a serious experimental design situation, the relevance is not the only
+consideration (or the answer to every experimental design problem would
+be to obtain more data without limit), but it is a very important one.
+
+\section{Example 3: Data with Pareto distribution}
+
+Consider a situation where the probability distribution for some data values
+$\boldsymbol{x} = \{x_1, x_2, ..., x_n\}$ is a Pareto distribution, conditional on
+a minimum value $x_{\rm min}=1$ and a slope $\alpha$:
+\begin{align}
+p(\boldsymbol{x} | \alpha) &= \prod_{i=1}^n \frac{\alpha}{x_i^{\alpha + 1}}
+\end{align}
+where all of the $x_i$ are greater than $x_{\rm min} = 1$.
+If $\alpha$ is relatively low (close to zero) then this distribution is
+very heavy-tailed, and as $\alpha$ increases the probability density
+for the $x$s concentrates just above $x=1$.
+
+With heavy-tailed distributions, it can be difficult to predict future
+observations from past ones, a notion popularised by
+\citet{taleb2007black}. This occurs for three main reasons.
+First, the observations may not
+provide much information about the parameters (in this case, $\alpha$).
+Second, even conditional on the parameters, the predictive distribution for
+future data can be heavy-tailed, implying a lot of uncertainty.
+Finally, one may always doubt the probability assignment on which such a
+calculation is based.
+However, the data clearly provides {\em some} nonzero
+amount of information about the future.
+
+Consider $n=100$ data values, partitioned into two halves, so
+$\boldsymbol{y} = \{x_1, ..., x_{50}\} = \{y_1, ..., y_{50}\}$
+is the first half of the data and
+$\boldsymbol{z} = \{x_{51}, ..., x_{100}\} = \{z_1, ..., z_{50}\}$
+is the second half. Let $\ytot$ and $\ztot$ be the totals of the two
+subsets of the data:
+\begin{align}
+\ytot &= \sum_{i=1}^{50} y_i \\
+\ztot &= \sum_{i=1}^{50} z_i.
+\end{align}
+In this section I use the algorithm to answer the questions:
+i) How uncertain is $\ytot$?; ii) How uncertain is $\ztot$; and
+iii) How informative is $\ytot$ about $\ztot$? These are quantified by
+$H(\ytot)$, $H(\ztot)$, and $I(\ytot; \ztot)$ respectively. This can
+be done despite the fact that $\alpha$ is unknown.
+
+The prior for $\alpha$ was chosen to be lognormal such that the prior median
+of $\alpha$ is 1 and the prior standard deviation of $\ln \alpha$ is also 1.
+Due to the heavy-tailed nature of the Pareto distribution, I ran the
+algorithm in terms of $\ln \ytot$ and $\ln \ztot$. This affects the
+differential entropies but not the mutual information (which is invariant 
+under changes of parameterisation).
+The joint distribution
+for $\ln \ytot$ and $\ln \ztot$, whose properties I aimed to obtain,
+is shown in Figure~\ref{fig:pareto}.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.6\textwidth]{figures/pareto.pdf}
+\caption{The joint distribution for the log-sum of the first half of the
+`Pareto data' and the second half. The goal is to calculate the entropy of
+the marginal distributions, the entropy of the joint distribution, and
+hence the mutual information. The distribution is quite heavy tailed despite
+the logarithms, and extends beyond the domain shown in this plot.
+\label{fig:pareto}}
+\end{figure}
+
+Three types of Metropolis-Hastings proposals were used for this example:
+i) A proposal which changes $\alpha$ and modifies all of the $x$s accordingly;
+ii) A proposal which resamples a subset of the $x$s from the Pareto
+distribution; and iii) A proposal which moves a single $x$-value slightly.
+A fourth proposal which moves $\alpha$ while keeping $\boldsymbol{x}$ fixed,
+i.e., a posterior-sampling move, was not implemented.
+
+To compute the entropy of $\ln \ytot$, the distance function was just the
+absolute value of the distance between the NS particles and the
+reference particle in terms of $\ln \ytot$. The result, using a tolerance
+of $L = 10^{-3}$, was:
+\begin{align}
+\left<\depth_{\ln \ytot}\right> &= 8.851 \pm 0.057.
+\end{align}
+Correcting for the volume factor yields a differential entropy estimate
+of $H(\ln\ytot) = 2.366\pm 0.057$ nats.
+By the symmetry of the problem specification, $H(\ln\ztot) = H(\ln\ytot)$.
+
+The joint entropy $H(\ln \ytot, \ln \ztot)$ was also estimated by using
+a Euclidean distance function and a tolerance of $10^{-3}$. The result was
+\begin{align}
+\left<\depth_{(\ln \ytot, \ln \ztot)}\right> &= 16.03 \pm 0.11.
+\end{align}
+Applying the log-volume correction yields a differential entropy estimate of
+$H(\ln \ytot, \ln \ztot) = 3.40 \pm 0.11$ nats.
+Therefore, the mutual information is
+\begin{align}
+I(\ytot; \ztot) &= H(\ln\ytot) + H(\ln\ztot) - H(\ln\ytot, \ln\ztot)\\
+                &= 1.130 \pm 0.082 \textnormal{ nats}.
+\end{align}
+The variance of this mutual information estimate was reduced by
+using a common sequence of reference points for the marginal and joint entropy
+runs, an instance of the `common random numbers'
+technique\footnote{\tt http://demonstrations.wolfram.com/TheMethodOfCommonRandomNumbersAnExample/}.
+
+\section{Computational cost, limitations, and conclusion}
+
+The computational resources needed to compute these quantities was quite large,
+as Nested Sampling appears in the inner loop of the algorithm.
+However, it is worth reflecting on the complexity of the calculation that
+has been done.
+
+In a Bayesian inference problem with parameters $\x$ and data $\d$, the
+mutual information is
+\begin{align}
+I(\x; \d) &= \iint p(\x, \d)
+                        \ln \left[\frac{p(\x, \d)}{p(\x)p(\d)}\right]
+                        \, d\x \, d\d \label{eqn:mutual_info2}
+\end{align}
+and this measures the dependence between $\x$ and $\d$. A
+Monte Carlo
+strategy to evaluate this is to sample from $p(\x, \d)$ and average
+the value of the logarithm, which involves computing the log-evidence
+\begin{align}
+\ln p(\d) = \ln\left[\int p(\x)p(\d | \x) \, d\x\right]
+\end{align}
+for each possible data set.
+Computing $p(\d)$ for even a single
+data set has historically been considered difficult.
+
+However, if we want the mutual information between the data and
+{\em a subset of the parameters} (i.e., there are nuisance parameters
+we don't care about), things become even more tricky. Suppose we
+partition the parameters $\x$ into important parameters
+$\bphi$ and nuisance parameters $\boldeta$, such that we want to calculate
+the mutual information $I(\bphi; \d)$. This is given by
+\begin{align}
+I(\bphi; \d) &= \iint p(\bphi, \d)
+                        \ln \left[\frac{p(\bphi, \d)}{p(\bphi)p(\d)}\right]
+                        \, d\bphi \, d\d \label{eqn:mutual_info3}
+\end{align}
+which is equivalent to Equation~\ref{eqn:mutual_info2} but with
+$\x$ replaced throughout by $\bphi$. However, this is an even more
+difficult calculation than before, as $p(\d | \bphi)$, the marginal likelihood
+function with the nuisance parameters integrated out, is typically
+unavailable in closed form. If we were to marginalise out the nuisance
+parameters $\boldeta$ explicitly, this would give us
+Equation~\ref{eqn:mutual_info3} with every probability distribution
+written as an explicit integral over $\boldeta$:
+
+\begin{align}
+I(\bphi; \d) &= \iint
+  \left(\int p(\bphi, \boldeta)p(\d | \bphi, \boldeta) \, d\boldeta\right)
+                        \ln \left[
+  \frac{\int p(\bphi, \boldeta)p(\d | \bphi, \boldeta) \, d\boldeta}
+{p(\bphi)\int p(\bphi, \boldeta)p(\d | \bphi, \boldeta) \, d\bphi \, \d\boldeta}\right]
+                        \, d\bphi \, d\d
+\end{align}
+It should not be surprising that this is costly. Indeed, it seems possible
+to me that any {\em general} algorithm for computing entropies will have the
+property that NS (or a similar algorithm capable of measuring small volumes)
+appears in an inner loop, since entropies are sums of terms, each of which
+relates to the downset of a given statement --- the downset of a statement
+$S$ being the set of all statements that imply $S$ \citep{knuth_questions}.
+
+The algorithm as presented will tend to become less accurate on high dimensional
+problems, as the required depth of the runs will increase correspondingly,
+since many NS iterations will be required to get a high dimensional vector
+of quantities to be close to the reference vector.
+The accuracy of the $\ln\depth$ estimates should degrade in proportion to
+$\sqrt{\depth}$, due to the Poisson-process nature of the $-\ln X$ sequence.
+
+Throughout this paper, the question of how to sample from the constrained
+distributions required by NS has not been discussed in detail. For the examples,
+I used the original \citet{skilling2006nested} suggestion of using a short MCMC run
+initialised at a surviving point. In some problems, this will not be effective,
+and this will cause the resulting estimates to be incorrect, as in standard
+Nested Sampling applications. Testing the sensitivity of the results to
+changes in the number of MCMC steps used is a simple way to increase one's
+confidence in the results, but is not a guarantee.
+Despite this weakness, I hope the algorithm will be
+useful in a wide range of applications.
+
+\acknowledgments{Acknowledgements}
+It is a pleasure to thank the following people for interesting and helpful
+conversations about this topic, and/or comments on a draft:
+Ruth Angus (Flatiron Institute),
+Ewan Cameron (Oxford), James Curran (Auckland), Tom Elliott (Auckland),
+David Hogg (NYU), Kevin Knuth (SUNY Albany),
+Thomas Lumley (Auckland),
+Iain Murray (Edinburgh), Jared Tobin ({\tt jtobin.io}).
+This work was supported by Centre for eResearch
+at the University of Auckland.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\authorcontributions{Author Contributions}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\conflictofinterests{Conflicts of Interest}
+The authors declare no conflicts of interest.
+
+%=================================================================
+% References: Variant A
+%=================================================================
+% Back Matter (References and Notes)
+%----------------------------------------------------------
+% Style and layout of the references
+%\bibliographystyle{mdpi}
+\makeatletter
+\renewcommand\@biblabel[1]{#1. }
+\makeatother
+
+
+%=================================================================
+% References:  Variant B
+%=================================================================
+% Use the following option to include external BibTeX files:
+\bibliographystyle{mdpi}
+\bibliography{references}
+
+\appendix
+\section{Precisional questions}
+\label{sec:precisional}
+
+The central issue about the value of a parameter $\x$ asks
+``what is the value of $\x$, precisely?''. However, in practice we often
+don't need or want to know $\x$ to arbitrary precision. Using the central
+issue can lead to counterintuitive results if you don't keep its specific
+definition in mind. For example, suppose $x$ could take any integer value
+from 1 to 1 billion. If we learned the last digit of $x$, we
+will have ruled out nine tenths of the possibilities, and therefore obtained
+a lot of information about the central issue. However,
+this information might be useless {\em for practical purposes}.
+If we learned the final
+digit was a 9, $x$ could still be 9, or 19, or 29, any number ending in 9
+up to 999,999,999.
+
+In practice, we may
+want to ask a question that is different from the central issue.
+For example, suppose $x \in \{1, ..., 10\}$ and
+we want to know the value of $x$ to within a tolerance
+of $\pm 1$. Any of the following statements would
+resolve the issue:
+\begin{itemize}
+\item $x \in \{1, 2, 3\}$ and anything that implies it
+\item $x \in \{2, 3, 4\}$ and anything that implies it
+\item $x \in \{3, 4, 5\}$ and anything that implies it
+\item and so on.
+\end{itemize}
+According to \citet{knuth_questions}, the entropy of a question is
+computed by applying the sum rule over all statements that would answer the
+question.
+
+We can write the question of interest, $Q$, as a union of ideal questions
+(the ideal questions are downsets of statements: the set of all statements
+that imply $S$ is the downset of $S$ and is denoted $\downarrow S$):
+\begin{align}
+Q &= \left[\downarrow (x \in \{1, 2, 3\})\right] \cup
+     \left[\downarrow (x \in \{2, 3, 4\})\right] \cup
+     \left[\downarrow (x \in \{3, 4, 5\})\right] \cup ...
+\end{align}
+The entropy of this question is
+\begin{align}
+H(Q) &= h_{1,2,3}\\
+     & \quad \quad + \left(h_{2,3,4} - h_{2,3}\right) \\
+     & \quad \quad + \left(h_{3,4,5} - h_{3,4}\right) \\
+     & \quad \quad + ... \\
+     & \quad \quad + \left(h_{8,9,10} - h_{8,9}\right).
+\end{align}
+where $h_{x} = -P(x)\log P(x)$.
+
+\subsection*{Continuous case}
+
+Consider a probability density function $f(x)$, defined on the real
+line. The probability contained in an interval
+$[x_0, x_0 + L]$, which has length $L$, is
+\begin{align}
+\int_{x_0}^{x_0 + L} f(x) \, dx &= F(x_0 + L) - F(x_0)
+\end{align}
+where $F(x)$ is the cumulative distribution function (CDF).
+This probability can be considered as a function of two variables,
+$x_0$ and $L$, which I will denote by $P(,)$:
+\begin{align}
+P(x_0, L) &= F(x_0 + L) - F(x_0).
+\end{align}
+The contribution of such an interval to an entropy expression
+is $-P\log P$, i.e.,
+\begin{align}
+Q(x_0, L) &= -P(x_0, L) \log P(x_0, L).
+\end{align}
+Consider the rate of change of $Q$ as the interval is shifted to
+the right, but with its width $L$ held constant:
+\begin{align}
+\frac{\partial Q}{\partial x_0} &= \frac{\partial}{\partial x_0}
+    \left[-P\log P\right] \\
+    &= -\left[1 + \log P(x_0, L)\right]\frac{\partial P}{\partial x_0} \\
+    &= -\left[1 + \log P(x_0, L)\right]\left[f(x_0 + L) - f(x_0)\right].
+\end{align}
+Consider also the rate of change of $Q$ as the interval is
+expanded to the right, while keeping its left edge fixed:
+\begin{align}
+\frac{\partial Q}{\partial L} &= \frac{\partial}{\partial L}
+    \left[-P(x_0, L) \log P(x_0, L)\right] \\
+    &= -\left[1 + \log P(x_0, L)\right]\frac{\partial P}{\partial L} \\
+    &= -\left[1 + \log P(x_0, L)\right]f(x_0 + L).
+\end{align}
+
+The entropy of the precisional question is built up from
+$Q$ terms. The extra entropy from adding the interval
+$[x_0, x_0 + L]$ and removing the overlap $[x_0, x_0 + L - h]$, for small $h$, is
+\begin{align}
+\delta H &= Q(x_0, L) - Q(x_0, L - h)\\
+         &= h\frac{\partial Q}{\partial L} \\
+         &= -h\left[1 + \log P(x_0, L)\right]f(x_0 + L).
+\end{align}
+Therefore, the overall entropy is
+\begin{align}
+H &= -\int_{-\infty}^\infty
+        \left[1 + \log P(x-L, L)\right]f(x)
+      \, dx \\
+  &= -\int_{-\infty}^\infty
+        \left(1 + \log\left[F(x) - F(x-L)\right]\right)f(x)
+      \, dx.
+\end{align}
+Interestingly, calculating the log-probability of an interval
+to the right of $x$ gives an equivalent result:
+\begin{align}
+H' &=  -\int_{-\infty}^\infty
+        \left(1 + \log\left[F(x+L) - F(x)\right]\right)f(x)
+      \, dx \\
+   &= H.
+\end{align}
+This is not quite the same as the expected log-probability calculated by
+the version of the algorithm proposed in this paper (when the tolerance is not
+small). However, the algorithm can be made to estimate the entropy of the
+precisional question by redefining the distance function such that
+$d(\x; \xref)$ can only ever be below $L$ if $\x < \xref$ (or alternatively,
+if $\x > \xref$).
+
+\appendix
+\section{Software}
+\label{sec:software}
+
+A {\tt C++} implementation of the algorithm is available in a {\tt git}
+repository located at
+\begin{verbatim}
+https://github.com/eggplantbren/InfoNest
+\end{verbatim}
+and can be obtained using the following {\tt git} command, executed in a
+terminal:
+\begin{verbatim}
+git clone https://github.com/eggplantbren/InfoNest
+\end{verbatim}
+The following will compile the code and execute the first example from the
+paper:
+\begin{verbatim}
+cd InfoNest/cpp
+make
+./main
+\end{verbatim}
+The algorithm will run for 1000 `reps', i.e., 1000 samples of $\xref$, which is
+time consuming. Output is saved to {\tt output.txt}. At any time,
+you can execute the Python script {\tt postprocess.py} to get an estimate of
+the depth:
+\begin{verbatim}
+python postprocess.py
+\end{verbatim}
+
+By default, {\tt postprocess.py} estimates the depth with a tolerance of
+$L=10^{-3}$. This value can be changed by calling the {\tt postprocess}
+function with a different value of its argument {\tt tol}. E.g.,
+{\tt postprocess.py} can be edited so that its last line is
+{\tt postprocess(tol=0.01)} instead of {\tt postprocess()}.
+
+The numerical parameters, and the choice of which problem is being solved,
+are specified in {\tt main.cpp}. The default problem is the first example
+from the paper. For Example 2, since it is a conditional entropy which is
+being estimated (which requires a slight modification to the algorithm),
+an additional argument {\tt InfoNest::Mode::conditional\_entropy}
+must be passed to the {\tt InfoNest::execute} function.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\abbreviations{Abbreviations/Nomenclature}
+%
+%Main text.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}
+
