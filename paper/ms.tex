@@ -373,11 +373,15 @@ in the maximisation process while keeping the experimental design fixed.
 
 Nested Sampling (NS), introduced by
 \citet{skilling2006nested}, is an algorithm whose aim is
-to calculate the evidence
+to calculate the evidence {\revision
 \begin{align}
-Z &= \int \pi(\x) L(\x) \, d\x
+p(\x) &= \int p(\x) p(\d | \x) \, d\x,
 \end{align}
-where $\x$ is the unknown parameter(s), $\pi$ is the prior distribution,
+or, in the simplified notation common when discussing computational matters,
+\begin{align}
+Z &= \int \pi(\x) L(\x) \, d\x,
+\end{align}}
+\noindent where $\x$ is the unknown parameter(s), $\pi$ is the prior distribution,
 and $L$ is the likelihood function. The original NS algorithm, and variations
 within the same family \citep{feroz2009multinest, dns, handley2015polychord},
 have become popular tools in Bayesian data analysis
@@ -394,9 +398,10 @@ criterion for NS.}
 
 While $Z$ is a simple expectation with
 respect to $\pi$, the
-implied distribution of $L$-values tends to be very heavy-tailed, which is
-why simple Monte Carlo does not work. Equivalently, the integral is dominated
-by very small regions where $L(\x)$ is high.
+{\revision distribution of $L$-values implied by $\pi$}
+tends to be very heavy-tailed, which is
+why simple Monte Carlo does not work. Equivalently, the integral 
+{\revision over $\x$} is dominated by very small regions where $L(\x)$ is high.
 
 To overcome this, NS evolves a population of $N$ particles in the parameter
 space towards higher likelihood regions.
@@ -405,9 +410,16 @@ particle with the lowest likelihood, $L^*_1$, is found and its details are
 recorded as output. This worst particle is then discarded
 and replaced by a new particle
 drawn from the prior $\pi$ but subject to the constraint that its likelihood
-must be above $L^*_1$ (this is usually achieved by cloning a surviving particle
-and evolving it with MCMC to explore
-$\pi(\x)\mathds{1}\left(L(\x) > L^*_1\right)$).
+must be above $L^*_1$. {\revision This is usually achieved by cloning a surviving particle
+and evolving it with MCMC to explore the prior distribution but with
+a constraint on likelihood value, $L(\x) > L^*_1$. This `constrained prior'
+distribution has probability density proportional to
+\begin{align}
+\pi(\x)\mathds{1}\left(L(\x) > L^*_1\right)
+\end{align}
+where $\mathds{1}()$ is an indicator function which returns one if the argument
+is true and zero if it is false.}
+
 This process is repeated, resulting in an
 increasing sequence of likelihoods
 \begin{align}

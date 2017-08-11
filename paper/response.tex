@@ -79,11 +79,29 @@ terms of abstract `random variables' $X$ and $Y$. One of my subsidiary
 goals in this paper was to discuss this stuff in terms and notation more
 familiar to Bayesians.
 
-4. It would be useful to follow (13) with the calculation written in your notation rather than Skilling's.
+{\quote
+4. It would be useful to follow (13) with the calculation written in your notation rather than Skilling's.}
 
-5. After (13): Why does the implied distribution of L-values tend to be heavy-tailed?
+I decided to do this the other way around, first writing it in my notation and
+then switching to Skilling's, which is more convenient when the computational
+algorithm is being discussed.
 
-6. Just before (14) and in (15): I do not understand the notation regarding the implicit likelihood boundary involving \\mathbb\{1\}
+{\quote
+5. After (13): Why does the implied distribution of $L$-values tend to be heavy-tailed?}
+
+Imagine doing simple Monte Carlo to get $Z$, by drawing from the prior and
+collecting likelihood values, which you'll want to average. A histogram of
+those likelihood values will look ridiculous, and you might have to wait
+a million years until you get enough points such that your average becomes
+accurate, because it will be dominated by huge likelihoods which are seen
+rarely. Most NS people talk about this in terms of the parameter space, but
+it also has an interpretation in terms of a `probability distribution for
+$L$' which is implied by $\pi$.
+
+{\quote
+6. Just before (14) and in (15): I do not understand the notation regarding the implicit likelihood boundary involving \\mathbb\{1\}}
+
+I've added a bit of explanation of the indicator function notation.
 
 7. After (26) what is meant by "NS repetitions"?
 
