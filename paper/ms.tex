@@ -322,11 +322,12 @@ high-dimensional parameter space.
 
 It is important to distinguish between $H(\x | \d)$ and the
 entropy of $\x$ given a particular value of $\d$, which might be written
-$H(\x | \d=\d_0)$.
+$H(\x | \d=\d_{\rm observed})$.
 The former measures the degree to which one question answers
 another {\em ex ante}, and is a function of two questions.
-The latter measures the degree to which a {\em statement} answered a question
-{\em ex post}, and is a function of a question and a statement.
+The latter measures the degree to which {\revision a question remains unresolved
+after conditioning on a specific statement ({\em ex post})},
+and is a function of a question and a statement.
 
 \subsection{Mutual information}
 
@@ -384,6 +385,12 @@ have become popular tools in Bayesian data analysis
 found use in statistical physics \citep{partay2010efficient,
 baldock2016determining, martiniani2014superposition}, which was another of
 its aims.
+{\revision
+NS also estimates the Kullback-Leibler divergence from the prior
+$\pi(\x)$ to the posterior $\pi(x)L(x)/Z$, which Skilling calls the
+information. This is a measure of how much was learned about $\x$
+from the specific dataset, and is also useful for defining a termination
+criterion for NS.}
 
 While $Z$ is a simple expectation with
 respect to $\pi$, the
