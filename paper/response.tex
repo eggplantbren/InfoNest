@@ -1,0 +1,104 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage{amsmath}
+\usepackage{dsfont}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[left=2cm, right=2cm, bottom=3cm, top=2cm]{geometry}
+\usepackage{natbib}
+\usepackage{microtype}
+
+\renewcommand{\quote}{\em}
+
+\title{Response to referees}
+\author{Brendon J. Brewer}
+\date{}
+
+\begin{document}
+\maketitle
+
+%\abstract{\noindent Abstract}
+
+% Need this after the abstract
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{8pt}
+
+\section*{Response to John Skilling's comments}
+
+
+\section*{Response to the other reviewer's comments}
+
+{\quote
+This is a very interesting paper that pushes state-of-the-art in both theory and practice.  As a result, there is much to learn here and it will take further effort for me to fully absorb the ideas presented in this paper.  As a result, this review is being written based on what I understand of this paper to date.  Perhaps there are places in which the author can clarify the presentation.}
+
+Thanks for the positive comments. I have tried to clarify the presentation.
+
+{\quote
+Estimation of entropy (and other information-theoretic quantities) and estimation of the uncertainties of the estimates is a notoriously difficult problem.  I personally, would have benefited greatly from having access, or knowledge of, such a methodology years ago.  The paper should definitely be published after some minor edits.}
+
+That's why I started thinking about this problem...
+
+{\quote
+1. The author presents a methodology for computing entropies, and other information-theoretic quantities, using Skilling's nested sampling algorithm.  It should be noted that Skilling himself advocates the estimation of the "entropy", I believe that it is the KL-divergence, as the estimate of the uncertainty in the estimated evidence.  This should be mentioned, and possibly discussed within the context of this present paper.}
+
+{\quote
+2. With regard to the algorithm to compute the depth, it is not clear what '+ +' refers to in the step in which the latest estimate is appended to the results.  Also at that step, do the square brackets refer to an array (of one element)?  Or do they refer to some kind of rounding, which I doubt.}
+
+Sorry about the confusion. I was trying to represent the operation of
+appending one new element (a depth estimate)
+to an existing list, which in Python is {\tt +}
+and in Haskell is {\tt ++}. The square brackets were meant to represent
+the wrapping of a value within a list (to make a list of length one),
+since an append function is probably a function of two lists.
+All of this was too obscure. I have replaced it with
+\begin{align}
+$\widehat{\mathbf{h}} \leftarrow \textnormal{append}\big(\widehat{\mathbf{h}}, k/N\big)$
+\end{align}
+which is hopefully more understandable.
+
+{\quote
+3. In Section 2, the author writes "1. Points can be generated from the prior..."  Please clarify what is meant by "points".  Does the author mean samples?}
+
+Yes. I have changed points to samples.
+
+The author writes:
+"The former measures the degree to which one question answers another ex ante, and is a function of two questions. The latter measures the degree to which a statement answered a question ex post, and is a function of a question and a statement."
+which reveals that the author has really have been thinking about questions!
+
+The author also writes:
+"The mutual information is another way of describing the relevance of the data to the parameters. its definition, and relation to other quantities"
+As far as I am aware, this is a novel way of thinking about mutual information!  Very nice!
+In addition, I did not know that it could be written as the expected value of KL over datasets, which is fascinating.
+
+4. It would be useful to follow (13) with the calculation written in your notation rather than Skilling's.
+
+5. After (13): Why does the implied distribution of L-values tend to be heavy-tailed?
+
+6. Just before (14) and in (15): I do not understand the notation regarding the implicit likelihood boundary involving \\mathbb\{1\}
+
+7. After (26) what is meant by "NS repetitions"?
+
+8. After (51): I do not understand the statement "The variance of this mutual information estimate was reduced by using a common sequence of reference points for the marginal and joint entropy runs, an instance of the ‘common random numbers’ technique 1"
+
+9. It wasn't clear to me how the distance function (25) was chosen and why.
+
+10. I had some questions about how the algorithm was conceived.  I had a difficult time envisioning how the blue distribution played the role of the prior, and why.  Perhaps some explanation is necessary here since NS is usually presented to as to assume that parameter changes were implemented to maintain a uniform prior.
+
+11.  It was not entirely clear to me how the algorithm was used to estimate the entropy of a Gaussian.  How was the posterior (24) arrived at.  The prior is normal.  But what about the likelihood?  And then how was the distance measure (25) computed?
+
+
+
+There are a number of typos:
+
+1. End of Section 1: "I sometimes write general formulae are written ..."
+
+2. Missing citation in first sentence of Section 6
+
+3. After (47): question mark missing in case ii)
+
+
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
+

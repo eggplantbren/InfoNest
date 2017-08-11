@@ -195,7 +195,7 @@ the expected value of a log-probability.
 
 The Shannon entropy can be interpreted straightforwardly as a measure of
 uncertainty.} For example,
-if there is only one possible value which has probability 1, $H(x)$ is
+if there is only one possible value which has probability one, $H(x)$ is
 zero. Conventionally, $0 \times \log 0$ is defined to be equal
 to $\lim_{x \to 0^+} (x\log x)$, which is zero; i.e., `possibilities' with
 probability zero do not contribute to the sum.
@@ -280,7 +280,7 @@ Bayesian inference \citep{caticha2008lectures, caticha2006updating}.
 In practical applications, the following operations
 are usually feasible and have a low computational cost:
 \begin{enumerate}
-  \item Points can be generated from the prior $p(\x)$;
+  \item {\revision Samples} can be generated from the prior $p(\x)$;
   \item Simulated datasets can be generated from $p(\d | \x)$ for any
         given value of $\x$;
   \item The likelihood, $p(\d | \x)$, can be evaluated cheaply for any
@@ -573,7 +573,7 @@ which will need to be investigated more thoroughly in the future.}
             \Comment{Increment counter $k$}
     \EndWhile
 \color{black}
-    \State {\revision  $\widehat{\mathbf{h}} \leftarrow \textnormal{concatenate}\big(\widehat{\mathbf{h}}, k/N\big)$ }
+    \State {\revision  $\widehat{\mathbf{h}} \leftarrow \textnormal{append}\big(\widehat{\mathbf{h}}, k/N\big)$ }
             \Comment{Append latest estimate to results}
 \EndWhile
 \State $\widehat{h_{\rm final}} \leftarrow \frac{1}{\rm num\_iterations} \sum \widehat{\mathbf{h}}$
