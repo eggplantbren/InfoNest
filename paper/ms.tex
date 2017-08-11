@@ -720,7 +720,8 @@ can be written in various ways, such as the following.
 I(\x; \d) &= H(\x) + H(\d) - H(\x, \d) \\
 I(\x; \d) &= H(\d) - H(\d|\x) \\
 I(\x; \d) &= H(\x) - H(\x|\d) \\
-I(\x; \d) &= \int p(\d) \, D_{\rm KL}\left(p(\x|\d) \,||\, p(\x)\right) \, d\d.
+I(\x; \d) &= \int p(\d) \, D_{\rm KL}\left(p(\x|\d) \,||\, p(\x)\right) \, d\d\\
+I(\x; \d) &= D_{\rm KL}\left(p(\x, \d) \,||\, p(\x)p(\d)\right).
 \end{align}
 In a Bayesian problem where $\x$ is an unknown parameter and $\d$ is data, the
 first and second formulas would be costly to compute, because the
