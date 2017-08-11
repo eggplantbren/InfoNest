@@ -58,7 +58,9 @@
 
 \definecolor{orange}{rgb}{1, 0.5, 0}
 \definecolor{green}{rgb}{0, 0.5, 0}
+\definecolor{darkblue}{rgb}{0, 0, 0.7}
 
+\newcommand{\revision}{\color{darkblue}}
 \renewcommand{\d}{\boldsymbol{d}}
 \newcommand{\todo}{\color{orange} \bf}
 \newcommand{\query}{\color{green} \bf}
@@ -175,7 +177,7 @@ H(x) &= -\sum_{x} p(x) \log p(x)
 where the sum is over all of the possible values of $x$ under consideration.
 The entropy quantifies the degree to which the issue
 ``what is the value of $x$, precisely?'' remains unresolved
-\citep{knuth_questions}. More generally, the `Kullback-Leibler divergence'
+\citep{knuth_questions}. {\revision More generally, the `Kullback-Leibler divergence'
 quantifies the degree to which a probability distribution $p(x)$ departs
 from a `base' or `prior' probability distribution $q(x)$:
 \begin{align}
@@ -192,7 +194,7 @@ entropy for simplicity, and because the resulting algorithm calculates
 the expected value of a log-probability.
 
 The Shannon entropy can be interpreted straightforwardly as a measure of
-uncertainty. For example,
+uncertainty.} For example,
 if there is only one possible value which has probability 1, $H(x)$ is
 zero. Conventionally, $0 \times \log 0$ is defined to be equal
 to $\lim_{x \to 0^+} (x\log x)$, which is zero; i.e., `possibilities' with
@@ -206,20 +208,20 @@ H(x) &= -\int p(x) \log p(x) \, dx
 \end{align}
 quantifies uncertainty by generalising the log-volume
 of the plausible region, where volume is defined with respect to $dx$.
-Crucially, in continuous spaces, the differential entropy is not
+{\revision Crucially, in continuous spaces, the differential entropy is not
 invariant under changes of coordinates, so any value given for a
 differential entropy must be understood with respect to the coordinate
 system that was used. Even in discrete cases, using the Shannon entropy assumes
 that each possibility contributes equally when counting possibilities ---
-if this is inappropriate, the relative entropy should be used.
+if this is inappropriate, the relative entropy should be used.}
 
-Entropies, relative entropies, and related quantities,
+Entropies, {\revision relative entropies}, and related quantities,
 tend to be analytically available only for
 a few families of probability distributions. On the numerical side, if
 $\log p(x)$ can be evaluated for any $x$, then simple Monte Carlo will suffice
 for approximating $H(x)$. On the other hand, if $p(x)$ can only be
-{\em sampled} but not evaluated (for example, if $p(x)$ is a marginal or
-conditional distribution, or the distribution of a quantity derived from $x$),
+{\em sampled} but not evaluated (for example, if $p(x)$ is a marginal {\revision or
+conditional distribution, or the distribution of a quantity derived from $x$)},
 then this will not work. Kernel density estimation or the like
 \citep[e.g.][]{JMLR:v15:szabo14a}
 may be effective in this case, but is unlikely to generalise well to high
@@ -227,9 +229,9 @@ dimensions.
 
 This paper introduces a computational approach to evaluating the Shannon
 entropy $H(x)$ of probability distributions that can only be sampled
-using Markov Chain Monte Carlo (MCMC). The key idea is that Nested Sampling
+using Markov Chain Monte Carlo (MCMC). {\revision The key idea is that Nested Sampling
 can create an unbiased estimate of a {\em log}-probability, and entropies
-are averages of log-probabilities.
+are averages of log-probabilities}.
 
 \subsection{Notation and conventions}
 
@@ -425,6 +427,7 @@ latest $L^*$ value.
 
 \subsection{The sequence of $X$ values}
 
+{\revision
 The sequence of $X$ values is defined by
 \begin{align}
 X_1 &= t_1 \\
@@ -448,7 +451,7 @@ corresponds to an exponential distribution for $-\ln(t_i)$:
 -\ln t_i &\sim \textnormal{Exponential}(N).\label{eqn:exp}
 \end{align}
 
-From Equations~\ref{eqn:minuslogX} and~\ref{eqn:exp}, we see that
+From Equations~\ref{eqn:minuslogX} and~\ref{eqn:exp}, we see that}
 the sequence of $-\ln X$ values produced by a Nested Sampling run can be
 considered as a Poisson process with rate equal to $N$, the number of
 particles. This is why separate NS runs can be simply merged
@@ -498,7 +501,7 @@ towards $\xref$ in order to measure the log-probability near
 $\xref$ (see Figure~\ref{fig:algorithm}).
 Nearness is defined using a distance function
 $d(\x; \xref)$, and the number of NS iterations taken to reduce
-the distance to below some threshold $r$ (for `radius')
+the distance to below some threshold {\revision $r$ (for `radius')}
 provides an unbiased estimate of
 \begin{align}
    \depth = -\log \left[ P(d(\x; \xref) < r) \right]
@@ -521,14 +524,14 @@ P(d(\x; \xref) < r \,|\, \xref)
 \end{align}
 where $V$ is the volume of the region where $d(\x; \xref) < r$.
 Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(r)$.
-Reducing $r$ towards zero ought to lead to
+{\revision Reducing $r$ towards zero ought to lead to
 a more accurate result because the probability density at a point will
 be more accurately approximated by the probability of a small region containing
 the point, divided by the volume of that region.
 On the other hand, smaller values of $r$ will lead to more Nested Sampling
 iterations required, and hence less accuracy in the depth estimates.
 Thus, there is a an awkward trade-off involved in choosing the value of $r$,
-which will need to be investigated more thoroughly in the future.
+which will need to be investigated more thoroughly in the future.}
 
 \begin{algorithm}
 \begin{algorithmic}
@@ -570,7 +573,7 @@ which will need to be investigated more thoroughly in the future.
             \Comment{Increment counter $k$}
     \EndWhile
 \color{black}
-    \State $\widehat{\mathbf{h}} \leftarrow \textnormal{concatenate}\big(\widehat{\mathbf{h}}, k/N\big)$
+    \State {\revision  $\widehat{\mathbf{h}} \leftarrow \textnormal{concatenate}\big(\widehat{\mathbf{h}}, k/N\big)$ }
             \Comment{Append latest estimate to results}
 \EndWhile
 \State $\widehat{h_{\rm final}} \leftarrow \frac{1}{\rm num\_iterations} \sum \widehat{\mathbf{h}}$
@@ -592,7 +595,7 @@ which will need to be investigated more thoroughly in the future.
 \centering
 \includegraphics[width=0.5\linewidth]{figures/algorithm.pdf}
 \caption{To evaluate the log-probability (or density) of the blue
-probability distribution near the red point, Nested Sampling can be used,
+probability distribution {\revision near} the red point, Nested Sampling can be used,
 with the blue distribution playing the role of the ``prior'' in NS, and the
 Euclidian distance from the red point (illustrated with red contours)
 playing the role of the negative log-likelihood. Averaging over selections
@@ -604,9 +607,10 @@ If the distance function $d(\xref, \x)$ is chosen to be Euclidean,
 the constraint $d(\xref, \x) < r$ corresponds to a ball in the space
 of possible $\xref$ values.
 The volume of such a ball, of radius $r$ in $n$ dimensions, is
+{\revision
 \begin{align}
 V &= \frac{(\pi r^2)^{n/2}}{(\frac{n}{2})!}.
-\end{align}
+\end{align}}
 In one dimension,
 if the threshold $r$ is not small, we might think we are calculating the entropy associated
 with the question `what is $\theta$, to within a tolerance of $\pm r$?'.
@@ -792,7 +796,7 @@ The result was
 \begin{align}
 \left<\depth\right> &= 5.379 \pm 0.038
 \end{align}
-Converting to a differential entropy by adding $\ln (2r) = -10.820$, the conditional
+Converting to a differential entropy by adding {\revision $\ln (2r) = -10.820$}, the conditional
 entropy is
 \begin{align}
 H(\tau | \boldsymbol{Y}) &= -5.441 \pm 0.038 \textnormal{ nats}.
@@ -1002,15 +1006,16 @@ initialised at a surviving point. In some problems, this will not be effective,
 and this will cause the resulting estimates to be incorrect, as in standard
 Nested Sampling applications. Testing the sensitivity of the results to
 changes in the number of MCMC steps used is a simple way to increase one's
-confidence in the results, but is not a guarantee (no general guarantee can
+confidence in the results, but is not a guarantee {\revision (no general guarantee can
 exist, because any algorithm based on sampling a subset of a space might miss
-a crucial by hard-to-locate dominant spike).
+a crucial by hard-to-locate dominant spike)}.
 Despite this weakness, I hope the algorithm will be
 useful in a wide range of applications.
 
 \acknowledgments{Acknowledgements}
-I would like to thank John Skilling (MaxEnt Data Consultants) and the
-anonymous referee for their critiques.
+{\revision I would like to thank John Skilling
+(Maximum Entropy Data Consultants) and the
+anonymous referee for their comments.}
 It is a pleasure to thank the following people for interesting and helpful
 conversations about this topic, and/or comments on a draft:
 Ruth Angus (Flatiron Institute),
@@ -1164,10 +1169,10 @@ H' &=  -\int_{-\infty}^\infty
 This is not quite the same as the expected log-probability calculated by
 the version of the algorithm proposed in this paper (when the tolerance is not
 small). However, the algorithm can be made to estimate the entropy of the
-precisional question, by redefining the distance function. For a one-dimensional
+precisional question, by redefining the distance function. {\revision For a one-dimensional
 quantity of interest, the distance function can be defined such that
 $d(x; x_{\rm ref})$ can only ever be below $r$ if $x < x_{\rm ref}$ (or alternatively,
-if $x > x_{\rm ref}$).
+if $x > x_{\rm ref}$).}
 
 \appendix
 \section{Software}
