@@ -682,7 +682,8 @@ From the algorithm, the estimate of the expected depth was
 \end{align}
 The uncertainty here is the standard error of the mean, i.e., the
 standard deviation of the depth estimates divided by square root of
-the number of NS repetitions.
+the number of NS repetitions {\revision (the number of reference particles
+whose depth was evaluated)}.
 
 The log-volume of a 100-dimensional ball of radius
 $r=10^{-3}\sqrt{100}$ is
@@ -890,7 +891,7 @@ subsets of the data:
 \ztot &= \sum_{i=1}^{50} z_i.
 \end{align}
 In this section I use the algorithm to answer the questions:
-i) How uncertain is $\ytot$?; ii) How uncertain is $\ztot$; and
+i) How uncertain is $\ytot$?; ii) How uncertain is $\ztot$?; and
 iii) How informative is $\ytot$ about $\ztot$? These are quantified by
 $H(\ytot)$, $H(\ztot)$, and $I(\ytot; \ztot)$ respectively. This can
 be done despite the fact that $\alpha$ is unknown.
