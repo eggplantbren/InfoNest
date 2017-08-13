@@ -666,12 +666,16 @@ available analytically
 in this case, and its value is $146.499$ nats. However, in most situations, the
 entropy of a marginal distribution is not available in closed form. 
 
-To use the algorithm, a distance function $d(,)$ must be defined, to quantify
+To use the algorithm, a distance function $d(;)$ must be defined, to quantify
 how far the NS particles are from the reference particle. To calculate
-the entropy of the data, I used the following distance function:
+the entropy of the data, I used the following distance function,
+{\revision based on
+a simple Euclidean metric in the space of datasets:
 \begin{align}
-d\left(\x; \xref\right) &= \sum_{i=1}^{100}\left(x_i - x_{{\rm ref}, i}\right)^2
+d\left(\x; \xref\right) &= \sqrt{
+        \sum_{i=1}^{100}\left(x_i - x_{{\rm ref}, i}\right)^2}
 \end{align}
+}
 
 I ran the algorithm and computed the average depth using a tolerance of
 $r=10^{-3}\sqrt{100}$, so that the RMS difference between
