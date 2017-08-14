@@ -117,9 +117,19 @@ whose depth was estimated using an NS run. I've added a sentence to this effect.
 It is just the Euclidean distance between two data vectors, each of which
 contains 100 co-ordinates. I added a sentence to the paper to clarify this.
 
-10. I had some questions about how the algorithm was conceived.  I had a difficult time envisioning how the blue distribution played the role of the prior, and why.  Perhaps some explanation is necessary here since NS is usually presented to as to assume that parameter changes were implemented to maintain a uniform prior.
+{\quote
+10. I had some questions about how the algorithm was conceived.  I had a difficult time envisioning how the blue distribution played the role of the prior, and why.  Perhaps some explanation is necessary here since NS is usually presented to as to assume that parameter changes were implemented to maintain a uniform prior.}
 
-11.  It was not entirely clear to me how the algorithm was used to estimate the entropy of a Gaussian.  How was the posterior (24) arrived at.  The prior is normal.  But what about the likelihood?  And then how was the distance measure (25) computed?
+I know a few groups use that convention (transform the parameter space so
+the prior becomes uniform), but I never have, and there's no reason to do
+that in general, as long as it's possible to explore $\pi$ then everything
+should be fine.
+
+{\quote
+11.  It was not entirely clear to me how the algorithm was used to estimate the entropy of a Gaussian.  How was the posterior (24) arrived at.  The prior is normal.  But what about the likelihood?  And then how was the distance measure (25) computed?}
+
+I have added an extra paragraph with the intent of explaining this in more
+detail.
 
 
 {\quote

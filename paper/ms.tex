@@ -654,27 +654,51 @@ probability distribution (conditional on $\mu$) is
 \begin{align}
 p(x_i | \mu) &\sim \textnormal{Normal}(\mu, 1).
 \end{align}
-If the prior for $\mu$ is Normal$(0, 10^2)$, then the posterior is
+{\revision
+I assumed a Normal$(0, 10^2)$ prior for $\mu$.
+Before getting the data, the prior information is described by the joint
+distribution
+\begin{align}
+p(\mu, \boldsymbol{x}) &= p(\mu)p(\boldsymbol{x} | \mu).\label{eqn:joint_prior}
+\end{align}
+The prior over datasets is given by the marginal distribution
+\begin{align}
+p(\boldsymbol{x}) &= \int p(\mu, \boldsymbol{x}) \, d\mu.
+\end{align}
+This is the distribution whose differential entropy I seek in this section.
+Its true value is
+available analytically
+in this case, by noting that the posterior is available in closed form
+for any dataset:
 \begin{align}
 \mu | \boldsymbol{x} &\sim \textnormal{Normal}\left(
                                        \frac{1}{100.01}\sum_{i=1}^{100} x_i,
                                        \left[\frac{10}{\sqrt{10001}}\right]^2
                                        \right).
 \end{align}
-The true value of the differential entropy $H(\boldsymbol{x})$ is
-available analytically
-in this case, and its value is $146.499$ nats. However, in most situations, the
-entropy of a marginal distribution is not available in closed form. 
+which enables the calculation of the mutual information and hence
+$H(\boldsymbol{x})$.
+The true value of $H(\boldsymbol{x})$ is $146.499$ nats.
+However, in most situations, the
+entropy of a marginal distribution such as this is not available in closed form.
 
 To use the algorithm, a distance function $d(;)$ must be defined, to quantify
 how far the NS particles are from the reference particle. To calculate
-the entropy of the data, I used the following distance function,
-{\revision based on
-a simple Euclidean metric in the space of datasets:
+the entropy of the data, {\revision I applied the algorithm in the joint
+space of possible parameters and datasets}, i.e., distribution of reference
+particles followed Equation~\ref{eqn:joint_prior}.
+For the distance function, which helps the NS particles approach the
+reference particle, I used a
+simple Euclidean metric in the space of datasets:
 \begin{align}
 d\left(\x; \xref\right) &= \sqrt{
-        \sum_{i=1}^{100}\left(x_i - x_{{\rm ref}, i}\right)^2}
+        \sum_{i=1}^{100}\left(x_i - x_{{\rm ref}, i}\right)^2}.
 \end{align}
+Since the distance function refers only to the data $\boldsymbol{x}$
+and not the parameter $\mu$, the sampling is effectively done in the
+space of possible datasets only --- the parameter $\mu$ can be thought of
+as merely a
+latent variable that allows $p(\boldsymbol{x})$ to be explored.
 }
 
 I ran the algorithm and computed the average depth using a tolerance of
