@@ -474,7 +474,7 @@ From Equations~\ref{eqn:minuslogX} and~\ref{eqn:exp}, we see that}
 the sequence of $-\ln X$ values produced by a Nested Sampling run can be
 considered as a Poisson process with rate equal to $N$, the number of
 particles. This is why separate NS runs can be simply merged
-\citep{skilling2006nested}.
+\citep{skilling2006nested, HENDERSON201784}.
 \citet{Walter2017point} showed how this view of the NS sequence of points
 can be used to construct a
 version of NS that produces unbiased (in the frequentist sense)
@@ -547,7 +547,8 @@ Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(r)$.
 volume here is in terms of the coordinates $\x$, and that a change
 of coordinates (or a change of the definition of the distance function)
 would result in a different value of the
-differential entropy.}
+differential entropy. This is equivalent to counting possibilities
+or volumes with a different choice of base measure $q(\x)$.}
 
 {\revision Reducing $r$ towards zero ought to lead to
 a more accurate result because the probability density at a point will
@@ -708,7 +709,7 @@ Since the distance function refers only to the data $\boldsymbol{x}$
 and not the parameter $\mu$, the sampling is effectively done in the
 space of possible datasets only --- the parameter $\mu$ can be thought of
 as merely a
-latent variable that allows $p(\boldsymbol{x})$ to be explored.
+latent variable allowing $p(\boldsymbol{x})$ to be explored conveniently.
 }
 
 I ran the algorithm and computed the average depth using a tolerance of
@@ -779,7 +780,10 @@ a single parameter or a subset of them, rather than for all of the parameters.
 The prior-to-posterior KL divergence measured by standard NS is the
 amount learned about {\em all} parameters, including nuisance parameters}.
 Therefore, I adopted the third formula as the best way to compute $I(\x; \d)$.
-In the sinusoidal example, $H(\x)$ is available analytically, and I use the algorithm to
+In the sinusoidal example, the parameter of interest is the period, whereas
+the model will contain other parameters as well.
+Since the period will have its prior specified explicitly,
+$H(\x)$ will be available analytically. I then use the algorithm to
 obtain $H(\x | \d)$ as follows:
 \begin{align}
 H(\x | \d) &= \int p(\d_{\rm ref}) H(\x | \d=\d_{\rm ref}) \, d\d_{\rm ref}.
@@ -859,6 +863,9 @@ Section 8.3 of \citet{dnest4}) which modified one parameter at a time.
 Letting $\tau = \log_{10} T$, and treating
 $A$ and $\phi$ are nuisance parameters, I calculated the conditional entropy
 $H(\tau | \boldsymbol{Y})$ using the algorithm with a tolerance of $r = 10^{-5}$.
+{\revision The distance function was just the absolute difference between
+$\tau$ and $\tau_{\rm ref}$.}
+
 The result was
 \begin{align}
 \left<\depth\right> &= 5.379 \pm 0.038
@@ -1066,6 +1073,13 @@ property that NS (or a similar algorithm capable of measuring small volumes)
 appears in an inner loop, since entropies are sums of terms, each of which
 relates to the downset of a given statement --- the downset of a statement
 $S$ being the set of all statements that imply $S$ \citep{knuth_questions}.
+
+{\revision
+The current implementation of the algorithm (see Appendix~\ref{sec:software})
+is in C++ and has not been parallelised. Given the high computational
+costs, parallelisation should be attempted. This could follow
+the method of \citep{HENDERSON201784}, or alternatively, different
+threads could work on different reference particles simultaneously.}
 
 The algorithm as presented will tend to become less accurate on high dimensional
 problems, as the required depth of the runs will increase correspondingly,
