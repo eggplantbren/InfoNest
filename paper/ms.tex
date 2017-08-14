@@ -322,7 +322,7 @@ high-dimensional parameter space.
 
 It is important to distinguish between $H(\x | \d)$ and the
 entropy of $\x$ given a particular value of $\d$, which might be written
-$H(\x | \d=\d_{\rm observed})$.
+$H(\x | \d=\d_{\rm obs})$ (`obs' for observed).
 The former measures the degree to which one question answers
 another {\em ex ante}, and is a function of two questions.
 The latter measures the degree to which {\revision a question remains unresolved
@@ -616,7 +616,7 @@ which will need to be investigated more thoroughly in the future.}
 \caption{To evaluate the log-probability (or density) of the blue
 probability distribution {\revision near} the red point, Nested Sampling can be used,
 with the blue distribution playing the role of the ``prior'' in NS, and the
-Euclidian distance from the red point (illustrated with red contours)
+Euclidean distance from the red point (illustrated with red contours)
 playing the role of the negative log-likelihood. Averaging over selections
 of the red point gives an estimate of the entropy of the blue distribution.
 \label{fig:algorithm}}
@@ -978,8 +978,16 @@ I(\ytot; \ztot) &= H(\ln\ytot) + H(\ln\ztot) - H(\ln\ytot, \ln\ztot)\\
 \end{align}
 The variance of this mutual information estimate was reduced by
 using a common sequence of reference points for the marginal and joint entropy
-runs, an instance of the `common random numbers'
+runs. This is an instance of the `common random numbers'
 technique\footnote{\tt http://demonstrations.wolfram.com/TheMethodOfCommonRandomNumbersAnExample/}.
+{\revision In short, for those reference particles with a large depth
+in terms of the $\ln \ytot$ distance function, the depth in terms of the
+$(\ln \ytot, \ln \ztot)$ distance function was also large. Since the
+mutual information involves a difference of the averages of these depths,
+it is more accurate to compute the average difference 
+(i.e. compute the two depths using the same reference particle, to compute
+the difference between the two depths) than the difference of the averages.
+}
 
 \section{Computational cost, limitations, and conclusion}
 

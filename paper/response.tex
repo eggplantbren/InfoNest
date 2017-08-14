@@ -1,13 +1,20 @@
 \documentclass[a4paper, 12pt]{article}
 \usepackage{amsmath}
+\usepackage{mathtools}
 \usepackage{dsfont}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage[left=2cm, right=2cm, bottom=3cm, top=2cm]{geometry}
 \usepackage{natbib}
 \usepackage{microtype}
+\usepackage{amssymb}
+\usepackage{color}
 
-\renewcommand{\quote}{\em}
+\definecolor{orange}{rgb}{0.7, 0.25, 0}
+\definecolor{green}{rgb}{0, 0.5, 0}
+\definecolor{darkblue}{rgb}{0, 0, 0.7}
+
+\renewcommand{\quote}{\em \color{orange}}
 
 \title{Response to referees}
 \author{Brendon J. Brewer}
@@ -39,6 +46,10 @@ That's why I started thinking about this problem...
 
 {\quote
 1. The author presents a methodology for computing entropies, and other information-theoretic quantities, using Skilling's nested sampling algorithm.  It should be noted that Skilling himself advocates the estimation of the "entropy", I believe that it is the KL-divergence, as the estimate of the uncertainty in the estimated evidence.  This should be mentioned, and possibly discussed within the context of this present paper.}
+
+I have mentioned that NS computes the prior-to-posterior KL divergence, and
+that this has both an interesting interpretation and is used as a termination
+criterion. This was added to the first paragraph of Section 3.
 
 {\quote
 2. With regard to the algorithm to compute the depth, it is not clear what '+ +' refers to in the step in which the latest estimate is appended to the results.  Also at that step, do the square brackets refer to an array (of one element)?  Or do they refer to some kind of rounding, which I doubt.}
@@ -111,6 +122,8 @@ whose depth was estimated using an NS run. I've added a sentence to this effect.
 {\quote
 8. After (51): I do not understand the statement "The variance of this mutual information estimate was reduced by using a common sequence of reference points for the marginal and joint entropy runs, an instance of the ‘common random numbers’ technique 1"}
 
+I have tried to elaborate on this at the end of Section 7.
+
 {\quote
 9. It wasn't clear to me how the distance function (25) was chosen and why.}
 
@@ -122,8 +135,8 @@ contains 100 co-ordinates. I added a sentence to the paper to clarify this.
 
 I know a few groups use that convention (transform the parameter space so
 the prior becomes uniform), but I never have, and there's no reason to do
-that in general, as long as it's possible to explore $\pi$ then everything
-should be fine.
+that in general. As long as it's possible to explore $\pi$, then everything
+will be fine.
 
 {\quote
 11.  It was not entirely clear to me how the algorithm was used to estimate the entropy of a Gaussian.  How was the posterior (24) arrived at.  The prior is normal.  But what about the likelihood?  And then how was the distance measure (25) computed?}
@@ -136,14 +149,17 @@ detail.
 There are a number of typos:
 
 1. End of Section 1: "I sometimes write general formulae are written ..."}
+
 Fixed.
 
 {\quote
 2. Missing citation in first sentence of Section 6}
+
 I removed that citation.
 
 {\quote
 3. After (47): question mark missing in case ii)}
+
 Fixed.
 
 
