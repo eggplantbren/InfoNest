@@ -543,6 +543,12 @@ P(d(\x; \xref) < r \,|\, \xref)
 \end{align}
 where $V$ is the volume of the region where $d(\x; \xref) < r$.
 Then $H(\x) = \left< \depth \right>_{p(\x)} + \log V(r)$.
+{\revision It is important to remember that the definition of
+volume here is in terms of the coordinates $\x$, and that a change
+of coordinates (or a change of the definition of the distance function)
+would result in a different value of the
+differential entropy.}
+
 {\revision Reducing $r$ towards zero ought to lead to
 a more accurate result because the probability density at a point will
 be more accurately approximated by the probability of a small region containing
@@ -550,7 +556,11 @@ the point, divided by the volume of that region.
 On the other hand, smaller values of $r$ will lead to more Nested Sampling
 iterations required, and hence less accuracy in the depth estimates.
 Thus, there is a an awkward trade-off involved in choosing the value of $r$,
-which will need to be investigated more thoroughly in the future.}
+which will need to be investigated more thoroughly in the future.
+However, the algorithm as it currently stands ought to be useful for calculating
+the entropies of any low-to-moderate dimensional functions of an
+underlying high-dimensional space.}
+
 
 \begin{algorithm}
 \begin{algorithmic}
@@ -758,10 +768,18 @@ large number of NS iterations to compute $H(\d)$ and $H(\x, \d)$.
 The fourth involves the Kullback-Leibler divergence from the prior to the
 posterior, averaged over all possible datasets. This is straightforward to
 approximate with standard Nested Sampling, but the estimate for a given dataset
-may be biased. This method also would not work if we want $I(\x; \d)$ for
+may be biased. {\revision It is quite plausible that the bias is negligible
+compared to the variance from averaging over many datasets. This is probably
+true in many situations}.
+
+However, more significantly, the above method
+would not work if we want $I(\x; \d)$ for
 a single parameter or a subset of them, rather than for all of the parameters.
+{\revision
+The prior-to-posterior KL divergence measured by standard NS is the
+amount learned about {\em all} parameters, including nuisance parameters}.
 Therefore, I adopted the third formula as the best way to compute $I(\x; \d)$.
-In the example, $H(\x)$ is available analytically, and I use the algorithm to
+In the sinusoidal example, $H(\x)$ is available analytically, and I use the algorithm to
 obtain $H(\x | \d)$ as follows:
 \begin{align}
 H(\x | \d) &= \int p(\d_{\rm ref}) H(\x | \d=\d_{\rm ref}) \, d\d_{\rm ref}.
@@ -774,7 +792,7 @@ to compute an unbiased estimate of $H(\x | \d=\d_{\rm ref})$, by evolving
 a set of particles (initially from the posterior) towards the reference particle.
 The role of the ``prior'' in the NS is actually taken by the posterior, and the
 ``likelihood'' was minus a distance function defined in terms of the
-parameter(s).
+parameter(s) of interest.
 
 To generate the initial
 NS particles from the posterior, I used standard MCMC (targeting the

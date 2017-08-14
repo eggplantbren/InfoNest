@@ -31,6 +31,197 @@
 
 \section*{Response to John Skilling's comments}
 
+{\quote
+This is an interesting paper, which addresses how to compute entropy values directly, without explicit
+evaluation of the underlying probability distribution. There are a few places where I feel that presentation
+could be improved, which I list below. Nevertheless, I should note two particular points.
+
+1. Definition of entropy}
+
+I agree with Skilling that the fundamental definition of entropy involves
+a base measure $q(x)$, and that relative entropies or KL divergences are the
+appropriate objects to be working with. However, since (as he points out)
+the algorithm more naturally involves the averages of log probabilities,
+I have decided to leave most of the discussion in terms of Shannon entropies.
+However, I have added extra discussion to the introduction, about how using
+the Shannon entropy is equivalent to a uniform $q$, and cautioning that
+this should be kept in mind. I have also added some text after the definition
+of the log-volume of a ball of radius $r$, which clarifies where the implicit
+assumption of a uniform $q(x)$ comes into the procedure.
+
+{\quote
+2. Possible future work
+There is an infelicity at the heart of the author’s approach. The little target balls of radius $L$ need to be
+small in order to avoid undue smudging of the pointwise values being estimated. Yet, as L shrinks, the
+estimates lose accuracy because of the square-root-N variability of nested-sampling volumes. So the user
+will need to compromise, and it’s possible that future work may discover how to ameliorate this.}
+
+This is an excellent point, and something I have worried about. I have added
+some discussion of this in Section 4 (search for the paragraph containing
+`trade-off'). I think the current algorithm will still work well when the
+thing we want the entropy of is low-dimensional, even if it's some function of
+an underlying high-dimensional quantity.
+
+{\quote
+I suggest that applying the author’s method directly to the Kullback-Leibler form (equations 11 and
+12) may offer a better way forward.}
+
+It was not obvious to me how this would work (except perhaps from using a
+distance function defined in the coordinate system in which $q$ is uniform).
+I will think about it, and present any future work in this way if it is
+sufficiently neat.
+
+{\quote 
+Near the end of page 9, the author argues against trying that
+because “the estimate for a given dataset may be biassed”. Possibly so, though I would argue that the
+dominant uncertainty with nested sampling is statistical, with numerical biasses (of sensible quantities)
+being considerably less. Anyway, it’s not entirely clear in these nonlinear problems whether bias matters
+much. I have in mind the Bayesian evidence Z, where an unbiassed estimate would give a seriously
+biassed estimate of the logarithm log Z (which is what matters for Bayes factors), and vice versa.
+The advantage of aiming at KL is that the statistic can be computed “for free” parasitically upon
+a nested sampling run. In fact, I myself use apparent convergence of KL as the most reliable general
+termination criterion I have yet found. (Hint to author: it converges quicker if it’s evaluated as the sum
+$KL =
+X \delta L
+Z
+log
+L
+Z$
+over likelihood L, rather than using the corresponding weighted sum over prior mass shells $\delta X$ that’s
+better for getting Z and the posterior.)}
+
+It is not the bias that I was particularly worried about. I have added a
+comment about the bias potentially being negligible in many applications.
+What I was more concerned about was being able to integrate over nuisance
+parameters as well. I can't see a way to get the prior-to-posterior
+KL divergence {\em of nuisance parameters only} using standard NS, but I can
+get it using my approach.
+
+
+{\quote
+To the editors: I am not suggesting that there’s anything wrong with the author’s proposals. We
+advance by trying things, and even if something does become superseded — which this may not — it
+1still gives helpful perspective.}
+
+I agree. In fact, this paper has gone through a few distinct stages where I
+started seeing better ways of doing certain things. It's possible that it
+will be superseded quickly, but I do think it's an advance. I'd like to get
+people thinking about Nested Sampling in different scenarios, i.e., where
+pi and L are 'any distribution' and 'any scalar function' rather than necessarily
+being prior and likelihood. We might find applications to things other than
+data analysis and statistical mechanics by doing that.
+
+
+{\quote
+Minor improvements
+1. Wrong English in last sentence of 1.1 (page 2).}
+
+Fixed.
+
+{\quote
+2. “were” not “where” at beginning of 2 (page 2) — use brain not spellchecker.}
+
+Fixed.
+
+{\quote
+3. I found the notation a bit confusing. $H(\theta | d)$ looks like a function of the posterior $\theta$’s at specific
+data d, whereas it actually means the average hHi for unknown d. I agree that it’s unnecessarily fussy
+to write the formally correct H(P (· | ·)) for H as a functional of the posterior as a function of arbitrary
+arguments which readers are supposed to remember are parameters and data. However, angle brackets,
+$hH(\theta | d)i$ or $H(\theta | d)i d$ would have helped me by giving a useful clue. They might also let the author
+avoid the idiosyncratic $H(\theta | d = d 0 )$ by writing $H(\theta | d 0 )$ without the angle brackets for H at the specific
+d 0 .
+There are various overloaded definitions of H according to type of argument (see equations 8, 9, 10).
+Introducing an explicit common format
+X X
+H(argument) $\equiv$
+p($\theta$, d) log p(argument)
+would bring these together and incidentally help to stress the basic point that the paper is addressing
+averages of logarithms.}
+
+I thought about this for a while, and decided not to change the notation much.
+The reason is that my notation is closer to what is used in introductory
+information theory texts. One usually sees things such as $H(Y|X=x)$
+and $H(Y|X)$, where the latter is the expected value of the former (averaged
+over $X$). This is the standard definition of conditional entropy.
+I think my writing makes it clear what I mean.
+However, in my idiosyncratic $H(\theta | d = d_0)$ I decided to change the
+subscript 0 to a subscript obs for observed.
+
+{\quote
+4. At the top of page 5, I find it a bit nicer to initialise nested sampling with X 0 = 1 rather than
+X 1 = t 1 . That also helps with the evaluation...}
+
+Unfortunately we have competing tastes again at this point.
+I don't like to include $X_0$ because there's no zeroth iteration of Nested Sampling.
+
+{\quote
+5. I realise that L is the active constraint during iterations, but I wonder if readers might get confused
+by the use of symbol L as radius (mnemonic length?) whereas the standard usage has been L = likelihood.}
+
+Yes, $L$ was for length, and it was unintentional that I had $L$ for both
+likelihood and length. I've changed this to $r$ for radius throughout.
+
+{\quote
+6. Equation 27 is messy in form and mistaken in typography. My memorable formula for
+the volume of a hypersphere is}
+
+Fixed, and I've replaced the volume formula with the given (easier to read and
+remember) suggestion.
+
+{\quote
+7. Near the bottom of page 7 (Algorithm 1), I was confused by
+b
+h $\leftarrow$ b
+h + + [k/N ]
+Why double +? Why the space between them? Do square brackets mean integer rounding? If so, should
+it be [k]/N ?}
+
+Sorry about the confusion. I was trying to represent the operation of
+appending one new element (a depth estimate)
+to an existing list, which in Python is {\tt +}
+and in Haskell (my current flavour of the month language) is {\tt ++}. The square brackets were meant to represent
+the wrapping of a value within a list (to make a list of length one),
+since an append function is probably a function of two lists.
+All of this was too obscure. I have replaced it with
+\begin{align}
+\widehat{\mathbf{h}} \leftarrow \textnormal{append}\big(\widehat{\mathbf{h}}, k/N\big)
+\end{align}
+which is hopefully more understandable.
+
+{\quote
+8. In the caption of Figure 1, “around the red point” or “at the red ball” might be better than “at
+the red point”.}
+
+Changed.
+
+{\quote
+9. At equation 29,
+1/100
+should be
+1/100.01
+to conform to the 4-figure accuracy elsewhere.}
+
+That was actually a mistake (I forgot to factor in the non-uniform prior),
+rather than overzealous rounding. Thanks for noticing it.
+
+{\quote
+10. Below equation (45), I think ``$\ln(2 \times 10 ^{-5} )$'' would better be explained as ``ln(2L) = -10.820''.}
+
+Fixed. It now says $\ln (2r)$.
+
+{\quote
+11. In the last paragraph of the text (page 19), there is a correct statement about how “to increase
+one’s confidence in the results, [without getting] a guarantee”. It might be worth pointing out that there
+can never be such a guarantee for any method that relies on pointwise evaluations, because there will
+always be some risk of a dominant spike being missed.}
+
+I've added such a sentence.
+
+{\quote
+12. In the references, my search for ref. 20 gave me “Statistics and Computing, 2017, 27, 219–236”.}
+
+Somehow my bibliography file had become corrupted. I have fixed this.
 
 \section*{Response to the other reviewer's comments}
 
@@ -52,7 +243,17 @@ that this has both an interesting interpretation and is used as a termination
 criterion. This was added to the first paragraph of Section 3.
 
 {\quote
-2. With regard to the algorithm to compute the depth, it is not clear what '+ +' refers to in the step in which the latest estimate is appended to the results.  Also at that step, do the square brackets refer to an array (of one element)?  Or do they refer to some kind of rounding, which I doubt.}
+2. With regard to the algorithm to compute tSorry about the confusion. I was trying to represent the operation of
+appending one new element (a depth estimate)
+to an existing list, which in Python is {\tt +}
+and in Haskell is {\tt ++}. The square brackets were meant to represent
+the wrapping of a value within a list (to make a list of length one),
+since an append function is probably a function of two lists.
+All of this was too obscure. I have replaced it with
+\begin{align}
+\widehat{\mathbf{h}} \leftarrow \textnormal{append}\big(\widehat{\mathbf{h}}, k/N\big)
+\end{align}
+which is hopefully more understandable.he depth, it is not clear what '+ +' refers to in the step in which the latest estimate is appended to the results.  Also at that step, do the square brackets refer to an array (of one element)?  Or do they refer to some kind of rounding, which I doubt.}
 
 Sorry about the confusion. I was trying to represent the operation of
 appending one new element (a depth estimate)
