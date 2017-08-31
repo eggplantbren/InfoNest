@@ -1,0 +1,105 @@
+\documentclass[12pt]{article}
+
+\usepackage{microtype}
+% \documentstyle{iascars2017}
+
+% \usepackage{iascars2017}
+
+\pagestyle{myheadings} 
+\pagenumbering{arabic}
+\topmargin 0pt \headheight 23pt \headsep 24.66pt
+%\topmargin 11pt \headheight 12pt \headsep 13.66pt
+\parindent = 3mm 
+
+
+\begin{document}
+
+
+\begin{flushleft}
+
+
+{\LARGE\bf Computing Entropies with Nested Sampling}
+
+
+\vspace{1.0cm}
+
+Brendon J. Brewer$^1$
+
+\begin{description}
+
+\item $^1 \;$ Department of Statistics, The University of Auckland,
+Private Bag 92019, Auckland 1142, New Zealand
+
+\end{description}
+
+\end{flushleft}
+
+%  ***** ADD ENOUGH VERTICAL SPACE HERE TO ENSURE THAT THE *****
+%  ***** ABSTRACT (OR MAIN TEXT) STARTS 5 CM BELOW THE TOP *****
+
+\vspace{0.75cm}
+
+\noindent {\bf Abstract}. The Nested Sampling algorithm, invented in the
+mid-2000s by John Skilling, represented a major advance in Bayesian computation.
+Whereas Markov Chain Monte Carlo (MCMC) methods are usually effective for sampling
+posterior distributions, Nested Sampling also calculates the marginal likelihood
+integral used for model comparison, which is a computationally demanding task.
+However, there are other kinds of integrals that we might want to compute.
+Specifically, the entropy, relative entropy, and mutual information,
+which quantify uncertainty and relevance, are all integrals whose form is
+inconvenient in most practical applications. I will present my technique,
+based on Nested Sampling, for estimating these quantities for probability
+distributions that are only accessible via MCMC sampling.
+This includes posterior
+distributions, marginal distributions, and distributions of derived quantities.
+I will present an example from experimental design, where one wants to
+optimise the relevance of the data for inference of a parameter.
+
+\vskip 2mm
+
+\noindent {\bf Keywords}.
+Bayesian inference, Nested Sampling, Markov Chain Monte Carlo,
+Information theory
+
+%\section{ First-level heading}
+%The C98 head 1 style leaves a half-line spacing below a
+%first-level heading. There should be one blank line above
+%a first-level heading.
+%        
+%\subsection { Second-level heading}
+%There should also be one blank line above a second- or
+%third-level heading (but no extra space below them).
+%
+%Do not intent the first paragraph following a heading.
+%Second and subsequent paragraphs are indented by one Tab
+%character (= 3 mm). If footnotes are used, they should be
+%placed at the foot of the page\footnote{ Footnotes are separated
+%from the text by a blank line and a printed line of length 3.5 cm.
+%They should be printed in 9-point Times Roman in single line spacing.}.
+%        
+%\subsubsection { Third-level heading}
+%Please specify references using the conventions
+%illustrated below. Each should begin on a new line, and
+%second and subsequent lines should be on the same page
+%indented by 3 mm.
+
+\subsection*{References}
+
+\begin{description}
+
+\item Brewer, B. J. (2017).
+\textit{Computing Entropies with Nested Sampling.}
+Entropy, 19, 422.
+
+\item Skilling, J. (2006).
+\textit{Nested Sampling for General Bayesian Computation.}
+Bayesian analysis, 1(4), 833-859.
+
+\end{description}
+
+\end{document}
+
+
+
+
+
