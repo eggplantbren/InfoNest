@@ -67,5 +67,5 @@ def postprocess(tol=1E-3):
 
 
 if __name__ == "__main__":
-    postprocess()
+    postprocess(tol=1E-3*np.sqrt(100.0))
 
