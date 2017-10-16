@@ -209,6 +209,27 @@ p(d) &= \int p(\theta) p(d|\theta) \, d\theta
 \end{frame}
 
 
+% New slide
+\begin{frame}
+\frametitle{Nested Sampling uses {\em constrained priors}}
+Instead of using a sequence of distributions
+defined by $\pi(\theta)L(\theta)^{1/T}$, use a sequence defined by
+
+\begin{align*}
+p(\theta; \ell) &\propto \left\{
+    \begin{array}{lr}
+        \pi(\theta), & L(\theta) > \ell\\
+        0,           & \textnormal{otherwise}.
+    \end{array}
+\right.
+\end{align*}
+and have $\ell$ increase at a controlled rate, so that enclosed prior mass
+shrinks {\em geometrically}.
+
+\end{frame}
+
+
+
 
 % New slide
 \begin{frame}
