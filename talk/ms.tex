@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{dsfont}
 \usepackage{multimedia}
+\usepackage{hyperref}
 
 \usetheme{Warsaw}
 \usecolortheme{crane}
@@ -15,7 +16,7 @@
 \author{Brendon J. Brewer}
 \institute{Department of Statistics\\
 The University of Auckland}
-\date{{\tt \color{blue} https://www.stat.auckland.ac.nz/\~{ }brewer/}}
+\date{\color{blue}\url{https://www.stat.auckland.ac.nz/~brewer/}}
 
 \begin{document}
 
@@ -80,15 +81,101 @@ i.e., $p_i = 1/N$, then $H = \log N$. \vspace{0.5em}
 
 % New slide
 \begin{frame}
-\frametitle{Statements and questions}
-Consider a problem with three mutually exclusive, exhaustive possibilities
-$a$, $b$, and $c$. The lattice of statements is
+\frametitle{Entropy quantifies uncertainty}
+If there are just $N$ equally likely possibilities,
+i.e., $p_i = 1/N$, then $H = \log N$. \vspace{0.5em}
 
-
-
-
+\begin{center}
+\includegraphics[width=0.6\textwidth]{entropy2.pdf}
+\end{center}
 
 \end{frame}
+
+% New slide
+\begin{frame}
+\frametitle{Entropy quantifies uncertainty}
+If there are just $N$ equally likely possibilities,
+i.e., $p_i = 1/N$, then $H = \log N$. \vspace{0.5em}
+
+\begin{center}
+\includegraphics[width=0.6\textwidth]{entropy3.pdf}
+\end{center}
+
+\end{frame}
+
+
+% New slide
+\begin{frame}
+\frametitle{What about densities?}
+We get `differential entropy'
+
+\begin{align}
+H = - \int_{\textnormal{all }x} f(x) \log f(x) \, dx
+\end{align}
+
+This generalises log-volume, as defined {\bf with respect to} $dx$.
+
+\begin{alertblock}{Important}
+Differential entropy is {\em coordinate-system dependent}.
+\end{alertblock}
+
+\end{frame}
+
+
+
+% New slide
+\begin{frame}
+\frametitle{Statements and questions}
+Consider a problem with three mutually exclusive, exhaustive possibilities
+\texttt{a}, \texttt{b}, and \texttt{c}.
+
+
+\begin{center}
+  \includegraphics[width=0.3\textwidth]{lattice1.pdf}
+\end{center}
+
+\end{frame}
+
+
+
+% New slide
+\begin{frame}
+\frametitle{Some entropies in Bayesian statistics}
+Writing them in terms of parameters $\boldsymbol{\theta}$ and data
+$d$, for Bayesian purposes.
+
+\begin{enumerate}
+\item Entropy of the prior for the parameters $H(\boldsymbol{\theta})$
+\item Entropy of the conditional prior for the data $H(\boldsymbol{\theta} | d)$
+\item Entropy of the posterior $H(\boldsymbol{\theta} | d)$
+\item Entropy of the prior for the data $H(d)$
+\end{enumerate}
+
+Note: {\em conditional entropies} such as (2) and (3)
+are defined using an expectation over the quantity conditioned upon.
+
+\end{frame}
+
+
+% New slide
+\begin{frame}
+\frametitle{Connections}
+
+Entropy of the joint prior:
+\begin{align}
+H(\boldsymbol{\theta}, d) &= H(\boldsymbol{\theta}) + H(d | \boldsymbol{\theta}) \\
+                          &= H(d) + H(\boldsymbol{\theta} | d).
+\end{align}
+
+Mutual information:
+\begin{align}
+I(\boldsymbol{\theta}; d) &= H(\boldsymbol{\theta}) - H(\boldsymbol{\theta} | d).
+\end{align}
+This quantities dependence --- or more fundamentally,
+relevance, or the potential for learning.
+
+\end{frame}
+
 
 
 
@@ -99,28 +186,14 @@ $a$, $b$, and $c$. The lattice of statements is
 On the connection between Shannon entropy and thermodynamic entropy,
 see: \vspace{2em}
 
-{\footnotesize Jaynes, Edwin T. ``Gibbs vs Boltzmann entropies.''
-American Journal of Physics 33, no. 5 (1965): 391-398. \\
-}
-
-\end{frame}
-
-
-
-% New slide
-\begin{frame}
-\frametitle{References II.}
-
-On the connection between Shannon entropy and thermodynamic entropy,
-see: \vspace{2em}
-
-{\footnotesize Jaynes, Edwin T. ``Gibbs vs Boltzmann entropies.''
+{\tiny Jaynes, Edwin T. ``Gibbs vs Boltzmann entropies.''
 American Journal of Physics 33, no. 5 (1965): 391-398. \\
 
 Brewer, Brendon J. ``Unscrambling the Second Law of Thermodynamics''
-{\color{blue} \tt
-http://quillette.com/2016/01/28/unscrambling-the-second-law-of-thermodynamics/}
+{\color{blue}
+  \url{https://quillette.com/2016/01/28/unscrambling-the-second-law-of-thermodynamics}
 }
+} % tiny
 
 \end{frame}
 
