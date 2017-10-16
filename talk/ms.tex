@@ -34,13 +34,61 @@ two are connected).
 
 % New slide
 \begin{frame}
-\frametitle{What is entropy?}
+\frametitle{Shannon entropy}
 
-Firstly, I'm talking about information theory, not thermodynamics (though the
-two are connected).
+Consider a discrete probability distribution with probabilities
+$\boldsymbol{p} = \{p_i\}$. The Shannon entropy is
+\begin{align}
+H(\boldsymbol{p}) &= -\sum_i p_i \log p_i
+\end{align}
+
+It is a real-valued property of the distribution.
 
 \end{frame}
 
+
+
+% New slide
+\begin{frame}
+\frametitle{Relative entropy}
+
+Consider two discrete probability distributions with probabilities
+$\boldsymbol{p} = \{p_i\}$ and $\boldsymbol{q} = \{q_i\}$.
+The relative entropy is
+\begin{align}
+H(\boldsymbol{p}; \boldsymbol{q}) &= -\sum_i p_i \log\left(\frac{p_i}{q_i}\right)
+\end{align}
+Without the minus sign,
+it's the `Kullback-Leibler divergence', and is more fundamental than the
+Shannon entropy. With uniform $\boldsymbol{q}$, it reduces to the Shannon
+entropy (up to an additive constant).
+\end{frame}
+
+
+% New slide
+\begin{frame}
+\frametitle{Entropy quantifies uncertainty}
+If there are just $N$ equally likely possibilities,
+i.e., $p_i = 1/N$, then $H = \log N$. \vspace{0.5em}
+
+\begin{center}
+\includegraphics[width=0.6\textwidth]{entropy1.pdf}
+\end{center}
+
+\end{frame}
+
+
+% New slide
+\begin{frame}
+\frametitle{Statements and questions}
+Consider a problem with three mutually exclusive, exhaustive possibilities
+$a$, $b$, and $c$. The lattice of statements is
+
+
+
+
+
+\end{frame}
 
 
 
