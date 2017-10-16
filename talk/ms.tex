@@ -188,6 +188,26 @@ parameters.
 \end{frame}
 
 
+% New slide
+\begin{frame}
+\frametitle{Hard integrals}
+
+E.g.
+\begin{align}
+H(\theta|d) &= -\int p(d) \int p(\theta|d) \log p(\theta|d) \, d\theta \, dd \\
+            &= -\int p(d) \int p(\theta|d)
+                    \log\left[\frac{p(\theta)p(d|\theta)}{p(d)}\right] \, d\theta \, dd
+\end{align}
+
+But $p(d)$, sitting there inside a logarithm, is already supposed to be
+a hard integral (the marginal likelihood / evidence)...
+
+\begin{align}
+p(d) &= \int p(\theta) p(d|\theta) \, d\theta
+\end{align}
+
+\end{frame}
+
 
 
 % New slide
