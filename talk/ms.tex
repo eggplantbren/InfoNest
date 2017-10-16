@@ -130,13 +130,13 @@ Differential entropy is {\em coordinate-system dependent}.
 % New slide
 \begin{frame}
 \frametitle{Some entropies in Bayesian statistics}
-Written them in terms of parameters $\boldsymbol{\theta}$ and data
+Written them in terms of parameters $\theta$ and data
 $d$, for Bayesian purposes.
 
 \begin{enumerate}
-\item<2-> Entropy of the prior for the parameters $H(\boldsymbol{\theta})$
-\item<3-> Entropy of the conditional prior for the data $H(\boldsymbol{\theta} | d)$
-\item<4-> Entropy of the posterior $H(\boldsymbol{\theta} | d)$
+\item<2-> Entropy of the prior for the parameters $H(\theta)$
+\item<3-> Entropy of the conditional prior for the data $H(\theta | d)$
+\item<4-> Entropy of the posterior $H(\theta | d)$
 \item<5-> Entropy of the prior for the data $H(d)$
 \end{enumerate}
 
@@ -160,13 +160,13 @@ are defined using an expectation over the quantity conditioned upon.
 
 Entropy of the joint prior:
 \begin{align}
-H(\boldsymbol{\theta}, d) &= H(\boldsymbol{\theta}) + H(d | \boldsymbol{\theta}) \\
-                          &= H(d) + H(\boldsymbol{\theta} | d).
+H(\theta, d) &= H(\theta) + H(d | \theta) \\
+                          &= H(d) + H(\theta | d).
 \end{align}
 
 Mutual information:
 \begin{align}
-I(\boldsymbol{\theta}; d) &= H(\boldsymbol{\theta}) - H(\boldsymbol{\theta} | d).
+I(\theta; d) &= H(\theta) - H(\theta | d).
 \end{align}
 This quantifies dependence --- or more fundamentally,
 relevance, or the potential for learning.
