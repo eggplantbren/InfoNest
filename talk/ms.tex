@@ -160,7 +160,7 @@ $d$, for Bayesian purposes.
 
 \begin{enumerate}
 \item<2-> Entropy of the prior for the parameters $H(\theta)$
-\item<3-> Entropy of the conditional prior for the data $H(\theta | d)$
+\item<3-> Entropy of the conditional prior for the data $H(d | \theta)$
 \item<4-> Entropy of the posterior $H(\theta | d)$
 \item<5-> Entropy of the prior for the data $H(d)$
 \end{enumerate}
@@ -174,7 +174,8 @@ $d$, for Bayesian purposes.
 
 \begin{block}{Remark}
 {\em Conditional entropies} such as (2) and (3)
-are defined using an expectation over the quantity conditioned upon.
+are defined using an expectation over the second argument
+(the thing conditioned on).
 \end{block}
 
 \end{frame}
