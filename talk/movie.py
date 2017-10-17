@@ -46,6 +46,7 @@ k = 1
 for rep in range(10):
 
     # First image
+    plt.clf()
     plt.figure(figsize=(8, 7))
     plt.imshow(p, extent=[x.min(), x.max(), y.min(), y.max()],
                cmap="Blues")
@@ -90,8 +91,8 @@ for rep in range(10):
         worst = np.nonzero(dist == np.max(dist))[0]
         plt.plot(ns_points["x"][worst], ns_points["y"][worst], "^", color="black",
                  markersize=10, alpha=0.8)
-        plt.savefig("movie/image{k}.png".format(k=i+5), bbox_inches="tight")
-        print("Saved movie/image{k}.png".format(k=i+5))
+        plt.savefig("movie/image{k}.png".format(k=k), bbox_inches="tight")
+        print("Saved movie/image{k}.png".format(k=k))
 
         # Replace worst point
         threshold = dist[worst]
