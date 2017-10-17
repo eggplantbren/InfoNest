@@ -68,3 +68,12 @@ plt.title("Distance from the reference point")
 plt.savefig("movie/image3.png", bbox_inches="tight")
 print("Saved movie/image3.png")
 
+
+# Add Nested Sampling points
+ns_points = generate(10)
+plt.plot(ns_points["x"], ns_points["y"], "*", color="green",
+         markersize=10, alpha=0.8)
+plt.title("Nested Sampling live points")
+plt.savefig("movie/image4.png", bbox_inches="tight")
+print("Saved movie/image4.png")
+

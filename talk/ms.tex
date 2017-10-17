@@ -321,6 +321,60 @@ Z = \int_0^1 L(X) dX
         likelihood above $L^*$.
   \item<7-> Repeat steps 2--5 indefinitely.
 \end{enumerate}
+\end{frame}
+
+
+% New slide
+\begin{frame}
+\frametitle{The sequence of $X$-values}
+The sequence of $X$ values, if you transform them, have
+a Poisson process distribution with rate $N$.
+
+\begin{align}
+-\ln(X_1) &\sim \textnormal{Exponential}(N) \\
+-\ln(X_2) &\sim -\ln(X_1) + \textnormal{Exponential}(N) \\
+-\ln(X_3) &\sim -\ln(X_2) + \textnormal{Exponential}(N) 
+\end{align}
+
+(forgive the notational abuse)
+
+\end{frame}
+
+% New slide
+\begin{frame}
+\frametitle{Poisson process view of NS}
+
+The number of NS iterations taken
+to enter a small region (defined by a likelihood threshold) 
+as an unbiased estimator of the log-probability
+of that region!\vspace{0.7em}
+
+Also, $\pi(\theta)$ can be any distribution (needn't be
+a prior) and $L(\theta)$ any scalar function. Opportunities here...
+
+\end{frame}
+
+
+% New slide
+\begin{frame}
+\frametitle{My algorithm}
+To compute $H(\theta) = -\int f(\theta) \log f(\theta) \, d\theta$
+when $f$ can be sampled but not evaluated:
+
+\begin{enumerate}
+  \item<2-> Generate a `reference point' $\theta_{\rm ref}$ from $f$
+  \item<3-> Do a Nested Sampling run with $f$ as ``prior'' and
+            minus the distance to $\theta_{\rm ref}$ as
+            ``likelihood''.
+  \item<4-> Measure how many NS iterations were needed to make the
+            distance to $\theta_{\rm ref}$ really small, and divide
+            by $N$. That gives an
+            unbiased estimate of the
+            log-prob near $\theta_{\rm ref}$.
+  \item<5-> Repeat steps 1--3 many times.
+  \item<6-> Average the estimated log-probs, then apply corrections
+            to convert to density.
+\end{enumerate}
 
 
 \end{frame}
