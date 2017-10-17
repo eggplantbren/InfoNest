@@ -156,6 +156,18 @@ are defined using an expectation over the quantity conditioned upon.
 
 % New slide
 \begin{frame}
+\frametitle{Interpretation of conditional entropies}
+
+How uncertain would the question ``what's the value of $\theta$,
+precisely?'' be if the question ``what's the value of $d$, precisely''
+were to be resolved?
+
+\end{frame}
+
+
+
+% New slide
+\begin{frame}
 \frametitle{Connections}
 
 Entropy of the joint prior:
@@ -211,22 +223,108 @@ p(d) &= \int p(\theta) p(d|\theta) \, d\theta
 
 % New slide
 \begin{frame}
-\frametitle{Nested Sampling uses {\em constrained priors}}
-Instead of using a sequence of distributions
-defined by $\pi(\theta)L(\theta)^{1/T}$, use a sequence defined by
+\frametitle{Marginal Likelihood Integral}
+Nested Sampling was invented in order to do this hard integral
+\begin{align}
+p(d) &= \int p(\theta) p(d|\theta) \, d\theta
+\end{align}
 
-\begin{align*}
-p(\theta; \ell) &\propto \left\{
-    \begin{array}{lr}
-        \pi(\theta), & L(\theta) > \ell\\
-        0,           & \textnormal{otherwise}.
-    \end{array}
-\right.
-\end{align*}
-and have $\ell$ increase at a controlled rate, so that enclosed prior mass
-shrinks {\em geometrically}.
+or
+\begin{align}
+Z &= \int \pi(\theta) L(\theta) \, d\theta
+\end{align}
+where $\pi=$ prior, $L=$ likelihood.
+It's just an expectation. Why is it hard?
+\end{frame}
+
+
+% New slide
+\begin{frame}
+\frametitle{Simple Monte Carlo fails}
+
+\begin{align}
+Z &= \int \pi(\theta) L(\theta) \, d\theta \\
+  &\approx \frac{1}{N} \sum_{i=1}^N L(\theta_i)
+\end{align}
+with $\theta_i \sim \pi$ will probably miss the
+tiny regions where $L$ is high.
+
+Equivalently, $\pi$ implies a {\em very heavy-tailed}
+distribution of $L$-values, and simple Monte Carlo fails.
 
 \end{frame}
+
+
+% New slide
+\begin{frame}
+\frametitle{Nested Sampling}
+Nested Sampling takes the original problem and constructs
+a 1D problem from it.
+
+\begin{align}
+Z = \int_0^1 L(X) dX
+\end{align}
+where
+\begin{align}
+X(\ell) &= \int_{L(\theta) > \ell} \pi(\theta) \, d\theta
+\end{align}
+
+\begin{block}{The meaning of $X$}
+$X(\ell)$ is the amount of prior mass whose likelihood exceeds
+$\ell$. As $\ell$ increases, $X$ decreases.
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Nested Sampling}
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{skilling.png}
+
+Figure from Skilling (2006).
+\end{center}
+
+Since $X(\ell)$ is the CDF of $L$-values implied by $\pi$,
+points $\theta \sim \pi$ have a uniform distribution over $X$.
+
+\end{frame}
+
+
+
+% New slide
+\begin{frame}
+\frametitle{Nested Sampling}
+The idea is to generate a sequence of points with increasing
+likelihoods, such that we can estimate their $X$ values. Since
+we know their $L$-values, we can then do the integral 
+numerically.
+
+\begin{align}
+Z = \int_0^1 L(X) dX
+\end{align}
+
+\end{frame}
+
+
+% New slide
+\begin{frame}
+\frametitle{Nested Sampling algorithm}
+
+\begin{enumerate}
+  \item<2-> Generate $N$ points from $\pi$
+  \item<3-> Find the worst one (lowest likelihood $L^*$), save it
+  \item<4-> Estimate its $X$ using Beta$(N,1)$ distribution\footnote{From order statistics.}
+  \item<5-> Record worst particle and its $X$-value, then discard it.
+  \item<6-> Replace that point with a new one from $\pi$ but with
+        likelihood above $L^*$.
+  \item<7-> Repeat steps 2--5 indefinitely.
+\end{enumerate}
+
+
+\end{frame}
+
 
 
 
