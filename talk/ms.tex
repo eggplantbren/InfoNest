@@ -33,6 +33,28 @@ two are connected).
 
 \end{frame}
 
+% New slide
+\begin{frame}
+\frametitle{Information Theory}
+
+The fundamental theorem of information theory
+
+\end{frame}
+
+
+% New slide
+\begin{frame}
+\frametitle{Information Theory}
+
+The fundamental theorem of information theory
+\begin{block}{Theorem}
+If you take the log of a probability, it seems like you understand profound
+truths.
+\end{block}
+
+
+\end{frame}
+
 
 % New slide
 \begin{frame}
@@ -102,6 +124,9 @@ i.e., $p_i = 1/N$, then $H = \log N$. \vspace{0.5em}
 \includegraphics[width=0.6\textwidth]{entropy3.pdf}
 \end{center}
 
+Heuristic: standard deviation quantifies uncertainty `horizontally',
+entropy does it `vertically'.
+
 \end{frame}
 
 
@@ -130,12 +155,12 @@ Differential entropy is {\em coordinate-system dependent}.
 % New slide
 \begin{frame}
 \frametitle{Some entropies in Bayesian statistics}
-Written them in terms of parameters $\theta$ and data
+Written in terms of parameters $\theta$ and data
 $d$, for Bayesian purposes.
 
 \begin{enumerate}
 \item<2-> Entropy of the prior for the parameters $H(\theta)$
-\item<3-> Entropy of the conditional prior for the data $H(\theta | d)$
+\item<3-> Entropy of the conditional prior for the data $H(d | \theta)$
 \item<4-> Entropy of the posterior $H(\theta | d)$
 \item<5-> Entropy of the prior for the data $H(d)$
 \end{enumerate}
@@ -149,7 +174,8 @@ $d$, for Bayesian purposes.
 
 \begin{block}{Remark}
 {\em Conditional entropies} such as (2) and (3)
-are defined using an expectation over the quantity conditioned upon.
+are defined using an expectation over the second argument
+(the thing conditioned on).
 \end{block}
 
 \end{frame}
@@ -195,7 +221,7 @@ relevance, or the potential for learning.
 
 We might want to know {\em how relevant the data is to the parameters},
 before learning the data. We might want to optimise that quantity for
-experimental design. But it's nasty, especially if there's nuisance
+experimental design. But it's nasty, especially if there are nuisance
 parameters.
 \end{frame}
 
@@ -217,6 +243,21 @@ a hard integral (the marginal likelihood / evidence)...
 \begin{align}
 p(d) &= \int p(\theta) p(d|\theta) \, d\theta
 \end{align}
+
+\end{frame}
+
+
+% New slide
+\begin{frame}
+\frametitle{Hard integrals}
+Hard integrals with nuisance parameters
+$\boldsymbol{\eta}$, interesting parameter(s)
+$\boldsymbol{\phi}$
+\vspace{0.5em}
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{hard-integrals.png}
+\end{center}
 
 \end{frame}
 
@@ -346,7 +387,7 @@ a Poisson process distribution with rate $N$.
 
 The number of NS iterations taken
 to enter a small region (defined by a likelihood threshold) 
-as an unbiased estimator of the log-probability
+is an unbiased estimator of the log-probability
 of that region!\vspace{0.7em}
 
 Also, $\pi(\theta)$ can be any distribution (needn't be
@@ -375,44 +416,195 @@ when $f$ can be sampled but not evaluated:
   \item<6-> Average the estimated log-probs, then apply corrections
             to convert to density.
 \end{enumerate}
-
-
 \end{frame}
-
-
-
 
 
 % New slide
 \begin{frame}
-\frametitle{References I.}
-
-On the connection between Shannon entropy and thermodynamic entropy,
-see: \vspace{2em}
-
-{\tiny Jaynes, Edwin T. ``Gibbs vs Boltzmann entropies.''
-American Journal of Physics 33, no. 5 (1965): 391-398. \\
-
-Brewer, Brendon J. ``Unscrambling the Second Law of Thermodynamics''
-{\color{blue}
-  \url{https://quillette.com/2016/01/28/unscrambling-the-second-law-of-thermodynamics}
-}
-} % tiny
-
-\end{frame}
-
-% New slide
-\begin{frame}
-\frametitle{Statements and questions}
-Consider a problem with three mutually exclusive, exhaustive possibilities
-\texttt{a}, \texttt{b}, and \texttt{c}.
-
+\frametitle{My algorithm}
 
 \begin{center}
-  \includegraphics[width=0.3\textwidth]{lattice1.pdf}
+\includegraphics[width=0.7\textwidth]{movie/image000001.png}
 \end{center}
 
 \end{frame}
+
+
+
+% New slide
+\begin{frame}
+\frametitle{My algorithm}
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{movie/image000021.png}
+\end{center}
+
+\end{frame}
+
+
+
+% New slide
+\begin{frame}
+\frametitle{My algorithm}
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{movie/image000041.png}
+\end{center}
+
+\end{frame}
+
+
+% New slide
+\begin{frame}
+\frametitle{My algorithm}
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{movie/image000061.png}
+\end{center}
+
+\end{frame}
+
+
+
+% New slide
+\begin{frame}
+\frametitle{Movie}
+
+Play movie.mkv
+
+(It's also on YouTube)
+
+\end{frame}
+
+
+% New slide
+\begin{frame}
+\frametitle{Toy experimental design example}
+Two observing strategies --- even and uneven.
+Which is better for measuring a period?
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{../paper/figures/sinewave.pdf}
+\end{center}
+
+\end{frame}
+
+
+% New slide
+\begin{frame}
+\frametitle{Specifics}
+Let $\tau = \log_{10}(\textnormal{period})$.\vspace{0.5em}
+
+I knew $H(\tau)$ because I chose
+the prior. I used the algorithm to estimate $H(\tau | d)$,
+so marginal posteriors
+were the distributions whose entropies I estimated\footnote{If you only
+care about one parameter, define your distance function in terms of that
+parameter only!}.\vspace{0.5em}
+
+I then computed the mutual information
+\vspace{0.5em}
+
+\begin{align}
+I(\tau; d) &= H(\tau) - H(\tau | d)
+\end{align}
+
+\end{frame}
+
+% New slide
+\begin{frame}
+\frametitle{Result}
+
+\begin{align}
+I_{\rm even}   &= 5.441 \pm 0.038 \textnormal{ nats}\\
+I_{\rm uneven} &= 5.398 \pm 0.038 \textnormal{ nats}
+\end{align}
+
+i.e., any difference is trivial.
+
+\end{frame}
+
+
+% New slide
+\begin{frame}
+\frametitle{In practice...}
+
+When a period is short relative to observations, you can get a multimodal
+posterior pdf\footnote{e.g., see Larry Bretthorst's work connecting
+the posterior pdf to the periodogram.},
+and `learn a lot' by ruling out most of the space, but still
+having many peaks.\vspace{0.5em}
+
+I did not investigate this aspect of the problem --- I assumed long periods.
+
+\end{frame}
+
+
+
+% New slide
+\begin{frame}
+\frametitle{Paper/software/endorsement}
+
+{\color{blue}\url{http://www.mdpi.com/1099-4300/19/8/422}
+\url{https://github.com/eggplantbren/InfoNest}}
+\vspace{0.5cm}
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{lawrence.png}
+\end{center}
+
+\end{frame}
+
+
+
+% New slide
+\begin{frame}
+\frametitle{Thanks}
+
+
+Ruth Angus (Flatiron Institute),
+Ewan Cameron (Oxford), James Curran (Auckland), Tom Elliott (Auckland),
+David Hogg (NYU), Kevin Knuth (SUNY Albany),
+Thomas Lumley (Auckland),
+Iain Murray (Edinburgh), John Skilling
+(Maximum Entropy Data Consultants), Jared Tobin ({\tt jtobin.io}).
+
+
+\end{frame}
+
+
+
+
+%% New slide
+%\begin{frame}
+%\frametitle{References I.}
+
+%On the connection between Shannon entropy and thermodynamic entropy,
+%see: \vspace{2em}
+
+%{\tiny Jaynes, Edwin T. ``Gibbs vs Boltzmann entropies.''
+%American Journal of Physics 33, no. 5 (1965): 391-398. \\
+
+%Brewer, Brendon J. ``Unscrambling the Second Law of Thermodynamics''
+%{\color{blue}
+%  \url{https://quillette.com/2016/01/28/unscrambling-the-second-law-of-thermodynamics}
+%}
+%} % tiny
+
+%\end{frame}
+
+%% New slide
+%\begin{frame}
+%\frametitle{Statements and questions}
+%Consider a problem with three mutually exclusive, exhaustive possibilities
+%\texttt{a}, \texttt{b}, and \texttt{c}.
+
+
+%\begin{center}
+%  \includegraphics[width=0.3\textwidth]{lattice1.pdf}
+%\end{center}
+
+%\end{frame}
 
 
 
