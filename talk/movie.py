@@ -127,4 +127,5 @@ for rep in range(10):
                 k += 1
                 break
 
-
+# The ffmpeg command
+# ffmpeg -framerate 12 -i image%06d.png -c:v libx264 -r 12 movie.mkv
