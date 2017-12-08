@@ -148,40 +148,6 @@ are defined using an expectation over the second argument
 
 \end{frame}
 
-% New slide
-\begin{frame}
-\frametitle{Interpretation of conditional entropies}
-
-How uncertain would the question ``what's the value of $\theta$,
-precisely?'' be if the question ``what's the value of $d$, precisely''
-were to be resolved?
-
-\end{frame}
-
-
-
-% New slide
-\begin{frame}
-\frametitle{Connections}
-
-Entropy of the joint prior:
-\begin{align}
-H(\theta, d) &= H(\theta) + H(d | \theta) \\
-                          &= H(d) + H(\theta | d).
-\end{align}
-
-Mutual information:
-\begin{align}
-I(\theta; d) &= H(\theta) - H(\theta | d).
-\end{align}
-This quantifies dependence --- or more fundamentally,
-relevance, or the potential for learning.
-
-
-{\tiny There are many other ways of expressing $I$.}
-
-\end{frame}
-
 
 % New slide
 \begin{frame}
@@ -212,22 +178,10 @@ a hard integral (the marginal likelihood / evidence)...
 p(d) &= \int p(\theta) p(d|\theta) \, d\theta
 \end{align}
 
-\end{frame}
-
-
-% New slide
-\begin{frame}
-\frametitle{Hard integrals}
-Hard integrals with nuisance parameters
-$\boldsymbol{\eta}$, interesting parameter(s)
-$\boldsymbol{\phi}$
-\vspace{0.5em}
-
-\begin{center}
-\includegraphics[width=0.9\textwidth]{hard-integrals.png}
-\end{center}
+It's even worse with nuisance parameters.
 
 \end{frame}
+
 
 
 % New slide
@@ -243,23 +197,8 @@ or
 Z &= \int \pi(\theta) L(\theta) \, d\theta
 \end{align}
 where $\pi=$ prior, $L=$ likelihood.
-It's just an expectation. Why is it hard?
-\end{frame}
-
-
-% New slide
-\begin{frame}
-\frametitle{Simple Monte Carlo fails}
-
-\begin{align}
-Z &= \int \pi(\theta) L(\theta) \, d\theta \\
-  &\approx \frac{1}{N} \sum_{i=1}^N L(\theta_i)
-\end{align}
-with $\theta_i \sim \pi$ will probably miss the
-tiny regions where $L$ is high.
-
-Equivalently, $\pi$ implies a {\em very heavy-tailed}
-distribution of $L$-values, and simple Monte Carlo fails.
+This is hard because $\pi \implies$ a heavy-tailed
+distribution of $L$-values.
 
 \end{frame}
 
@@ -298,38 +237,6 @@ Figure from Skilling (2006).
 Since $X(\ell)$ is the CDF of $L$-values implied by $\pi$,
 points $\theta \sim \pi$ have a uniform distribution over $X$.
 
-\end{frame}
-
-
-
-% New slide
-\begin{frame}
-\frametitle{Nested Sampling}
-The idea is to generate a sequence of points with increasing
-likelihoods, such that we can estimate their $X$ values. Since
-we know their $L$-values, we can then do the integral 
-numerically.
-
-\begin{align}
-Z = \int_0^1 L(X) dX
-\end{align}
-
-\end{frame}
-
-
-% New slide
-\begin{frame}
-\frametitle{Nested Sampling algorithm}
-
-\begin{enumerate}
-  \item<2-> Generate $N$ points from $\pi$
-  \item<3-> Find the worst one (lowest likelihood $L^*$), save it
-  \item<4-> Estimate its $X$ using Beta$(N,1)$ distribution\footnote{From order statistics.}
-  \item<5-> Record worst particle and its $X$-value, then discard it.
-  \item<6-> Replace that point with a new one from $\pi$ but with
-        likelihood above $L^*$.
-  \item<7-> Repeat steps 2--5 indefinitely.
-\end{enumerate}
 \end{frame}
 
 
@@ -495,25 +402,9 @@ i.e., any difference is trivial.
 
 % New slide
 \begin{frame}
-\frametitle{In practice...}
-
-When a period is short relative to observations, you can get a multimodal
-posterior pdf\footnote{e.g., see Larry Bretthorst's work connecting
-the posterior pdf to the periodogram.},
-and `learn a lot' by ruling out most of the space, but still
-having many peaks.\vspace{0.5em}
-
-I did not investigate this aspect of the problem --- I assumed long periods.
-
-\end{frame}
-
-
-
-% New slide
-\begin{frame}
 \frametitle{Paper/software/endorsement}
 
-{\color{blue}\url{http://www.mdpi.com/1099-4300/19/8/422}
+{\color{blue}\bf \url{http://www.mdpi.com/1099-4300/19/8/422}
 \url{https://github.com/eggplantbren/InfoNest}}
 \vspace{0.5cm}
 
