@@ -60,30 +60,7 @@ which is a function of two distributions, and is more fundamental.
 
 \end{frame}
 
-% New slide
-\begin{frame}
-\frametitle{Entropy quantifies uncertainty}
-If there are just $N$ equally likely possibilities,
-i.e., $p_i = 1/N$, then $H = \log N$. \vspace{0.5em}
 
-\begin{center}
-\includegraphics[width=0.6\textwidth]{entropy1.pdf}
-\end{center}
-
-\end{frame}
-
-
-% New slide
-\begin{frame}
-\frametitle{Entropy quantifies uncertainty}
-If there are just $N$ equally likely possibilities,
-i.e., $p_i = 1/N$, then $H = \log N$. \vspace{0.5em}
-
-\begin{center}
-\includegraphics[width=0.6\textwidth]{entropy2.pdf}
-\end{center}
-
-\end{frame}
 
 % New slide
 \begin{frame}
@@ -124,7 +101,8 @@ Differential entropy is {\em coordinate-system dependent}.
 \begin{frame}
 \frametitle{Some entropies in Bayesian statistics}
 Written in terms of parameters $\theta$ and data
-$d$, for Bayesian purposes.
+$d$, for Bayesian purposes. These are relevant to
+experimental design...
 
 \begin{enumerate}
 \item<2-> Entropy of the prior for the parameters $H(\theta)$
@@ -145,17 +123,6 @@ are defined using an expectation over the second argument
 (the thing conditioned on).
 \end{block}
 
-\end{frame}
-
-
-% New slide
-\begin{frame}
-\frametitle{Pre-data considerations}
-
-We might want to know {\em how relevant the data is to the parameters},
-before learning the data. We might want to optimise that quantity for
-experimental design. But it's nasty, especially if there are nuisance
-parameters.
 \end{frame}
 
 
@@ -255,19 +222,19 @@ a Poisson process distribution with rate $N$.
 
 \end{frame}
 
-% New slide
-\begin{frame}
-\frametitle{Poisson process view of NS}
+%% New slide
+%\begin{frame}
+%\frametitle{Poisson process view of NS}
 
-The number of NS iterations taken
-to enter a small region (defined by a likelihood threshold) 
-is an unbiased estimator of the log-probability
-of that region!\vspace{0.7em}
+%The number of NS iterations taken
+%to enter a small region (defined by a likelihood threshold) 
+%is an unbiased estimator of the log-probability
+%of that region!\vspace{0.7em}
 
-Also, $\pi(\theta)$ can be any distribution (needn't be
-a prior) and $L(\theta)$ any scalar function. Opportunities here...
+%Also, $\pi(\theta)$ can be any distribution (needn't be
+%a prior) and $L(\theta)$ any scalar function. Opportunities here...
 
-\end{frame}
+%\end{frame}
 
 
 % New slide
