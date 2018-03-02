@@ -21,7 +21,10 @@ void execute(RNG& rng0,
              size_t num_particles,
              size_t mcmc_steps,
              const DistFunc<Particle>& dist_func,
-             Mode mode = Mode::standard);
+             Mode mode = Mode::standard,
+             size_t _mcmc_ce_mode=100000); // Number of MCMC steps to
+                                           // generate reference particles
+                                           // in conditional entropy mode.
 
 
 /* Implementations below */
@@ -35,7 +38,8 @@ void execute(RNG& rng0,
              size_t num_particles,
              size_t mcmc_steps,
              const DistFunc<Particle>& dist_func,
-             Mode mode)
+             Mode mode,
+             size_t _mcmc_ce_mode)
 {
     // Clear output file
     std::fstream fout("output.txt", std::ios::out);
@@ -55,7 +59,8 @@ void execute(RNG& rng0,
                                         mcmc_steps,
                                         depth,
                                         rng1,
-                                        dist_func);
+                                        dist_func,
+                                        _mcmc_ce_mode);
 
         // Initialise and execute it.
         rep.initialise(rng0, mode);

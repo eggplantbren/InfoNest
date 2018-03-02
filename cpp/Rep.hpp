@@ -91,7 +91,7 @@ class Rep
             double depth,
             RNG& rng,
             const DistFunc<Particle>& dist,
-            size_t _mcmc_ce_mode=10000);
+            size_t _mcmc_ce_mode);
 
         // Destructor. Closes output file.
         ~Rep();
@@ -162,7 +162,8 @@ void Rep<Particle>::initialise(RNG& temp_rng, Mode mode)
                 particles[k] = particles[k-1];
 
             // Do Metropolis
-            std::cout << "Generating initial particle..." << std::flush;
+            std::cout << "Generating initial particle with " << mcmc_ce_mode;
+            std::cout << " MCMC steps..." << std::flush;
             for(size_t i=0; i<mcmc_ce_mode; ++i)
             {
                 auto proposal = particles[k];
