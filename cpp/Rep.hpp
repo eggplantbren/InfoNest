@@ -44,6 +44,9 @@ class Rep
         const size_t mcmc_steps;
         const double depth;
 
+        // MCMC steps for conditional entropy mode
+        const size_t mcmc_ce_mode;
+
         // A reference to the RNG being used
         RNG& rng;
 
@@ -87,7 +90,8 @@ class Rep
             size_t mcmc_steps,
             double depth,
             RNG& rng,
-            const DistFunc<Particle>& dist);
+            const DistFunc<Particle>& dist,
+            size_t _mcmc_ce_mode=10000);
 
         // Destructor. Closes output file.
         ~Rep();
@@ -108,12 +112,14 @@ template<class Particle>
 Rep<Particle>::Rep(size_t id,
                    size_t num_particles, size_t mcmc_steps, double depth,
                    RNG& rng,
-                   const DistFunc<Particle>& dist)
+                   const DistFunc<Particle>& dist,
+                   size_t _mcmc_ce_mode)
 :dist(dist)
 ,id(id)
 ,num_particles(num_particles)
 ,mcmc_steps(mcmc_steps)
 ,depth(depth)
+,mcmc_ce_mode(_mcmc_ce_mode)
 ,rng(rng)
 ,particles(num_particles)
 ,distances(num_particles)
@@ -157,7 +163,7 @@ void Rep<Particle>::initialise(RNG& temp_rng, Mode mode)
 
             // Do Metropolis
             std::cout << "Generating initial particle..." << std::flush;
-            for(int i=0; i<100000; ++i)
+            for(size_t i=0; i<mcmc_ce_mode; ++i)
             {
                 auto proposal = particles[k];
                 double logA = proposal.perturb(rng);
@@ -165,7 +171,7 @@ void Rep<Particle>::initialise(RNG& temp_rng, Mode mode)
                 if(rng.rand() <= exp(logA))
                     particles[k] = proposal;
             }
-            std::cout << "done (1E5 Metropolis steps)." << std::endl;
+            std::cout << "done." << std::endl;
         }
     }
 
