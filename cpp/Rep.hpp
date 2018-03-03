@@ -310,10 +310,11 @@ void Rep<Particle>::replace(int which)
 
     if(iteration % particles.size() == 0)
     {
-        std::cout<<"Rep "<<id<<", ";
-        std::cout<<"iteration "<<iteration<<". ";
-        std::cout<<"Acceptance fraction = "<<accepts<<" / "<<mcmc_steps<<".";
-        std::cout<<std::endl;
+        std::cout << "Rep " << id << ", ";
+        std::cout << "iteration " << iteration << ". ";
+        std::cout << "Recent acceptance fraction = ";
+        std::cout << accepts << " / " << mcmc_steps << ".";
+        std::cout << std::endl;
     }
 }
 
