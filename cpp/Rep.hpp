@@ -162,7 +162,7 @@ void Rep<Particle>::initialise(RNG& temp_rng, Mode mode)
                 particles[k] = particles[k-1];
 
             // Do Metropolis
-            std::cout << "Generating reference particle with " << mcmc_ce_mode;
+            std::cout << "Generating initial particle with " << mcmc_ce_mode;
             std::cout << " MCMC steps..." << std::flush;
             for(size_t i=0; i<mcmc_ce_mode; ++i)
             {
