@@ -9,7 +9,7 @@
 int main()
 {
     // What example are we using? The class and the distance function.
-    typedef InfoNest::Normal TheExample;
+    using TheExample = InfoNest::Normal;
     const auto& dist_func = TheExample::data_distance;
 
     // Create random number generators
