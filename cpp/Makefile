@@ -7,13 +7,15 @@ default: lib main tests
 lib:
 	$(CC) $(CFLAGS) -c RNG.cpp
 	$(CC) $(CFLAGS) -c Utils.cpp
+	ar rcs libinfonest.a RNG.o Utils.o
+
+examples:
 	$(CC) $(CFLAGS) -c examples/GroupDiff.cpp
 	$(CC) $(CFLAGS) -c examples/Normal.cpp
 	$(CC) $(CFLAGS) -c examples/Pareto.cpp
 	$(CC) $(CFLAGS) -c examples/Sinusoid.cpp
-	ar rcs libinfonest.a GroupDiff.o Normal.o Pareto.o RNG.o Sinusoid.o Utils.o
 
-main: lib
+main: lib examples
 	$(CC) $(CFLAGS) -c main.cpp
 	$(CC) -L. -o main main.o -linfonest
 
