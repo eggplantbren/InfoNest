@@ -15,6 +15,7 @@ paper/references.bib
 output.txt
 run_data.txt
 num_particles.txt
+reference_particles.txt
 paper/ms.pdf
 
 # Byte-compiled / optimized / DLL files

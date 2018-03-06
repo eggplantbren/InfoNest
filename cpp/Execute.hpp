@@ -41,8 +41,10 @@ void execute(RNG& rng0,
              Mode mode,
              size_t _mcmc_ce_mode)
 {
-    // Clear output file
+    // Clear output files
     std::fstream fout("output.txt", std::ios::out);
+    fout.close();
+    fout.open("reference_particles.txt", std::ios::out);
     fout.close();
 
     // Write run data to a file
