@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -O3 -I. -std=c++14 -Wall -Wextra -pedantic
+CFLAGS = -O3 -march=native -I. -std=c++14 -Wall -Wextra -pedantic
 
 default: lib main tests
 	rm -f *.o
