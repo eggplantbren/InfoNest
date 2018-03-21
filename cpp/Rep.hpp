@@ -68,6 +68,7 @@ class Rep
         // Output file handle, and some cache
         std::fstream fout;
         std::vector<std::tuple<unsigned int, double>> cache;
+        std::fstream reference_particle_file;
 
         // Member function to compute all the distances
         void compute_distances();
@@ -132,6 +133,8 @@ Rep<Particle>::Rep(size_t id,
 
     // Open the output file in append mode.
     fout.open("output.txt", std::ios::out | std::ios::app);
+    reference_particle_file.open("reference_particles.txt",
+                                 std::ios::out | std::ios::app);
 }
 
 
@@ -139,6 +142,7 @@ template<class Particle>
 Rep<Particle>::~Rep()
 {
     fout.close();
+    reference_particle_file.close();
 }
 
 
@@ -148,6 +152,10 @@ void Rep<Particle>::initialise(RNG& temp_rng, Mode mode)
 {
     // Generate the reference particle from the distribution
     reference_particle.generate(temp_rng);
+
+    // Save reference particle to file
+    reference_particle.print(reference_particle_file);
+    reference_particle_file << std::endl;
 
     // Generate the other particles
     for(size_t k=0; k<particles.size(); ++k)
